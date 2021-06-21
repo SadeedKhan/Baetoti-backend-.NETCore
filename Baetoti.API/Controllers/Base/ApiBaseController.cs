@@ -6,10 +6,10 @@ using System.Security.Claims;
 
 namespace Baetoti.API.Controllers.Base
 {
-    [EnableCors("Trusted")]
+    //[EnableCors("Trusted")]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class ApiBaseController : ControllerBase
     {

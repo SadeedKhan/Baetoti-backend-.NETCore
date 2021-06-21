@@ -15,6 +15,10 @@ namespace Baetoti.Infrastructure.Data.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<Units> Units { get; set; }
+        public DbSet<Tags> Tags { get; set; }
 
         #endregion
 

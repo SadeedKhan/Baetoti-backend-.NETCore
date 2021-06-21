@@ -10,6 +10,5 @@ namespace Baetoti.Core.Interface.Repositories
         Task<User> AuthenticateUser(User user);
 
         Task<List<string>> GetRolesAsync(User user);
-
     }
 }
