@@ -2,6 +2,8 @@
 using Baetoti.API.Controllers.Base;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
+using Baetoti.Shared.Request.Category;
+using Baetoti.Shared.Response.Category;
 using Baetoti.Shared.Response.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,16 +16,25 @@ namespace Baetoti.API.Controllers
     public class CategoryController : ApiBaseController
     {
 
-        public readonly ICategoryRepository categoryRepository;
+        public readonly ICategoryRepository _categoryRepository;
         public readonly IMapper _mapper;
 
-        [HttpGet("GetAllCategory")]
-        public async Task<IActionResult> GetAllCategory()
+        public CategoryController(
+            ICategoryRepository categoryRepository,
+            IMapper mapper
+            )
+        {
+            _categoryRepository = categoryRepository;
+            _mapper = mapper;
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                var categorylist = (await categoryRepository.ListAllAsync()).ToList();
-                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<Category>>(categorylist)));
+                var categoryList = (await _categoryRepository.ListAllAsync()).ToList();
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<CategoryResponse>>(categoryList)));
             }
             catch (Exception ex)
             {
@@ -31,13 +42,30 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("AddCategory")]
-        public async Task<IActionResult> AddCategory([FromBody] Category category)
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(int Id)
         {
             try
             {
-                var result = await categoryRepository.AddAsync(category);
-                if(result==null)
+                var category = await _categoryRepository.GetByIdAsync(Id);
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<CategoryResponse>(category)));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
+        [HttpPost("Add")]
+        public async Task<IActionResult> Add([FromBody] CategoryRequest categoryRequest)
+        {
+            try
+            {
+                var category = _mapper.Map<Category>(categoryRequest);
+                category.CreatedAt = DateTime.Now;
+                category.CreatedBy = Convert.ToInt32(UserId);
+                var result = await _categoryRepository.AddAsync(category);
+                if (result == null)
                 {
                     return Ok(new SharedResponse(false, 400, "Unable To Create Category"));
                 }
@@ -49,16 +77,20 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("UpdateCategory")]
-        public async Task<IActionResult> UpdateCategory([FromBody] Category category)
+        [HttpPost("Update")]
+        public async Task<IActionResult> Update([FromBody] CategoryRequest categoryRequest)
         {
             try
             {
-                var cat = await categoryRepository.GetByIdAsync(category.CategoryId);
-                if(cat!=null)
+                var cat = await _categoryRepository.GetByIdAsync(categoryRequest.ID);
+                if (cat != null)
                 {
-                    categoryRepository.UpdateAsync(category);
-                    return Ok(new SharedResponse(true, 200, "Category Created Succesfully"));
+
+                    var category = _mapper.Map<Category>(categoryRequest);
+                    category.LastUpdatedAt = DateTime.Now;
+                    category.UpdatedBy = Convert.ToInt32(UserId);
+                    await _categoryRepository.UpdateAsync(category);
+                    return Ok(new SharedResponse(true, 200, "Category Updated Succesfully"));
                 }
                 else
                 {
@@ -71,15 +103,15 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("DeleteCategory")]
-        public async Task<IActionResult> DeleteCategory([FromBody] Category category)
+        [HttpPost("Delete")]
+        public async Task<IActionResult> Delete([FromBody] long ID)
         {
             try
             {
-                var cat = await categoryRepository.GetByIdAsync(category.CategoryId);
+                var cat = await _categoryRepository.GetByIdAsync(ID);
                 if (cat != null)
                 {
-                    categoryRepository.DeleteAsync(category);
+                    await _categoryRepository.DeleteAsync(cat);
                     return Ok(new SharedResponse(true, 200, "Category Deleted Succesfully"));
                 }
                 else
@@ -92,5 +124,6 @@ namespace Baetoti.API.Controllers
                 return Ok(new SharedResponse(false, 400, ex.Message));
             }
         }
+
     }
 }

@@ -69,7 +69,7 @@ namespace Baetoti.Infrastructure.Data.Repositories.Base
             return _dbContext.Set<T>().ToList();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(long id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }

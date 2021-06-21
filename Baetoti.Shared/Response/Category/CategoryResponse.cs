@@ -1,12 +1,11 @@
-﻿using Baetoti.Core.Entites.Base;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
-namespace Baetoti.Core.Entites
+namespace Baetoti.Shared.Response.Category
 {
-    [Table("Categories", Schema = "baetoti")]
-    public partial class Category : BaseEntity
+    public class CategoryResponse
     {
+        public long ID { get; set; }
+
         public string CategoryName { get; set; }
 
         public string CategoryArabicName { get; set; }

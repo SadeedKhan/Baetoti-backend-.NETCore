@@ -8,7 +8,7 @@ namespace Baetoti.Core.Interface.Base
     {
         Task<T> GetByIdAsync(Guid id);
 
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(long id);
 
         Task<IReadOnlyList<T>> ListAllAsync();
 

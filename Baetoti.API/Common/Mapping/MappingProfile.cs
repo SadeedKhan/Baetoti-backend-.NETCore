@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using Baetoti.Core.Entites;
+using Baetoti.Shared.Request.Category;
+using Baetoti.Shared.Response.Category;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +17,8 @@ namespace Baetoti.API.Common.Mapping
             //CreateMap<AuthRequest, User>();
             //CreateMap<RegisterUserRequest, User>();
             //CreateMap<UpdateUserRequest, User>();
+            CreateMap<CategoryRequest, Category>();
+            CreateMap<Category, CategoryResponse>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)
