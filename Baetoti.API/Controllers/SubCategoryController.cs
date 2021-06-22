@@ -2,7 +2,9 @@
 using Baetoti.API.Controllers.Base;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
+using Baetoti.Shared.Request.SubCategory;
 using Baetoti.Shared.Response.Shared;
+using Baetoti.Shared.Response.SubCategory;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,16 +15,16 @@ namespace Baetoti.API.Controllers
 {
     public class SubCategoryController : ApiBaseController
     {
-        public readonly ISubCategoryRepository subcategoryRepository;
+        public readonly ISubCategoryRepository _subcategoryRepository;
         public readonly IMapper _mapper;
 
-        [HttpGet("GetAllSubCategory")]
-        public async Task<IActionResult> GetAllSubCategory()
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                var subcategorylist = (await subcategoryRepository.ListAllAsync()).ToList();
-                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<SubCategory>>(subcategorylist)));
+                var subcategoryList = (await _subcategoryRepository.ListAllAsync()).ToList();
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<SubCategoryResponse>>(subcategoryList)));
             }
             catch (Exception ex)
             {
@@ -30,12 +32,29 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("AddSubCategory")]
-        public async Task<IActionResult> AddSubCategory([FromBody] SubCategory subcategory)
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(int Id)
         {
             try
             {
-                var result = await subcategoryRepository.AddAsync(subcategory);
+                var category = await _subcategoryRepository.GetByIdAsync(Id);
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<SubCategoryResponse>(category)));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
+        [HttpPost("Add")]
+        public async Task<IActionResult> Add([FromBody] SubCategoryRequest subcategoryRequest)
+        {
+            try
+            {
+                var subcategory = _mapper.Map<SubCategory>(subcategoryRequest);
+                subcategory.CreatedAt = DateTime.Now;
+                subcategory.CreatedBy = Convert.ToInt32(UserId);
+                var result = await _subcategoryRepository.AddAsync(subcategory);
                 if (result == null)
                 {
                     return Ok(new SharedResponse(false, 400, "Unable To Create SubCategory"));
@@ -48,17 +67,20 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("UpdateSubCategory")]
-        public async Task<IActionResult> UpdateSubCategory([FromBody] SubCategory subcategory)
+        [HttpPost("Update")]
+        public async Task<IActionResult> Update([FromBody] SubCategoryRequest subcategoryRequest)
         {
             try
             {
-                var cat="";
-                //var cat = await subcategoryRepository.GetByIdAsync(subcategory.ID); Need Confirmation
+                var cat = await _subcategoryRepository.GetByIdAsync(subcategoryRequest.ID);
                 if (cat != null)
                 {
-                    subcategoryRepository.UpdateAsync(subcategory);
-                    return Ok(new SharedResponse(true, 200, "SubCategory Created Succesfully"));
+
+                    var subcategory = _mapper.Map<SubCategory>(subcategoryRequest);
+                    subcategory.LastUpdatedAt = DateTime.Now;
+                    subcategory.UpdatedBy = Convert.ToInt32(UserId);
+                    await _subcategoryRepository.UpdateAsync(subcategory);
+                    return Ok(new SharedResponse(true, 200, "SubCategory Updated Succesfully"));
                 }
                 else
                 {
@@ -71,16 +93,15 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("DeleteSubCategory")]
-        public async Task<IActionResult> DeleteSubCategory([FromBody] SubCategory subcategory)
+        [HttpPost("Delete")]
+        public async Task<IActionResult> Delete([FromBody] long ID)
         {
             try
             {
-                var cat = "";
-                //var cat = await subcategoryRepository.GetByIdAsync(subcategory.ID); Need Confirmation
-                if (cat != null)
+                var subcat = await _subcategoryRepository.GetByIdAsync(ID);
+                if (subcat != null)
                 {
-                    subcategoryRepository.DeleteAsync(subcategory);
+                    await _subcategoryRepository.DeleteAsync(subcat);
                     return Ok(new SharedResponse(true, 200, "SubCategory Deleted Succesfully"));
                 }
                 else

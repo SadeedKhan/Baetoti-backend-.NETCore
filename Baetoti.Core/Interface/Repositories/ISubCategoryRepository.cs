@@ -9,14 +9,5 @@ namespace Baetoti.Core.Interface.Repositories
 {
     public interface ISubCategoryRepository : IAsyncRepository<SubCategory>
     {
-        Task<SubCategory> AddAsync(SubCategory entity);
-
-        Task UpdateAsync(SubCategory entity);
-
-        Task<SubCategory> GetByIdAsync(int id);
-
-        Task<IReadOnlyList<SubCategory>> ListAllAsync();
-
-        Task DeleteAsync(SubCategory entity);
     }
 }

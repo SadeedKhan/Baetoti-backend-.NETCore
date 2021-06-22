@@ -5,6 +5,7 @@ using Baetoti.Core.Interface.Repositories;
 using Baetoti.Core.Interface.Services;
 using Baetoti.Shared.Request.Auth;
 using Baetoti.Shared.Response.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace Baetoti.API.Controllers
             _hashingService = hashingService;
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AuthRequest request)
         {
