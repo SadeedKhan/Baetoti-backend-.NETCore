@@ -3,8 +3,12 @@ using Baetoti.Core.Entites;
 using Baetoti.Shared.Request.Auth;
 using Baetoti.Shared.Request.Category;
 using Baetoti.Shared.Request.SubCategory;
+using Baetoti.Shared.Request.TagRequest;
+using Baetoti.Shared.Request.UnitRequest;
 using Baetoti.Shared.Response.Category;
 using Baetoti.Shared.Response.SubCategory;
+using Baetoti.Shared.Response.TagResponse;
+using Baetoti.Shared.Response.Unit;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -24,6 +28,10 @@ namespace Baetoti.API.Common.Mapping
             CreateMap<Category, CategoryResponse>();
             CreateMap<SubCategoryRequest, SubCategory>();
             CreateMap<SubCategory, SubCategoryResponse>();
+            CreateMap<TagRequest, Tags>();
+            CreateMap<Tags, TagResponse>();
+            CreateMap<UnitRequest, Unit>();
+            CreateMap<Unit, UnitResponse>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)

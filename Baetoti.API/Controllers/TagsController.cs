@@ -2,7 +2,9 @@
 using Baetoti.API.Controllers.Base;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
+using Baetoti.Shared.Request.TagRequest;
 using Baetoti.Shared.Response.Shared;
+using Baetoti.Shared.Response.TagResponse;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,16 +15,25 @@ namespace Baetoti.API.Controllers
 {
     public class TagsController : ApiBaseController
     {
-        public readonly ITagsRepository tagsRepository;
+        public readonly ITagsRepository _tagsRepository;
         public readonly IMapper _mapper;
 
-        [HttpGet("GetAllTags")]
-        public async Task<IActionResult> GetAllTags()
+        public TagsController(
+           ITagsRepository tagsRepository,
+           IMapper mapper
+           )
+        {
+            _tagsRepository = tagsRepository;
+            _mapper = mapper;
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                var tagslist = (await tagsRepository.ListAllAsync()).ToList();
-                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<Tags>>(tagslist)));
+                var tagList = (await _tagsRepository.ListAllAsync()).ToList();
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<TagResponse>>(tagList)));
             }
             catch (Exception ex)
             {
@@ -30,17 +41,34 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("AddTags")]
-        public async Task<IActionResult> AddTags([FromBody] Tags tags)
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(int Id)
         {
             try
             {
-                var result = await tagsRepository.AddAsync(tags);
+                var tag = await _tagsRepository.GetByIdAsync(Id);
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<TagResponse>(tag)));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
+        [HttpPost("Add")]
+        public async Task<IActionResult> Add([FromBody] TagRequest tagRequest)
+        {
+            try
+            {
+                var tag = _mapper.Map<Tags>(tagRequest);
+                tag.CreatedAt = DateTime.Now;
+                tag.CreatedBy = Convert.ToInt32(UserId);
+                var result = await _tagsRepository.AddAsync(tag);
                 if (result == null)
                 {
-                    return Ok(new SharedResponse(false, 400, "Unable To Create Tags"));
+                    return Ok(new SharedResponse(false, 400, "Unable To Create Tag"));
                 }
-                return Ok(new SharedResponse(true, 200, "Tags Created Succesfully"));
+                return Ok(new SharedResponse(true, 200, "Tag Created Succesfully"));
             }
             catch (Exception ex)
             {
@@ -48,21 +76,24 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("UpdateTags")]
-        public async Task<IActionResult> UpdateTags([FromBody] Tags tags)
+        [HttpPost("Update")]
+        public async Task<IActionResult> Update([FromBody] TagRequest tagRequest)
         {
             try
             {
-                var cat = "";
-                //var cat = await tagsRepository.GetByIdAsync(tags.ID); Need Confirmation
+                var cat = await _tagsRepository.GetByIdAsync(tagRequest.ID);
                 if (cat != null)
                 {
-                    tagsRepository.UpdateAsync(tags);
-                    return Ok(new SharedResponse(true, 200, "Tags Created Succesfully"));
+
+                    var tag = _mapper.Map<Tags>(tagRequest);
+                    tag.LastUpdatedAt = DateTime.Now;
+                    tag.UpdatedBy = Convert.ToInt32(UserId);
+                    await _tagsRepository.UpdateAsync(tag);
+                    return Ok(new SharedResponse(true, 200, "Tag Updated Succesfully"));
                 }
                 else
                 {
-                    return Ok(new SharedResponse(false, 400, "Unable To Find Tags"));
+                    return Ok(new SharedResponse(false, 400, "Unable To Find Tag"));
                 }
             }
             catch (Exception ex)
@@ -71,21 +102,20 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("DeleteTags")]
-        public async Task<IActionResult> DeleteTags([FromBody] Tags tags)
+        [HttpPost("Delete")]
+        public async Task<IActionResult> Delete([FromBody] long ID)
         {
             try
             {
-                var cat = "";
-                //var cat = await tagsRepository.GetByIdAsync(tags.ID); Need Confirmation
+                var cat = await _tagsRepository.GetByIdAsync(ID);
                 if (cat != null)
                 {
-                    tagsRepository.DeleteAsync(tags);
-                    return Ok(new SharedResponse(true, 200, "Tags Deleted Succesfully"));
+                    await _tagsRepository.DeleteAsync(cat);
+                    return Ok(new SharedResponse(true, 200, "Tag Deleted Succesfully"));
                 }
                 else
                 {
-                    return Ok(new SharedResponse(false, 400, "Unable To Find Tags"));
+                    return Ok(new SharedResponse(false, 400, "Unable To Find Tag"));
                 }
             }
             catch (Exception ex)

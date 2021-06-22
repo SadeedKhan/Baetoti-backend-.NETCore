@@ -7,7 +7,7 @@ using System.Text;
 namespace Baetoti.Core.Entites
 {
     [Table("Units", Schema = "baetoti")]
-    public partial class Units : BaseEntity
+    public partial class Unit : BaseEntity
     {
 
         public string Family { get; set; }

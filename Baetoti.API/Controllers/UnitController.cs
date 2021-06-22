@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Baetoti.API.Controllers.Base;
+using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
+using Baetoti.Shared.Request.UnitRequest;
 using Baetoti.Shared.Response.Shared;
+using Baetoti.Shared.Response.Unit;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,16 +15,25 @@ namespace Baetoti.API.Controllers
 {
     public class UnitController : ApiBaseController
     {
-        public readonly IUnitRepository unitRepository;
+        public readonly IUnitRepository _unitRepository;
         public readonly IMapper _mapper;
 
-        [HttpGet("GetAllUnit")]
-        public async Task<IActionResult> GetAllUnit()
+        public UnitController(
+         IUnitRepository unitRepository,
+         IMapper mapper
+         )
+        {
+            _unitRepository = unitRepository;
+            _mapper = mapper;
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                var unitlist = (await unitRepository.ListAllAsync()).ToList();
-                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<Unit>>(unitlist)));
+                var unitList = (await _unitRepository.ListAllAsync()).ToList();
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<UnitResponse>>(unitList)));
             }
             catch (Exception ex)
             {
@@ -29,12 +41,29 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("AddUnit")]
-        public async Task<IActionResult> AddUnit([FromBody] Unit unit)
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(int Id)
         {
             try
             {
-                var result = await unitRepository.AddAsync(unit);
+                var unit = await _unitRepository.GetByIdAsync(Id);
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<UnitResponse>(unit)));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
+        [HttpPost("Add")]
+        public async Task<IActionResult> Add([FromBody] UnitRequest unitRequest)
+        {
+            try
+            {
+                var unit = _mapper.Map<Unit>(unitRequest);
+                unit.CreatedAt = DateTime.Now;
+                unit.CreatedBy = Convert.ToInt32(UserId);
+                var result = await _unitRepository.AddAsync(unit);
                 if (result == null)
                 {
                     return Ok(new SharedResponse(false, 400, "Unable To Create Unit"));
@@ -47,17 +76,20 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("UpdateUnit")]
-        public async Task<IActionResult> UpdateUnit([FromBody] Unit unit)
+        [HttpPost("Update")]
+        public async Task<IActionResult> Update([FromBody] UnitRequest unitRequest)
         {
             try
             {
-                var cat = "";
-                //var cat = await unitRepository.GetByIdAsync(unit.ID); Need Confirmation
+                var cat = await _unitRepository.GetByIdAsync(unitRequest.ID);
                 if (cat != null)
                 {
-                    unitRepository.UpdateAsync(unit);
-                    return Ok(new SharedResponse(true, 200, "Unit Created Succesfully"));
+
+                    var unit = _mapper.Map<Unit>(unitRequest);
+                    unit.LastUpdatedAt = DateTime.Now;
+                    unit.UpdatedBy = Convert.ToInt32(UserId);
+                    await _unitRepository.UpdateAsync(unit);
+                    return Ok(new SharedResponse(true, 200, "Unit Updated Succesfully"));
                 }
                 else
                 {
@@ -70,16 +102,15 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("DeleteUnit")]
-        public async Task<IActionResult> DeleteUnit([FromBody] Unit unit)
+        [HttpPost("Delete")]
+        public async Task<IActionResult> Delete([FromBody] long ID)
         {
             try
             {
-                var cat = "";
-                //var cat = await unitRepository.GetByIdAsync(unit.ID); Need Confirmation
-                if (cat != null)
+                var un = await _unitRepository.GetByIdAsync(ID);
+                if (un != null)
                 {
-                    unitRepository.DeleteAsync(unit);
+                    await _unitRepository.DeleteAsync(un);
                     return Ok(new SharedResponse(true, 200, "Unit Deleted Succesfully"));
                 }
                 else

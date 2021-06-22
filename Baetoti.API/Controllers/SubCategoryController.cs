@@ -18,6 +18,15 @@ namespace Baetoti.API.Controllers
         public readonly ISubCategoryRepository _subcategoryRepository;
         public readonly IMapper _mapper;
 
+        public SubCategoryController(
+         ISubCategoryRepository subcategoryRepository,
+         IMapper mapper
+         )
+        {
+            _subcategoryRepository = subcategoryRepository;
+            _mapper = mapper;
+        }
+
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
