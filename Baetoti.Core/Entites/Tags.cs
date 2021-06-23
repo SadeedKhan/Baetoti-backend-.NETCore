@@ -1,10 +1,12 @@
 ﻿using Baetoti.Core.Entites.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Baetoti.Core.Entites
 {
+    [Table("Tags", Schema = "baetoti")]
     public partial class Tags : BaseEntity
     {
         public string TagEnglish { get; set; }

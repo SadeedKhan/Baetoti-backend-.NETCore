@@ -7,6 +7,7 @@ namespace Baetoti.Shared.Request.SubCategory
     public class SubCategoryRequest
     {
         public long ID { get; set; }
+
         public long CategoryID { get; set; }
 
         public string SubCategoryName { get; set; }
