@@ -8,6 +8,8 @@ using Baetoti.Shared.Request.UnitRequest;
 using Baetoti.Shared.Request.User;
 using Baetoti.Shared.Request.UserRole;
 using Baetoti.Shared.Response.Category;
+using Baetoti.Shared.Response.Department;
+using Baetoti.Shared.Response.Designation;
 using Baetoti.Shared.Response.SubCategory;
 using Baetoti.Shared.Response.TagResponse;
 using Baetoti.Shared.Response.Unit;
@@ -40,6 +42,8 @@ namespace Baetoti.API.Common.Mapping
             CreateMap<User, UserResponse>();
             CreateMap<AssignRoleRequest, UserRoles>();
             CreateMap<UserRoles, UserRoleResponse>();
+            CreateMap<Department, DepartmentResponse>();
+            CreateMap<Designation, DesignationResponse>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)

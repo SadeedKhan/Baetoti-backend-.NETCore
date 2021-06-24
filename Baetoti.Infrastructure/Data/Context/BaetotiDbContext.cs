@@ -19,6 +19,8 @@ namespace Baetoti.Infrastructure.Data.Context
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Tags> Tags { get; set; }
+        public DbSet<Department> Department { get; set; }
+        public DbSet<Designation> Designation { get; set; }
 
         #endregion
 
@@ -42,6 +44,5 @@ namespace Baetoti.Infrastructure.Data.Context
             //builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
         }
-
     }
 }
