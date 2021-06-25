@@ -8,7 +8,6 @@ namespace Baetoti.Core.Entites
 
     public partial class User : BaseEntity
     {
-        public long ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? JoiningDate { get; set; }
@@ -25,6 +24,8 @@ namespace Baetoti.Core.Entites
         public int RoleID { get; set; }
         public int ReportTo { get; set; }
         public string Address { get; set; }
+        public string Goals { get; set; }
+        public string Skills { get; set; }
         public string RefreshToken { get; set; }
         public int UserStatus { get; set; }
         public int? CreatedBy { get; set; }

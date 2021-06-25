@@ -5,9 +5,11 @@ using Baetoti.Core.Interface.Repositories;
 using Baetoti.Shared.Request.Category;
 using Baetoti.Shared.Response.Category;
 using Baetoti.Shared.Response.Shared;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -91,12 +93,12 @@ namespace Baetoti.API.Controllers
                     category.UpdatedBy = Convert.ToInt32(UserId);
                     await _categoryRepository.UpdateAsync(category);
                     return Ok(new SharedResponse(true, 200, "Category Updated Succesfully"));
-                }
-                else
-                {
-                    return Ok(new SharedResponse(false, 400, "Unable To Find Category"));
-                }
             }
+                else
+            {
+                return Ok(new SharedResponse(false, 400, "unable to find category"));
+            }
+        }
             catch (Exception ex)
             {
                 return Ok(new SharedResponse(false, 400, ex.Message));
@@ -125,5 +127,54 @@ namespace Baetoti.API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("UploadFile")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            try
+            {
+
+                if (file.Length > 0)
+                {
+                    if (CheckIfOnlyImageFile(file))
+                    {
+                        string fileName = null;
+                        var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
+                        fileName = DateTime.Now.Ticks + extension; //Create a new Name for the file due to security reasons.
+                        var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads\\Category");
+                        if (!Directory.Exists(pathBuilt))
+                        {
+                            Directory.CreateDirectory(pathBuilt);
+                        }
+                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads\\Category", fileName);
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+                        return Ok(new SharedResponse(true, 200, "File uploaded successfully!", "Uploads/Category", fileName, path));
+                    }
+                    else
+                    {
+                        return Ok(new SharedResponse(false, 400, "File format is incorrect! (only .png,.jpg,.jpeg) is Supported"));
+                    }
+                }
+                else
+                {
+                    return Ok(new SharedResponse(false, 400, "File is required!"));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message));
+
+            }
+        }
+
+        //Get Image File Extention
+        private bool CheckIfOnlyImageFile(IFormFile file)
+        {
+            var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
+            return (extension.ToUpper() == ".PNG" || extension.ToUpper() == ".JPG" || extension.ToUpper() == ".JPEG"); // Change the extension based on your need
+        }
     }
 }

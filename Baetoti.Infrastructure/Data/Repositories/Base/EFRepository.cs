@@ -71,7 +71,9 @@ namespace Baetoti.Infrastructure.Data.Repositories.Base
 
         public async Task<T> GetByIdAsync(long id)
         {
-            return await _dbContext.Set<T>().FindAsync(id);
+            var entity = await _dbContext.Set<T>().FindAsync(id);
+            _dbContext.Entry(entity).State = EntityState.Detached;
+            return entity;
         }
 
         public Task DeleteByIdAsync(long id)

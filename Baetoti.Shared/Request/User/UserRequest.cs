@@ -23,5 +23,7 @@ namespace Baetoti.Shared.Request.User
         public int RoleID { get; set; }
         public int ReportTo { get; set; }
         public string Address { get; set; }
+        public string Goals { get; set; }
+        public string Skills { get; set; }
     }
 }
