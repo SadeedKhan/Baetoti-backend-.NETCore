@@ -40,7 +40,6 @@ namespace Baetoti.IoC
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRolePrivilegeRepository, RolePrivilegeRepository>();
-            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IEmployeeRoleRepository, EmployeeRoleRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
