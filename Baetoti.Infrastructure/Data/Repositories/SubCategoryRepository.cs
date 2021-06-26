@@ -25,6 +25,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
             return (from c in _dbContext.Categories
                     join sc in _dbContext.SubCategories
                     on c.ID equals sc.CategoryId
+                    where id == 0 || sc.CategoryId == id
                     select new SubCategoryResponse
                     {
                         ID = sc.ID,
