@@ -3,6 +3,7 @@ using Baetoti.API.Controllers.Base;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
 using Baetoti.Shared.Request.Category;
+using Baetoti.Shared.Request.Delete;
 using Baetoti.Shared.Response.Category;
 using Baetoti.Shared.Response.Shared;
 using Microsoft.AspNetCore.Http;
@@ -93,12 +94,12 @@ namespace Baetoti.API.Controllers
                     category.UpdatedBy = Convert.ToInt32(UserId);
                     await _categoryRepository.UpdateAsync(category);
                     return Ok(new SharedResponse(true, 200, "Category Updated Succesfully"));
-            }
+                }
                 else
-            {
-                return Ok(new SharedResponse(false, 400, "unable to find category"));
+                {
+                    return Ok(new SharedResponse(false, 400, "unable to find category"));
+                }
             }
-        }
             catch (Exception ex)
             {
                 return Ok(new SharedResponse(false, 400, ex.Message));
@@ -106,11 +107,11 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] long ID)
+        public async Task<IActionResult> Delete([FromBody] DeleteRequest deleteRequest)
         {
             try
             {
-                var cat = await _categoryRepository.GetByIdAsync(ID);
+                var cat = await _categoryRepository.GetByIdAsync(deleteRequest.ID);
                 if (cat != null)
                 {
                     await _categoryRepository.DeleteAsync(cat);
