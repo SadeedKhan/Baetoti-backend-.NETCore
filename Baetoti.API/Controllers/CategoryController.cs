@@ -105,7 +105,7 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("Delete")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> Delete([FromBody] long ID)
         {
             try
