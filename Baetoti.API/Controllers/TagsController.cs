@@ -2,6 +2,7 @@
 using Baetoti.API.Controllers.Base;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
+using Baetoti.Shared.Request.Delete;
 using Baetoti.Shared.Request.TagRequest;
 using Baetoti.Shared.Response.Shared;
 using Baetoti.Shared.Response.TagResponse;
@@ -103,11 +104,11 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] long ID)
+        public async Task<IActionResult> Delete([FromBody] DeleteRequest deleteRequest)
         {
             try
             {
-                var cat = await _tagsRepository.GetByIdAsync(ID);
+                var cat = await _tagsRepository.GetByIdAsync(deleteRequest.ID);
                 if (cat != null)
                 {
                     await _tagsRepository.DeleteAsync(cat);

@@ -2,6 +2,7 @@
 using Baetoti.API.Controllers.Base;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
+using Baetoti.Shared.Request.Delete;
 using Baetoti.Shared.Request.UnitRequest;
 using Baetoti.Shared.Response.Shared;
 using Baetoti.Shared.Response.Unit;
@@ -103,11 +104,11 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] long ID)
+        public async Task<IActionResult> Delete([FromBody] DeleteRequest deleteRequest)
         {
             try
             {
-                var un = await _unitRepository.GetByIdAsync(ID);
+                var un = await _unitRepository.GetByIdAsync(deleteRequest.ID);
                 if (un != null)
                 {
                     await _unitRepository.DeleteAsync(un);
