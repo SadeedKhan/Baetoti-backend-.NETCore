@@ -1,39 +1,40 @@
 ﻿using AutoMapper;
 using Baetoti.API.Controllers.Base;
+using Baetoti.API.Helpers;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
 using Baetoti.Core.Interface.Services;
 using Baetoti.Shared.Request.Delete;
-using Baetoti.Shared.Request.User;
-using Baetoti.Shared.Request.UserRole;
+using Baetoti.Shared.Request.Employee;
+using Baetoti.Shared.Response.FileUpload;
 using Baetoti.Shared.Response.Shared;
-using Baetoti.Shared.Response.User;
+using Baetoti.Shared.Response.Employee;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Baetoti.Shared.Request.EmployeeRole;
 
 namespace Baetoti.API.Controllers
 {
-    public class UserController : ApiBaseController
+    public class EmployeeController : ApiBaseController
     {
-        public readonly IUserRepository _userRepository;
-        public readonly IUserRoleRepository _userroleRepository;
+        public readonly IEmployeeRepository _employeeRepository;
+        public readonly IEmployeeRoleRepository _employeeroleRepository;
         private readonly IArgon2Service _hashingService;
         public readonly IMapper _mapper;
 
-        public UserController(
-         IUserRepository userRepository,
-         IUserRoleRepository userroleRepository,
+        public EmployeeController(
+         IEmployeeRepository employeeRepository,
+         IEmployeeRoleRepository employeeroleRepository,
          IArgon2Service hashingService,
          IMapper mapper
          )
         {
-            _userRepository = userRepository;
-            _userroleRepository = userroleRepository;
+            _employeeRepository = employeeRepository;
+            _employeeroleRepository = employeeroleRepository;
             _hashingService = hashingService;
             _mapper = mapper;
         }
@@ -43,8 +44,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var userList = (await _userRepository.ListAllAsync()).ToList();
-                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<UserResponse>>(userList)));
+                var employeeList = (await _employeeRepository.ListAllAsync()).ToList();
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<EmployeeResponse>>(employeeList)));
             }
             catch (Exception ex)
             {
@@ -57,8 +58,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var user = await _userRepository.GetByIdAsync(Id);
-                return Ok(new SharedResponse(true, 200, "", _mapper.Map<UserResponse>(user)));
+                var employee = await _employeeRepository.GetByIdAsync(Id);
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<EmployeeResponse>(employee)));
             }
             catch (Exception ex)
             {
@@ -67,32 +68,34 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add([FromBody] UserRequest userRequest)
+        public async Task<IActionResult> Add([FromBody] EmployeeRequest employeeRequest)
         {
             try
             {
 
-                var user = _mapper.Map<User>(userRequest);
-                user.Password = _hashingService.GenerateHash(userRequest.Password);
-                user.CreatedAt = DateTime.Now;
-                user.CreatedBy = Convert.ToInt32(UserId);
-                user.UserStatus = 1; //Change it after Email or mobile verifications
-                var result = await _userRepository.AddAsync(user);
+                var employee = _mapper.Map<Employee>(employeeRequest);
+                employee.Password = _hashingService.GenerateHash(employeeRequest.Password);
+                employee.MarkAsDeleted = false;
+                employee.CreatedAt = DateTime.Now;
+                employee.CreatedBy = Convert.ToInt32(UserId);
+                employee.EmployeeStatus = 1; //Change it after Email or mobile verifications
+                var result = await _employeeRepository.AddAsync(employee);
                 if (result == null)
                 {
-                    return Ok(new SharedResponse(false, 400, "Unable To Create User"));
+                    return Ok(new SharedResponse(false, 400, "Unable To Create Employee"));
                 }
                 else
                 {
                     AssignRoleRequest assignRole = new AssignRoleRequest();
-                    assignRole.RoleId = userRequest.RoleID;
-                    assignRole.UserId = Convert.ToInt32(result.ID);
-                    var role = _mapper.Map<UserRoles>(assignRole);
+                    assignRole.RoleId = employeeRequest.RoleID;
+                    assignRole.EmployeeId = Convert.ToInt32(result.ID);
+                    var role = _mapper.Map<EmployeeRole>(assignRole);
+                    role.MarkAsDeleted = false;
                     role.CreatedAt = DateTime.Now;
                     role.CreatedBy = Convert.ToInt32(UserId);
-                    var res = await _userroleRepository.AddAsync(role);
+                    var res = await _employeeroleRepository.AddAsync(role);
                 }
-                return Ok(new SharedResponse(true, 200, "User Created Succesfully"));
+                return Ok(new SharedResponse(true, 200, "Employee Created Succesfully"));
             }
             catch (Exception ex)
             {
@@ -101,22 +104,22 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpPost("Update")]
-        public async Task<IActionResult> Update([FromBody] UserRequest userRequest)
+        public async Task<IActionResult> Update([FromBody] EmployeeRequest employeeRequest)
         {
             try
             {
-                var cat = await _userRepository.GetByIdAsync(userRequest.ID);
+                var cat = await _employeeRepository.GetByIdAsync(employeeRequest.ID);
                 if (cat != null)
                 {
-                    var user = _mapper.Map<User>(userRequest);
-                    user.LastUpdatedAt = DateTime.Now;
-                    user.LastUpdatedBy = Convert.ToInt32(UserId);
-                     await _userRepository.UpdateAsync(user);
-                    return Ok(new SharedResponse(true, 200, "User Updated Succesfully"));
+                    var employee = _mapper.Map<Employee>(employeeRequest);
+                    employee.LastUpdatedAt = DateTime.Now;
+                    employee.LastUpdatedBy = Convert.ToInt32(UserId);
+                     await _employeeRepository.UpdateAsync(employee);
+                    return Ok(new SharedResponse(true, 200, "Employee Updated Succesfully"));
                 }
                 else
                 {
-                    return Ok(new SharedResponse(false, 400, "Unable To Find User"));
+                    return Ok(new SharedResponse(false, 400, "Unable To Find Employee"));
                 }
             }
             catch (Exception ex)
@@ -130,15 +133,18 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var un = await _userRepository.GetByIdAsync(deleteRequest.ID);
+                var un = await _employeeRepository.GetByIdAsync(deleteRequest.ID);
                 if (un != null)
                 {
-                    await _userRepository.DeleteAsync(un);
-                    return Ok(new SharedResponse(true, 200, "User Deleted Succesfully"));
+                    un.MarkAsDeleted = true;
+                    un.LastUpdatedAt = DateTime.Now;
+                    un.LastUpdatedBy = Convert.ToInt32(UserId);
+                    await _employeeRepository.DeleteAsync(un);
+                    return Ok(new SharedResponse(true, 200, "Employee Deleted Succesfully"));
                 }
                 else
                 {
-                    return Ok(new SharedResponse(false, 400, "Unable To Find User"));
+                    return Ok(new SharedResponse(false, 400, "Unable To Find Employee"));
                 }
             }
             catch (Exception ex)
@@ -153,29 +159,17 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-
                 if (file.Length > 0)
                 {
-                    if (CheckIfOnlyImageFile(file))
+                    UploadImage obj = new UploadImage();
+                    FileUploadResponse _RESPONSE = await obj.UploadImageFile(file, "Employee");
+                    if (_RESPONSE.Path != null)
                     {
-                        string fileName = null;
-                        var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
-                        fileName = DateTime.Now.Ticks + extension; //Create a new Name for the file due to security reasons.
-                        var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads\\Employee");
-                        if (!Directory.Exists(pathBuilt))
-                        {
-                            Directory.CreateDirectory(pathBuilt);
-                        }
-                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads\\Employee", fileName);
-                        using (var stream = new FileStream(path, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
-                        return Ok(new SharedResponse(true, 200, "File uploaded successfully!", "Uploads/Employee", fileName, path));
+                        return Ok(new SharedResponse(true, 200, "File uploaded successfully!", _RESPONSE.Path, _RESPONSE.FileName, _RESPONSE.PathwithFileName));
                     }
                     else
                     {
-                        return Ok(new SharedResponse(false, 400, "File format is incorrect! (only .png,.jpg,.jpeg) is Supported"));
+                        return Ok(new SharedResponse(true, 400, _RESPONSE.Message));
                     }
                 }
                 else
@@ -186,15 +180,7 @@ namespace Baetoti.API.Controllers
             catch (Exception ex)
             {
                 return Ok(new SharedResponse(false, 400, ex.Message));
-
             }
-        }
-
-        //Get Image File Extention
-        private bool CheckIfOnlyImageFile(IFormFile file)
-        {
-            var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
-            return (extension.ToUpper() == ".PNG" || extension.ToUpper() == ".JPG" || extension.ToUpper() == ".JPEG"); // Change the extension based on your need
         }
 
         //Save Sase64 Image In Directory

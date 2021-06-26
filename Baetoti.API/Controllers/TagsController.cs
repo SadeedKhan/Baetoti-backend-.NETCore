@@ -62,6 +62,7 @@ namespace Baetoti.API.Controllers
             try
             {
                 var tag = _mapper.Map<Tags>(tagRequest);
+                tag.MarkAsDeleted = false;
                 tag.CreatedAt = DateTime.Now;
                 tag.CreatedBy = Convert.ToInt32(UserId);
                 var result = await _tagsRepository.AddAsync(tag);
@@ -108,10 +109,13 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var cat = await _tagsRepository.GetByIdAsync(deleteRequest.ID);
-                if (cat != null)
+                var tag = await _tagsRepository.GetByIdAsync(deleteRequest.ID);
+                if (tag != null)
                 {
-                    await _tagsRepository.DeleteAsync(cat);
+                    tag.MarkAsDeleted = false;
+                    tag.CreatedAt = DateTime.Now;
+                    tag.CreatedBy = Convert.ToInt32(UserId);
+                    await _tagsRepository.DeleteAsync(tag);
                     return Ok(new SharedResponse(true, 200, "Tag Deleted Succesfully"));
                 }
                 else

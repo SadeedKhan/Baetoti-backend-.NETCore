@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace Baetoti.Core.Interface.Repositories
 {
-    public interface IUserRoleRepository : IAsyncRepository<UserRoles>
+    public interface IEmployeeRoleRepository : IAsyncRepository<EmployeeRole>
     {
-        Task<UserRoles> GetByUserId(int UserId);
+        Task<EmployeeRole> GetByUserId(int UserId);
     }
 }

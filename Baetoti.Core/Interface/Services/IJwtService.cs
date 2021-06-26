@@ -8,9 +8,9 @@ namespace Baetoti.Core.Interface.Services
 {
     public interface IJwtService
     {
-        Task<AuthResponse> GenerateTokenAsync(User user);
+        Task<AuthResponse> GenerateTokenAsync(Employee user);
 
-        ClaimsIdentity GenerateClaimsIdentity(User user, IList<string> roles);
+        ClaimsIdentity GenerateClaimsIdentity(Employee user, IList<string> roles);
 
         ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
 

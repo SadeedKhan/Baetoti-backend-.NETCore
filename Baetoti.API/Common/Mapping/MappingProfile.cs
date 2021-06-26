@@ -5,19 +5,19 @@ using Baetoti.Shared.Request.Category;
 using Baetoti.Shared.Request.SubCategory;
 using Baetoti.Shared.Request.TagRequest;
 using Baetoti.Shared.Request.UnitRequest;
-using Baetoti.Shared.Request.User;
-using Baetoti.Shared.Request.UserRole;
+using Baetoti.Shared.Request.Employee;
 using Baetoti.Shared.Response.Category;
 using Baetoti.Shared.Response.Department;
 using Baetoti.Shared.Response.Designation;
 using Baetoti.Shared.Response.SubCategory;
 using Baetoti.Shared.Response.TagResponse;
 using Baetoti.Shared.Response.Unit;
-using Baetoti.Shared.Response.User;
-using Baetoti.Shared.Response.UserRole;
+using Baetoti.Shared.Response.Employee;
 using System;
 using System.Linq;
 using System.Reflection;
+using Baetoti.Shared.Request.EmployeeRole;
+using Baetoti.Shared.Response.EmployeeRole;
 
 namespace Baetoti.API.Common.Mapping
 {
@@ -27,7 +27,7 @@ namespace Baetoti.API.Common.Mapping
         {
             //ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
 
-            CreateMap<AuthRequest, User>();
+            CreateMap<AuthRequest, Employee>();
             //CreateMap<RegisterUserRequest, User>();
             //CreateMap<UpdateUserRequest, User>();
             CreateMap<CategoryRequest, Category>();
@@ -38,10 +38,10 @@ namespace Baetoti.API.Common.Mapping
             CreateMap<Tags, TagResponse>();
             CreateMap<UnitRequest, Unit>();
             CreateMap<Unit, UnitResponse>();
-            CreateMap<UserRequest, User>();
-            CreateMap<User, UserResponse>();
-            CreateMap<AssignRoleRequest, UserRoles>();
-            CreateMap<UserRoles, UserRoleResponse>();
+            CreateMap<EmployeeRequest, Employee>();
+            CreateMap<Employee, EmployeeResponse>();
+            CreateMap<AssignRoleRequest, EmployeeRole>();
+            CreateMap<EmployeeRole, EmployeeRoleResponse>();
             CreateMap<Department, DepartmentResponse>();
             CreateMap<Designation, DesignationResponse>();
         }

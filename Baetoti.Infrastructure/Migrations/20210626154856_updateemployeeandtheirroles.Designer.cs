@@ -4,14 +4,16 @@ using Baetoti.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Baetoti.Infrastructure.Migrations
 {
     [DbContext(typeof(BaetotiDbContext))]
-    partial class BaetotiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210626154856_updateemployeeandtheirroles")]
+    partial class updateemployeeandtheirroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,9 +48,6 @@ namespace Baetoti.Infrastructure.Migrations
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("MarkAsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
@@ -86,9 +85,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("MarkAsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
 
@@ -121,9 +117,6 @@ namespace Baetoti.Infrastructure.Migrations
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("MarkAsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
@@ -200,9 +193,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.Property<int>("LocationID")
                         .HasColumnType("int");
 
-                    b.Property<bool>("MarkAsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
@@ -257,9 +247,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("MarkAsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
@@ -290,9 +277,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("MarkAsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -322,9 +306,6 @@ namespace Baetoti.Infrastructure.Migrations
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("MarkAsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
@@ -359,9 +340,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("MarkAsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("TagArabic")
                         .HasColumnType("nvarchar(max)");
 
@@ -394,9 +372,6 @@ namespace Baetoti.Infrastructure.Migrations
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("MarkAsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("UnitArabicName")
                         .HasColumnType("nvarchar(max)");

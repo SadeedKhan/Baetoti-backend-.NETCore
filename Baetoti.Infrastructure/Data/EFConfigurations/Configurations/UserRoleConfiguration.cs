@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Baetoti.Infrastructure.Data.EFConfigurations.Configurations
 {
-    public class UserRoleConfiguration : IEntityTypeConfiguration<UserRoles>
+    public class UserRoleConfiguration : IEntityTypeConfiguration<EmployeeRole>
     {
-        public void Configure(EntityTypeBuilder<UserRoles> builder)
+        public void Configure(EntityTypeBuilder<EmployeeRole> builder)
         {
-            builder.ToTable(nameof(UserRoles), DBSchema.baetoti.ToString());
+            builder.ToTable(nameof(EmployeeRole), DBSchema.baetoti.ToString());
 
         }
     }

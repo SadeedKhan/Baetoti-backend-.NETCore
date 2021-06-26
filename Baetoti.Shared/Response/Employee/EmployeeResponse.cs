@@ -1,13 +1,10 @@
-﻿using Baetoti.Core.Entites.Base;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
-namespace Baetoti.Core.Entites
+namespace Baetoti.Shared.Response.Employee
 {
-    [Table("User", Schema = "baetoti")]
-
-    public partial class User : BaseEntity
+    public class EmployeeResponse
     {
+        public long ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? JoiningDate { get; set; }
@@ -20,8 +17,6 @@ namespace Baetoti.Core.Entites
         public string Email { get; set; }
         public DateTime? DOB { get; set; }
         public string Phone { get; set; }
-        public string Password { get; set; }
-        public int RoleID { get; set; }
         public int ReportTo { get; set; }
         public string Address { get; set; }
         public string Goals { get; set; }
@@ -31,12 +26,5 @@ namespace Baetoti.Core.Entites
         public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public DateTime? LastPasswordChangedDate { get; set; }
-        public int? LastPasswordChangedById { get; set; }
-        public bool? IsPasswordUpdateRequired { get; set; }
-        public DateTime? LastUpdatedAt { get; set; }
-        public int? LastUpdatedBy { get; set; }
-        public DateTime? LastLogin { get; set; }
-        public DateTime RecordDateTime { get; set; }
     }
 }

@@ -14,17 +14,17 @@ namespace Baetoti.API.Controllers
 {
     public class AuthController : ApiBaseController
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IJwtService _jwtService;
         private readonly IMapper _mapper;
         private readonly IArgon2Service _hashingService;
 
-        public AuthController(IUserRepository userRepository,
+        public AuthController(IEmployeeRepository employeeRepository,
                 IJwtService jwtService,
                 IMapper mapper,
                 IArgon2Service hashingService)
         {
-            _userRepository = userRepository;
+            _employeeRepository = employeeRepository;
             _jwtService = jwtService;
             _mapper = mapper;
             _hashingService = hashingService;
@@ -36,14 +36,14 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var user = await _userRepository.AuthenticateUser(_mapper.Map<User>(request));
+                var user = await _employeeRepository.AuthenticateUser(_mapper.Map<Employee>(request));
                 if (user != null)
                 {
                     var IsAuthenticated = _hashingService.VerifyHash(request.Password, user.Password);
                     if (IsAuthenticated)
                     {
                         user.LastLogin = DateTime.UtcNow;
-                        await _userRepository.UpdateAsync(user);
+                        await _employeeRepository.UpdateAsync(user);
                         var response = await _jwtService.GenerateTokenAsync(user);
                         return Ok(new SharedResponse(true, 200, "Success", response));
                     }
@@ -70,7 +70,7 @@ namespace Baetoti.API.Controllers
             {
                 throw new ArgumentException(nameof(userId));
             }
-            var user = await _userRepository.GetByIdAsync(userId);
+            var user = await _employeeRepository.GetByIdAsync(userId);
             if (user.RefreshToken != request.RefreshToken)
                 return BadRequest(new SharedResponse(false, 400, "Invalid Refresh token", null));
             var response = await _jwtService.GenerateTokenAsync(user);
@@ -80,7 +80,7 @@ namespace Baetoti.API.Controllers
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
         {
-            var user = await _userRepository.GetByIdAsync(Convert.ToInt32(UserId));
+            var user = await _employeeRepository.GetByIdAsync(Convert.ToInt32(UserId));
             if (user != null)
             {
                 var IsAuthenticated = _hashingService.VerifyHash(request.CurrentPassword, user.Password);
@@ -90,7 +90,7 @@ namespace Baetoti.API.Controllers
                     user.Password = newHash;
                     user.LastPasswordChangedById = Convert.ToInt32(UserId);
                     user.LastPasswordChangedDate = DateTime.Now;
-                    await _userRepository.UpdateAsync(user);
+                    await _employeeRepository.UpdateAsync(user);
                     return Ok(new SharedResponse(true, 200, "Success"));
                 }
                 return Ok(new SharedResponse(false, 400, "Invalid Current Password."));

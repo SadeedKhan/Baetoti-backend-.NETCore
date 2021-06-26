@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
 using Baetoti.API.Controllers.Base;
+using Baetoti.API.Helpers;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
 using Baetoti.Shared.Request.Delete;
 using Baetoti.Shared.Request.SubCategory;
+using Baetoti.Shared.Response.FileUpload;
 using Baetoti.Shared.Response.Shared;
 using Baetoti.Shared.Response.SubCategory;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -78,6 +79,7 @@ namespace Baetoti.API.Controllers
             try
             {
                 var subcategory = _mapper.Map<SubCategory>(subcategoryRequest);
+                subcategory.MarkAsDeleted = false;
                 subcategory.CreatedAt = DateTime.Now;
                 subcategory.CreatedBy = Convert.ToInt32(UserId);
                 var result = await _subcategoryRepository.AddAsync(subcategory);
@@ -127,6 +129,9 @@ namespace Baetoti.API.Controllers
                 var subcat = await _subcategoryRepository.GetByIdAsync(deleteRequest.ID);
                 if (subcat != null)
                 {
+                    subcat.MarkAsDeleted = true;
+                    subcat.CreatedAt = DateTime.Now;
+                    subcat.CreatedBy = Convert.ToInt32(UserId);
                     await _subcategoryRepository.DeleteAsync(subcat);
                     return Ok(new SharedResponse(true, 200, "SubCategory Deleted Succesfully"));
                 }
@@ -147,29 +152,17 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-
                 if (file.Length > 0)
                 {
-                    if (CheckIfOnlyImageFile(file))
+                    UploadImage obj = new UploadImage();
+                    FileUploadResponse _RESPONSE = await obj.UploadImageFile(file, "SubCategory");
+                    if (_RESPONSE.Path != null)
                     {
-                        string fileName = null;
-                        var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
-                        fileName = DateTime.Now.Ticks + extension; //Create a new Name for the file due to security reasons.
-                        var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads\\SubCategory");
-                        if (!Directory.Exists(pathBuilt))
-                        {
-                            Directory.CreateDirectory(pathBuilt);
-                        }
-                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads\\SubCategory", fileName);
-                        using (var stream = new FileStream(path, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
-                        return Ok(new SharedResponse(true, 200, "File uploaded successfully!", "Uploads/SubCategory", fileName, path));
+                        return Ok(new SharedResponse(true, 200, "File uploaded successfully!", _RESPONSE.Path, _RESPONSE.FileName, _RESPONSE.PathwithFileName));
                     }
                     else
                     {
-                        return Ok(new SharedResponse(false, 400, "File format is incorrect! (only .png,.jpg,.jpeg) is Supported"));
+                        return Ok(new SharedResponse(true, 400, _RESPONSE.Message));
                     }
                 }
                 else
@@ -180,15 +173,7 @@ namespace Baetoti.API.Controllers
             catch (Exception ex)
             {
                 return Ok(new SharedResponse(false, 400, ex.Message));
-
             }
-        }
-
-        //Get Image File Extention
-        private bool CheckIfOnlyImageFile(IFormFile file)
-        {
-            var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
-            return (extension.ToUpper() == ".PNG" || extension.ToUpper() == ".JPG" || extension.ToUpper() == ".JPEG"); // Change the extension based on your need
         }
     }
 }

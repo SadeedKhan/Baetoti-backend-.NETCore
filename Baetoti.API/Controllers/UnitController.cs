@@ -62,6 +62,7 @@ namespace Baetoti.API.Controllers
             try
             {
                 var unit = _mapper.Map<Unit>(unitRequest);
+                unit.MarkAsDeleted = false;
                 unit.CreatedAt = DateTime.Now;
                 unit.CreatedBy = Convert.ToInt32(UserId);
                 var result = await _unitRepository.AddAsync(unit);
@@ -111,6 +112,9 @@ namespace Baetoti.API.Controllers
                 var un = await _unitRepository.GetByIdAsync(deleteRequest.ID);
                 if (un != null)
                 {
+                    un.MarkAsDeleted = true;
+                    un.LastUpdatedAt = DateTime.Now;
+                    un.UpdatedBy = Convert.ToInt32(UserId);
                     await _unitRepository.DeleteAsync(un);
                     return Ok(new SharedResponse(true, 200, "Unit Deleted Succesfully"));
                 }
