@@ -6,7 +6,12 @@ namespace Baetoti.Shared.Request
     {
         public string RoleName { get; set; }
 
-        public List<MenuRequest> Menu = new List<MenuRequest>();
+        public List<MenuRequest> Menu { get; set; }
+
+        RoleRequest()
+        {
+            Menu = new List<MenuRequest>();
+        }
 
     }
 
@@ -16,9 +21,16 @@ namespace Baetoti.Shared.Request
 
         public bool IsSelected { get; set; }
 
-        public List<PrivilegeRequest> SelectedPrivileges = new List<PrivilegeRequest>();
+        public List<PrivilegeRequest> SelectedPrivileges { get; set; }
 
-        public List<SubMenuRequest> SelectedSubMenu = new List<SubMenuRequest>();
+        public List<SubMenuRequest> SelectedSubMenu { get; set; }
+
+        MenuRequest()
+        {
+            SelectedPrivileges = new List<PrivilegeRequest>();
+            SelectedSubMenu = new List<SubMenuRequest>();
+        }
+
     }
 
     public class SubMenuRequest
@@ -27,7 +39,13 @@ namespace Baetoti.Shared.Request
 
         public bool IsSelected { get; set; }
 
-        public List<PrivilegeRequest> SelectedPrivileges = new List<PrivilegeRequest>();
+        public List<PrivilegeRequest> SelectedPrivileges { get; set; }
+
+        SubMenuRequest()
+        {
+            SelectedPrivileges = new List<PrivilegeRequest>();
+        }
+
     }
 
     public class PrivilegeRequest
