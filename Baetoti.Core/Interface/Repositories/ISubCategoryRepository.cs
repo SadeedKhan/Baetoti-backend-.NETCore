@@ -1,13 +1,13 @@
 ﻿using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Base;
-using System;
+using Baetoti.Shared.Response.SubCategory;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Baetoti.Core.Interface.Repositories
 {
     public interface ISubCategoryRepository : IAsyncRepository<SubCategory>
     {
+        Task<List<SubCategoryResponse>> GetByCategoryAsync(long id);
     }
 }

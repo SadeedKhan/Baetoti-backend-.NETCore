@@ -10,6 +10,10 @@ namespace Baetoti.Shared.Response.SubCategory
 
         public long CategoryID { get; set; }
 
+        public string CategoryName { get; set; }
+
+        public string CategoryArabicName { get; set; }
+
         public string SubCategoryName { get; set; }
 
         public string SubCategoryArabicName { get; set; }

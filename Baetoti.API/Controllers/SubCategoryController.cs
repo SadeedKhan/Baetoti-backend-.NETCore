@@ -43,6 +43,20 @@ namespace Baetoti.API.Controllers
             }
         }
 
+        [HttpGet("GetByCategory")]
+        public async Task<IActionResult> GetByCategory(long CategoryId)
+        {
+            try
+            {
+                var subcategoryList = (await _subcategoryRepository.GetByCategoryAsync(CategoryId)).ToList();
+                return Ok(new SharedResponse(true, 200, "", subcategoryList));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
         [HttpGet("GetById")]
         public async Task<IActionResult> GetById(int Id)
         {
