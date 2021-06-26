@@ -47,6 +47,14 @@ namespace Baetoti.Infrastructure.Data.Repositories.Base
             return entity;
         }
 
+        public async Task<List<T>> AddRangeAsync(List<T> entity)
+        {
+            await _dbContext.Set<T>().AddRangeAsync(entity);
+            await _dbContext.SaveChangesAsync();
+
+            return entity;
+        }
+
         public async Task UpdateAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;

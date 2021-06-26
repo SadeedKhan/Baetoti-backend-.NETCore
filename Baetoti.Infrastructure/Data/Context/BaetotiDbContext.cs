@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Baetoti.Infrastructure.Data.Context
 {
-    public class BaetotiDbContext: DbContext
+    public class BaetotiDbContext : DbContext
     {
         public BaetotiDbContext(DbContextOptions<BaetotiDbContext> options)
             : base(options)
@@ -19,8 +19,12 @@ namespace Baetoti.Infrastructure.Data.Context
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Tags> Tags { get; set; }
-        public DbSet<Department> Department { get; set; }
-        public DbSet<Designation> Designation { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Designation> Designations { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<SubMenu> SubMenus { get; set; }
+        public DbSet<Privilege> Privileges { get; set; }
+        public DbSet<RolePrivilege> RolePrivileges { get; set; }
 
         #endregion
 

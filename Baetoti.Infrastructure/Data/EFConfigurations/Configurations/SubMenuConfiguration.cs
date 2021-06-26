@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Baetoti.Infrastructure.Data.EFConfigurations.Configurations
 {
-    public class RoleConfiguration : IEntityTypeConfiguration<RolePrivilege>
+    public class SubMenuConfiguration : IEntityTypeConfiguration<SubMenu>
     {
-        public void Configure(EntityTypeBuilder<RolePrivilege> builder)
+        public void Configure(EntityTypeBuilder<SubMenu> builder)
         {
-            builder.ToTable(nameof(RolePrivilege), DBSchema.baetoti.ToString());
+            builder.ToTable(nameof(SubMenu), DBSchema.baetoti.ToString());
         }
     }
 }

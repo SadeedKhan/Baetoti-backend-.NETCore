@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Baetoti.Infrastructure.Data.EFConfigurations.Configurations
 {
-    public class RoleConfiguration : IEntityTypeConfiguration<RolePrivilege>
+    public class RolePrivilegeConfiguration : IEntityTypeConfiguration<RolePrivilege>
     {
         public void Configure(EntityTypeBuilder<RolePrivilege> builder)
         {

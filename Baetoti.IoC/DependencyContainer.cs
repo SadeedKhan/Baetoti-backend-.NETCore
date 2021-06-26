@@ -39,6 +39,7 @@ namespace Baetoti.IoC
             #region Scoped
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IRolePrivilegeRepository, RolePrivilegeRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
