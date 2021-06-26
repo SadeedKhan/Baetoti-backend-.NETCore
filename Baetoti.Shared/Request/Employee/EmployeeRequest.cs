@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Baetoti.Shared.Request.User
+namespace Baetoti.Shared.Request.Employee
 {
-    public class UserRequest
+    public class EmployeeRequest
     {
         public long ID { get; set; }
         public string FirstName { get; set; }

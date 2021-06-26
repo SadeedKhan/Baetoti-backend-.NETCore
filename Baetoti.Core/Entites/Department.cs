@@ -22,5 +22,8 @@ namespace Baetoti.Core.Entites
         public DateTime? CreatedAt { get; set; }
 
         public DateTime? LastUpdatedAt { get; set; }
+
+        public bool MarkAsDeleted { get; set; }
+
     }
 }

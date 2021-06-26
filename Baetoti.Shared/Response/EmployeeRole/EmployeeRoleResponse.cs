@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Baetoti.Shared.Response.UserRole
+namespace Baetoti.Shared.Response.EmployeeRole
 {
-    public class UserRoleResponse
+    public class EmployeeRoleResponse
     {
         public int Id { get; set; }
 

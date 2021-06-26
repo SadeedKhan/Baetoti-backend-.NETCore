@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Baetoti.Core.Interface.Repositories
 {
-    public interface IUserRepository : IAsyncRepository<User>
+    public interface IEmployeeRepository : IAsyncRepository<Employee>
     {
-        Task<User> AuthenticateUser(User user);
+        Task<Employee> AuthenticateUser(Employee user);
 
-        Task<List<string>> GetRolesAsync(User user);
+        Task<List<string>> GetRolesAsync(Employee user);
     }
 }

@@ -22,11 +22,11 @@ namespace Baetoti.Infrastructure.Services
     {
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly SymmetricSecurityKey _signingKey;
-        private readonly IUserRepository _userRepository;
+        private readonly IEmployeeRepository _userRepository;
 
         public JwtService(IOptions<JwtIssuerOptions> jwtOptions,
             IConfiguration configuration,
-            IUserRepository userRepository)
+            IEmployeeRepository userRepository)
         {
             _jwtOptions = jwtOptions?.Value;
             ThrowIfInvalidOptions(_jwtOptions);
@@ -41,7 +41,7 @@ namespace Baetoti.Infrastructure.Services
         /// <param name="user">Application user</param>
         /// <param name="roles">User roles</param>
         /// <returns></returns>
-        public async Task<AuthResponse> GenerateTokenAsync(User user)
+        public async Task<AuthResponse> GenerateTokenAsync(Employee user)
         {
             var issuedAt = _jwtOptions.IssuedAt.ToUnixTimeSeconds();
             var expiresAt = _jwtOptions.Expiration.ToUnixTimeSeconds();
@@ -77,7 +77,7 @@ namespace Baetoti.Infrastructure.Services
         /// <param name="user">Application user</param>
         /// <param name="roles">User roles</param>
         /// <returns>ClaimsIdentity</returns>
-        public ClaimsIdentity GenerateClaimsIdentity(User user, IList<string> roles)
+        public ClaimsIdentity GenerateClaimsIdentity(Employee user, IList<string> roles)
         {
             var claimsId = new ClaimsIdentity(new GenericIdentity(user?.ID.ToString(), "Token")/*, new[]
             {

@@ -10,28 +10,28 @@ using System.Threading.Tasks;
 
 namespace Baetoti.Infrastructure.Data.Repositories
 {
-    public class UserRepository : EFRepository<User>, IUserRepository
+    public class EmployeeRepository : EFRepository<Employee>, IEmployeeRepository
     {
 
         private readonly BaetotiDbContext _dbContext;
 
-        public UserRepository(BaetotiDbContext dbContext) : base(dbContext)
+        public EmployeeRepository(BaetotiDbContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
         }
 
-        async Task<List<string>> IUserRepository.GetRolesAsync(User user)
+        async Task<List<string>> IEmployeeRepository.GetRolesAsync(Employee user)
         {
-            return await (from ur in _dbContext.UserRoles
+            return await (from ur in _dbContext.EmployeeRoles
                           join
                           r in _dbContext.Roles on ur.RoleId equals r.ID
-                          where ur.UserId == user.ID
+                          where ur.EmployeeId == user.ID
                           select r.Name).ToListAsync();
         }
 
-        async Task<User> IUserRepository.AuthenticateUser(User user)
+        async Task<Employee> IEmployeeRepository.AuthenticateUser(Employee user)
         {
-            return await _dbContext.Users.Where(x => x.Username.ToLower() == user.Username.ToLower() && x.UserStatus == (int)EmployementStatus.Active).FirstOrDefaultAsync();
+            return await _dbContext.Employee.Where(x => x.Username.ToLower() == user.Username.ToLower() && x.EmployeeStatus == (int)EmployementStatus.Active).FirstOrDefaultAsync();
         }
 
     }

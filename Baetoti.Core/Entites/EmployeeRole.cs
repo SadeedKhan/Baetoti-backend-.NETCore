@@ -6,9 +6,9 @@ namespace Baetoti.Core.Entites
 {
     [Table("UserRoles", Schema = "baetoti")]
 
-    public partial class UserRoles : BaseEntity
+    public partial class EmployeeRole : BaseEntity
     {
-        public int UserId { get; set; }
+        public int EmployeeId { get; set; }
 
         public int RoleId { get; set; }
 
@@ -20,5 +20,6 @@ namespace Baetoti.Core.Entites
 
         public DateTime? LastUpdatedAt { get; set; }
 
+        public bool MarkAsDeleted { get; set; }
     }
 }

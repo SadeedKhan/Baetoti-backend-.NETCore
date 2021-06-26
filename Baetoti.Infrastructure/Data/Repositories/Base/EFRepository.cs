@@ -63,7 +63,7 @@ namespace Baetoti.Infrastructure.Data.Repositories.Base
 
         public async Task DeleteAsync(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
+            _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
 

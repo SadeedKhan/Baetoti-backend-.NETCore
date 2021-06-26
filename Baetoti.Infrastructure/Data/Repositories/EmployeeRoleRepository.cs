@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace Baetoti.Infrastructure.Data.Repositories
 {
-    public class UserRoleRepository : EFRepository<UserRoles>, IUserRoleRepository
+    public class EmployeeRoleRepository : EFRepository<EmployeeRole>, IEmployeeRoleRepository
     {
 
         private readonly BaetotiDbContext _dbContext;
 
-        public UserRoleRepository(BaetotiDbContext dbContext) : base(dbContext)
+        public EmployeeRoleRepository(BaetotiDbContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
         }
 
-        async Task<UserRoles> IUserRoleRepository.GetByUserId(int UserId)
+        async Task<EmployeeRole> IEmployeeRoleRepository.GetByUserId(int EmployeeId)
         {
-            return await _dbContext.UserRoles.Where(x => x.UserId == UserId).FirstOrDefaultAsync();
+            return await _dbContext.EmployeeRoles.Where(x => x.EmployeeId == EmployeeId).FirstOrDefaultAsync();
         }
 
     }

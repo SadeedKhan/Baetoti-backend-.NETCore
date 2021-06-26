@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Baetoti.Core.Entites.Base;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Baetoti.Shared.Response.User
+namespace Baetoti.Core.Entites
 {
-    public class UserResponse
+    [Table("Employee", Schema = "baetoti")]
+
+    public partial class Employee : BaseEntity
     {
-        public long ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? JoiningDate { get; set; }
@@ -19,14 +20,25 @@ namespace Baetoti.Shared.Response.User
         public string Email { get; set; }
         public DateTime? DOB { get; set; }
         public string Phone { get; set; }
+        public string Password { get; set; }
+        public int RoleID { get; set; }
         public int ReportTo { get; set; }
         public string Address { get; set; }
         public string Goals { get; set; }
         public string Skills { get; set; }
         public string RefreshToken { get; set; }
-        public int UserStatus { get; set; }
+        public int EmployeeStatus { get; set; }
         public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public DateTime? LastPasswordChangedDate { get; set; }
+        public bool MarkAsDeleted { get; set; }
+
+        public int? LastPasswordChangedById { get; set; }
+        public bool? IsPasswordUpdateRequired { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
+        public int? LastUpdatedBy { get; set; }
+        public DateTime? LastLogin { get; set; }
+        public DateTime RecordDateTime { get; set; }
     }
 }
