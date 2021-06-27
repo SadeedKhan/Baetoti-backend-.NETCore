@@ -163,7 +163,7 @@ namespace Baetoti.API.Controllers
                 {
                     UploadImage obj = new UploadImage();
                     FileUploadResponse _RESPONSE = await obj.UploadImageFile(file, "Employee");
-                    if (_RESPONSE.Path != null)
+                    if (string.IsNullOrEmpty(_RESPONSE.Message))
                     {
                         return Ok(new SharedResponse(true, 200, "File uploaded successfully!", _RESPONSE.Path, _RESPONSE.FileName, _RESPONSE.PathwithFileName));
                     }

@@ -1,13 +1,11 @@
-﻿using Baetoti.Core.Entites.Base;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
-namespace Baetoti.Core.Entites
+namespace Baetoti.Shared.Response.Role
 {
-    [Table("Roles", Schema = "baetoti")]
-
-    public partial class Roles : BaseEntity
+    public class RoleResponse
     {
+        public long ID { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -20,6 +18,5 @@ namespace Baetoti.Core.Entites
 
         public DateTime? LastUpdatedAt { get; set; }
 
-        public bool MarkAsDeleted { get; set; }
     }
 }

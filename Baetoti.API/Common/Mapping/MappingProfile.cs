@@ -17,7 +17,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Baetoti.Shared.Request.EmployeeRole;
-using Baetoti.Shared.Response.EmployeeRole;
+using Baetoti.Shared.Response.Role;
 
 namespace Baetoti.API.Common.Mapping
 {
@@ -41,9 +41,9 @@ namespace Baetoti.API.Common.Mapping
             CreateMap<EmployeeRequest, Employee>();
             CreateMap<Employee, EmployeeResponse>();
             CreateMap<AssignRoleRequest, EmployeeRole>();
-            CreateMap<EmployeeRole, EmployeeRoleResponse>();
             CreateMap<Department, DepartmentResponse>();
             CreateMap<Designation, DesignationResponse>();
+            CreateMap<Roles, RoleResponse>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)

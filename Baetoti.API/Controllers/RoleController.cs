@@ -3,15 +3,11 @@ using Baetoti.API.Controllers.Base;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
 using Baetoti.Shared.Request;
-using Baetoti.Shared.Request.Category;
-using Baetoti.Shared.Request.Delete;
-using Baetoti.Shared.Response.Category;
+using Baetoti.Shared.Response.Role;
 using Baetoti.Shared.Response.Shared;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,19 +31,19 @@ namespace Baetoti.API.Controllers
             _mapper = mapper;
         }
 
-        //[HttpGet("GetAll")]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    try
-        //    {
-        //        var categoryList = (await _categoryRepository.ListAllAsync()).ToList();
-        //        return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<CategoryResponse>>(categoryList)));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Ok(new SharedResponse(false, 400, ex.Message, null));
-        //    }
-        //}
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var roleList = (await _roleRepository.ListAllAsync()).ToList();
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<RoleResponse>>(roleList)));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
 
         //[HttpGet("GetById")]
         //public async Task<IActionResult> GetById(int Id)
