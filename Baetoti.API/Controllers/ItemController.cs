@@ -199,7 +199,7 @@ namespace Baetoti.API.Controllers
                     FileUploadResponse _RESPONSE = await obj.UploadImageFile(file, "Item");
                     if (string.IsNullOrEmpty(_RESPONSE.Message))
                     {
-                        return Ok(new SharedResponse(true, 200, "File uploaded successfully!", _RESPONSE.Path, _RESPONSE.FileName, _RESPONSE.PathwithFileName));
+                        return Ok(new SharedResponse(true, 200, "File uploaded successfully!", _RESPONSE));
                     }
                     else
                     {

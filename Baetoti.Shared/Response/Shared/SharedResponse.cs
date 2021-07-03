@@ -13,15 +13,8 @@ namespace Baetoti.Shared.Response.Shared
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public object Record { get; set; }
 
-        public string Path { get; set; }
-
-        public string FileName { get; set; }
-
-        public string PathwithFileName { get; set; }
-
         public SharedResponse()
         {
-
         }
 
         public SharedResponse(bool isSuccess, int status = 200, string msg = "")
@@ -38,16 +31,5 @@ namespace Baetoti.Shared.Response.Shared
             Message = msg;
             Record = data;
         }
-
-        public SharedResponse(bool isSuccess,int status=200,string msg = "", string path = "", string fileName = "", string pathFilename = "")
-        {
-            IsSuccess = isSuccess;
-            Status = status;
-            Message = msg;
-            Path = path;
-            FileName = fileName;
-            PathwithFileName = pathFilename;
-        }
     }
-
 }
