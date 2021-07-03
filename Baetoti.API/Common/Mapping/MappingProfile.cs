@@ -18,6 +18,10 @@ using System.Linq;
 using System.Reflection;
 using Baetoti.Shared.Request.EmployeeRole;
 using Baetoti.Shared.Response.Role;
+using Baetoti.Shared.Request.Provider;
+using Baetoti.Shared.Request.Driver;
+using Baetoti.Shared.Response.Provider;
+using Baetoti.Shared.Response.Driver;
 
 namespace Baetoti.API.Common.Mapping
 {
@@ -44,6 +48,10 @@ namespace Baetoti.API.Common.Mapping
             CreateMap<Department, DepartmentResponse>();
             CreateMap<Designation, DesignationResponse>();
             CreateMap<Roles, RoleResponse>();
+            CreateMap<ProviderRequest, Provider>();
+            CreateMap<Provider, ProviderResponse>();
+            CreateMap<DriverRequest, Driver>();
+            CreateMap<Driver, DriverResponse>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)

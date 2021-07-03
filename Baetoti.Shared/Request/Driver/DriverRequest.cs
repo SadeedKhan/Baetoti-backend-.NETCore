@@ -1,15 +1,13 @@
-﻿using Baetoti.Core.Entites.Base;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Baetoti.Core.Entites
+namespace Baetoti.Shared.Request.Driver
 {
-    [Table("Driver", Schema = "baetoti")]
-    public class Driver : BaseEntity
+    public class DriverRequest
     {
         public long UserID { get; set; }
         public int DriverStatus { get; set; }
-        public string Comments { get; set; }
         public string Nationality { get; set; }
         public string DOB { get; set; }
         public string IDNumber { get; set; }
@@ -27,10 +25,5 @@ namespace Baetoti.Core.Entites
         public string ExpiryDateofMedicalcheckup { get; set; }
         public string VehicleInsurancePic { get; set; }
         public string ExpiryDateofVehicleInsurance { get; set; }
-        public int? CreatedBy { get; set; }
-        public int? UpdatedBy { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? LastUpdatedAt { get; set; }
-        public bool MarkAsDeleted { get; set; }
     }
 }

@@ -13,5 +13,11 @@ namespace Baetoti.Core.Entites
         public string GovernmentIDPicture { get; set; }
         public DateTime ExpirationDate { get; set; }
         public int ProviderStatus { get; set; }
+        public string Comments { get; set; }
+        public int? CreatedBy { get; set; }
+        public int? UpdatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
+        public bool MarkAsDeleted { get; set; }
     }
 }
