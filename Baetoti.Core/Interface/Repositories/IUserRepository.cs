@@ -8,6 +8,7 @@ namespace Baetoti.Core.Interface.Repositories
     public interface IUserRepository : IAsyncRepository<User>
     {
         Task<User> GetByMobileNumberAsync(string mobileNumber);
-        Task<OnBoardingResponse> GetonBoardingDataAsync();
+        Task<OnBoardingResponse> GetOnBoardingDataAsync();
+        Task<UserResponse> GetAllUsersDataAsync();
     }
 }

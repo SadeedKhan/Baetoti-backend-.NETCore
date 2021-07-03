@@ -88,6 +88,8 @@ namespace Baetoti.API.Controllers
                     await _otpRepository.UpdateAsync(varifiedOTP);
                     return Ok(new SharedResponse(false, 400, "OTP Expire. Please Try Later."));
                 }
+                if (varifiedOTP.OneTimePassword != otpRequest.OTP)
+                    return Ok(new SharedResponse(false, 400, "Invalid OTP. Please Try Again."));
                 varifiedOTP.OTPStatus = (int)OTPStatus.Approved;
                 varifiedOTP.Description = "Approved";
                 await _otpRepository.UpdateAsync(varifiedOTP);
@@ -163,29 +165,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var userList = (await _userRepository.ListAllAsync()).Select(x => new UserList
-                {
-                    UserID = x.ID,
-                    Name = $"{x.FirstName} {x.LastName}",
-                    Revenue = "0",
-                    MobileNumber = x.Phone,
-                    Address = x.Address,
-                    SignUpDate = x.CreatedAt,
-                    UserStatus = x.UserStatus == 1 ? "Active" : "Inactive",
-                    ProviderStatus = "-",
-                    DriverStatus = "-"
-                }).ToList();
-                var userResponse = new UserResponse();
-                userResponse.userList = userList;
-                var userSammary = new UserSummary();
-                userSammary.TotalUser = userList.Count();
-                userSammary.ActiveUser = userList.Where(x => x.UserStatus == "Active").Count();
-                userSammary.NewUser = userList.Where(x => x.SignUpDate >= DateTime.Now.AddMonths(-1)).Count();
-                userSammary.LiveUser = 0;
-                userResponse.userSummary = userSammary;
-                userResponse.providerSummary = new ProviderSummary();
-                userResponse.driverSummary = new DriverSummary();
-                return Ok(new SharedResponse(true, 200, "", userResponse));
+                var usersData = await _userRepository.GetAllUsersDataAsync();
+                return Ok(new SharedResponse(true, 200, "", usersData));
             }
             catch (Exception ex)
             {
@@ -198,7 +179,7 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var onBoardingResponse = await _userRepository.GetonBoardingDataAsync();
+                var onBoardingResponse = await _userRepository.GetOnBoardingDataAsync();
                 return Ok(new SharedResponse(true, 200, "", onBoardingResponse));
             }
             catch (Exception ex)
