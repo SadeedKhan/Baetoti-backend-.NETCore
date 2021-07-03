@@ -133,6 +133,93 @@ namespace Baetoti.Infrastructure.Migrations
                     b.ToTable("Designation", "baetoti");
                 });
 
+            modelBuilder.Entity("Baetoti.Core.Entites.Driver", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DOB")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DriverStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DrivingLicensePic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpirayDateofLicense")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpiryDateofMedicalcheckup")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpiryDateofVehicleAuthorization")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpiryDateofVehicleInsurance")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpiryDateofVehicleRegistration")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FrontSideofIDPic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IDExpiryDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IDNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("MarkAsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MedicalCheckupPic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nationality")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonalPic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("VehicleAuthorizationPic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VehicleInsurancePic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VehicleRegistrationPic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Driver", "baetoti");
+                });
+
             modelBuilder.Entity("Baetoti.Core.Entites.Employee", b =>
                 {
                     b.Property<long>("ID")
@@ -394,6 +481,54 @@ namespace Baetoti.Infrastructure.Migrations
                     b.ToTable("Privilege", "baetoti");
                 });
 
+            modelBuilder.Entity("Baetoti.Core.Entites.Provider", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GovernmentID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GovernmentIDPicture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("MarkAsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MaroofID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProviderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Provider", "baetoti");
+                });
+
             modelBuilder.Entity("Baetoti.Core.Entites.RolePrivilege", b =>
                 {
                     b.Property<long>("ID")
@@ -589,7 +724,7 @@ namespace Baetoti.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Units", "baetoti");
+                    b.ToTable("Unit", "baetoti");
                 });
 
             modelBuilder.Entity("Baetoti.Core.Entites.User", b =>
