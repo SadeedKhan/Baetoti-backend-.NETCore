@@ -1,0 +1,42 @@
+﻿using Baetoti.Core.Entites.Base;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Baetoti.Core.Entites
+{
+    [Table("Item", Schema = "baetoti")]
+    public partial class Item : BaseEntity
+    {
+        public string Name { get; set; }
+
+        public string ArabicName { get; set; }
+
+        public string Description { get; set; }
+
+        public int Rating { get; set; }
+
+        public string Reviews { get; set; }
+
+        public long CategoryID { get; set; }
+
+        public long SubCategoryID { get; set; }
+
+        public long UnitID { get; set; }
+
+        public decimal Price { get; set; }
+
+        public string Picture { get; set; }
+
+        public int Status { get; set; }
+
+        public int? CreatedBy { get; set; }
+
+        public int? UpdatedBy { get; set; }
+
+        public DateTime? CreatedAt { get; set; }
+
+        public DateTime? LastUpdatedAt { get; set; }
+
+        public bool MarkAsDeleted { get; set; }
+    }
+}

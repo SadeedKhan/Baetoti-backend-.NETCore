@@ -67,6 +67,12 @@ namespace Baetoti.Infrastructure.Data.Repositories.Base
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task DeleteRangeAsync(List<T> entity)
+        {
+            _dbContext.Set<T>().RemoveRange(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_dbContext.Set<T>().AsQueryable(), spec);

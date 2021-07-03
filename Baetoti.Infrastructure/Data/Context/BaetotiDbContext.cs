@@ -25,6 +25,10 @@ namespace Baetoti.Infrastructure.Data.Context
         public DbSet<SubMenu> SubMenus { get; set; }
         public DbSet<Privilege> Privileges { get; set; }
         public DbSet<RolePrivilege> RolePrivileges { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<ItemTag> ItemTags { get; set; }
+        public DbSet<OTP> OTPs { get; set; }
 
         #endregion
 

@@ -60,11 +60,11 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpGet("GetById")]
-        public async Task<IActionResult> GetById(int Id)
+        public async Task<IActionResult> GetById([FromBody] CustomRequest request)
         {
             try
             {
-                var category = await _subcategoryRepository.GetByIdAsync(Id);
+                var category = await _subcategoryRepository.GetByIdAsync(request.ID);
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<SubCategoryResponse>(category)));
             }
             catch (Exception ex)
@@ -122,7 +122,7 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] DeleteRequest deleteRequest)
+        public async Task<IActionResult> Delete([FromBody] CustomRequest deleteRequest)
         {
             try
             {

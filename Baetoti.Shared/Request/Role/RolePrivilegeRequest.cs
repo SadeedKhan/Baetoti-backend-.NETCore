@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 
-namespace Baetoti.Shared.Request
+namespace Baetoti.Shared.Request.Role
 {
-    public class RoleRequest
+    public class RolePrivilegeRequest
     {
+        public long ID { get; set; }
+
         public string RoleName { get; set; }
 
         public List<MenuRequest> Menu { get; set; }
 
-        RoleRequest()
+        RolePrivilegeRequest()
         {
             Menu = new List<MenuRequest>();
         }

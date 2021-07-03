@@ -22,6 +22,8 @@ namespace Baetoti.Core.Interface.Base
 
         Task DeleteAsync(T entity);
 
+        Task DeleteRangeAsync(List<T> entity);
+
         Task<int> CountAsync(ISpecification<T> spec);
 
     }

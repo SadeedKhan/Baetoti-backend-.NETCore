@@ -4,14 +4,16 @@ using Baetoti.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Baetoti.Infrastructure.Migrations
 {
     [DbContext(typeof(BaetotiDbContext))]
-    partial class BaetotiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210629231515_Mig-2021-06-30")]
+    partial class Mig20210630
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,75 +270,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.ToTable("EmployeeRole", "baetoti");
                 });
 
-            modelBuilder.Entity("Baetoti.Core.Entites.Item", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ArabicName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("CategoryID")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastUpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("MarkAsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<long>("SubCategoryID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UnitID")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Item", "baetoti");
-                });
-
-            modelBuilder.Entity("Baetoti.Core.Entites.ItemTag", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("ItemID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TagID")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("ItemTag", "baetoti");
-                });
-
             modelBuilder.Entity("Baetoti.Core.Entites.Menu", b =>
                 {
                     b.Property<long>("ID")
@@ -350,33 +283,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Menu", "baetoti");
-                });
-
-            modelBuilder.Entity("Baetoti.Core.Entites.OTP", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("OTPGeneratedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OTPStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OneTimePassword")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RetryCount")
-                        .HasColumnType("int");
-
-                    b.Property<long>("UserID")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("OTP", "baetoti");
                 });
 
             modelBuilder.Entity("Baetoti.Core.Entites.Privilege", b =>
@@ -590,78 +496,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Units", "baetoti");
-                });
-
-            modelBuilder.Entity("Baetoti.Core.Entites.User", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DOB")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("IsPasswordUpdateRequired")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastLogin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastPasswordChangedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastUpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Zip")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("User", "baetoti");
                 });
 #pragma warning restore 612, 618
         }

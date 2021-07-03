@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baetoti.API", "Baetoti.API\Baetoti.API.csproj", "{E6D3794A-6B66-4C85-9BDA-49328FC06AEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baetoti.API", "Baetoti.API\Baetoti.API.csproj", "{E6D3794A-6B66-4C85-9BDA-49328FC06AEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baetoti.Core", "Baetoti.Core\Baetoti.Core.csproj", "{154B315E-EB5A-49B7-B32A-317D62BF7599}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baetoti.Core", "Baetoti.Core\Baetoti.Core.csproj", "{154B315E-EB5A-49B7-B32A-317D62BF7599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baetoti.Infrastructure", "Baetoti.Infrastructure\Baetoti.Infrastructure.csproj", "{36C3AA9E-D7B5-4A8C-98E2-029BED8371E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baetoti.Infrastructure", "Baetoti.Infrastructure\Baetoti.Infrastructure.csproj", "{36C3AA9E-D7B5-4A8C-98E2-029BED8371E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baetoti.IoC", "Baetoti.IoC\Baetoti.IoC.csproj", "{AF6D20BF-4F4E-41AA-B277-C712CD0CEB94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baetoti.IoC", "Baetoti.IoC\Baetoti.IoC.csproj", "{AF6D20BF-4F4E-41AA-B277-C712CD0CEB94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baetoti.Shared", "Baetoti.Shared\Baetoti.Shared.csproj", "{9ACCAEE0-742A-49CD-BF44-4DC5CEDC9D2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baetoti.Shared", "Baetoti.Shared\Baetoti.Shared.csproj", "{9ACCAEE0-742A-49CD-BF44-4DC5CEDC9D2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
