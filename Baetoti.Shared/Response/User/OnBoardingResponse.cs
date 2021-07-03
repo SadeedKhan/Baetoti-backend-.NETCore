@@ -1,29 +1,47 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Baetoti.Shared.Response.User
 {
     public class OnBoardingResponse
+    {
+        public ProviderOnBoardingRequest providers { get; set; }
+        public DriverOnBoardingRequest drivers { get; set; }
+        public ProviderAndDriverOnBoardingRequest providerAndDrivers { get; set; }
+    }
+
+    public class OnBoardingUserList
     {
         public long UserID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string MobileNumber { get; set; }
         public string Address { get; set; }
+        public DateTime? RequestDate { get; set; }
     }
 
-    public class ProviderApproval
+    public class UserStates
     {
-        public long UserID { get; set; }
-        public string MaroofID { get; set; }
-        public string GovernmentID { get; set; }
-        public string GovernmentIDPicture { get; set; }
-        public DateTime ExpirationDate { get; set; }
+        public int Pending { get; set; }
+        public int Approved { get; set; }
+        public int Rejected { get; set; }
     }
 
-    public class ProviderApprovalStatus
+    public class DriverOnBoardingRequest
     {
-        public long UserID { get; set; }
-        public bool IsApproved { get; set; }
+        public UserStates userStates { get; set; }
+        public List<OnBoardingUserList> userList { get; set; }
+    }
+
+    public class ProviderOnBoardingRequest
+    {
+        public UserStates userStates { get; set; }
+        public List<OnBoardingUserList> userList { get; set; }
+    }
+    public class ProviderAndDriverOnBoardingRequest
+    {
+        public UserStates userStates { get; set; }
+        public List<OnBoardingUserList> userList { get; set; }
     }
 
 }

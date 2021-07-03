@@ -193,5 +193,19 @@ namespace Baetoti.API.Controllers
             }
         }
 
+        [HttpGet("GetAllOnBoardingRequest")]
+        public async Task<IActionResult> GetAllOnBoardingRequest()
+        {
+            try
+            {
+                var onBoardingResponse = await _userRepository.GetonBoardingDataAsync();
+                return Ok(new SharedResponse(true, 200, "", onBoardingResponse));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
     }
 }
