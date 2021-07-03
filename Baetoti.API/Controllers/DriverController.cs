@@ -53,7 +53,7 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpGet("GetByUserID")]
+        [HttpPost("GetByUserID")]
         public async Task<IActionResult> GetByUserID([FromBody] DriverGetByUserIDRequest request)
         {
             try
