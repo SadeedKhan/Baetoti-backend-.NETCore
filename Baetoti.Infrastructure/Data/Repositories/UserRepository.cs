@@ -5,6 +5,7 @@ using Baetoti.Infrastructure.Data.Repositories.Base;
 using Baetoti.Shared.Response.User;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -92,8 +93,11 @@ namespace Baetoti.Infrastructure.Data.Repositories
             combinedState.Approved = providerState.Approved + driverState.Approved;
             combinedState.Rejected = providerState.Rejected + driverState.Rejected;
             combined.userStates = combinedState;
-            combined.userList.AddRange(provider.userList);
-            combined.userList.AddRange(driver.userList);
+            combined.userList = new List<OnBoardingUserList>();
+            if (provider.userList.Count > 0)
+                combined.userList.AddRange(provider.userList);
+            if (driver.userList.Count > 0)
+                combined.userList.AddRange(driver.userList);
 
             // Final Result
             var onBoardingResponse = new OnBoardingResponse();
