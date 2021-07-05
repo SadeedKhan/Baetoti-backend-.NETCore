@@ -47,7 +47,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
             providerState.Approved = providers.Where(x => x.ProviderStatus == 3).Count();
             providerState.Rejected = providers.Where(x => x.ProviderStatus == 4).Count();
             provider.userStates = providerState;
-            provider.userList = providers.Where(x => x.ProviderStatus == 2).Select(p => new OnBoardingUserList
+            provider.userList = await providers.Where(x => x.ProviderStatus == 2).Select(p => new OnBoardingUserList
             {
                 UserID = p.UserID,
                 Name = p.Name,
@@ -55,7 +55,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
                 MobileNumber = p.Phone,
                 Address = p.Address,
                 RequestDate = p.RequestedDate
-            }).ToList();
+            }).ToListAsync();
 
             // Driver
             var drivers = from d in _dbContext.Drivers
@@ -76,7 +76,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
             driverState.Approved = drivers.Where(x => x.DriverStatus == 3).Count();
             driverState.Rejected = drivers.Where(x => x.DriverStatus == 4).Count();
             driver.userStates = driverState;
-            driver.userList = drivers.Where(x => x.DriverStatus == 2).Select(p => new OnBoardingUserList
+            driver.userList = await drivers.Where(x => x.DriverStatus == 2).Select(p => new OnBoardingUserList
             {
                 UserID = p.UserID,
                 Name = p.Name,
@@ -84,7 +84,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
                 MobileNumber = p.Phone,
                 Address = p.Address,
                 RequestDate = p.RequestedDate
-            }).ToList();
+            }).ToListAsync();
 
             // Combined
             var combined = new ProviderAndDriverOnBoardingRequest();
@@ -167,7 +167,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
 
             // Over All
             var userResponse = new UserResponse();
-            userResponse.userList = userList.ToList();
+            userResponse.userList = await userList.ToListAsync();
             userResponse.userSummary = userSammary;
             userResponse.providerSummary = providerSummary;
             userResponse.driverSummary = driverSummary;

@@ -30,6 +30,7 @@ namespace Baetoti.Infrastructure.Data.Context
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Provider> Providers { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<ItemReview> ItemReviews { get; set; }
         public DbSet<ItemTag> ItemTags { get; set; }
         public DbSet<OTP> OTPs { get; set; }
 

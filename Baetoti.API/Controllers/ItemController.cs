@@ -41,8 +41,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var itemList = (await _itemRepository.ListAllAsync()).ToList();
-                return Ok(new SharedResponse(true, 200, "", new List<ItemResponse>()));
+                var itemList = await _itemRepository.GetAll();
+                return Ok(new SharedResponse(true, 200, "", itemList));
             }
             catch (Exception ex)
             {
@@ -55,8 +55,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var item = await _itemRepository.GetByIdAsync(Id);
-                return Ok(new SharedResponse(true, 200, "", new ItemResponse()));
+                var item = await _itemRepository.GetByID(Id);
+                return Ok(new SharedResponse(true, 200, "", item));
             }
             catch (Exception ex)
             {
@@ -74,9 +74,9 @@ namespace Baetoti.API.Controllers
                     Name = itemRequest.Name,
                     ArabicName = itemRequest.ArabicName,
                     Description = itemRequest.Description,
-                    Rating = itemRequest.Rating,
                     CategoryID = itemRequest.CategoryID,
                     SubCategoryID = itemRequest.SubCategoryID,
+                    ProviderID = itemRequest.ProviderID,
                     UnitID = itemRequest.UnitID,
                     Price = itemRequest.Price,
                     Picture = itemRequest.Picture,
@@ -122,13 +122,12 @@ namespace Baetoti.API.Controllers
                     item.ArabicName = itemRequest.ArabicName;
                     item.CategoryID = itemRequest.CategoryID;
                     item.Description = itemRequest.Description;
-                    item.Rating = itemRequest.Rating;
                     item.SubCategoryID = itemRequest.SubCategoryID;
+                    item.ProviderID = itemRequest.ProviderID;
                     item.UnitID = itemRequest.UnitID;
                     item.Price = itemRequest.Price;
                     item.Picture = itemRequest.Picture;
-                    item.Status = (int)ItemStatus.Active;
-                    item.MarkAsDeleted = false;
+                    item.Status = (int)ItemStatus.Pending;
                     item.LastUpdatedAt = DateTime.Now;
                     item.UpdatedBy = Convert.ToInt32(UserId);
                     await _itemRepository.UpdateAsync(item);

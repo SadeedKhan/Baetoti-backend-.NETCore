@@ -54,7 +54,10 @@
     public enum ItemStatus
     {
         Inactive = 0,
-        Active = 1
+        Active = 1,
+        Pending = 2,
+        Approved = 3,
+        Rejected = 4
     }
 
     public enum DBSchema

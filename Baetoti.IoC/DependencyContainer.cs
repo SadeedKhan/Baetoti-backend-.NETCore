@@ -53,6 +53,7 @@ namespace Baetoti.IoC
             services.AddScoped<IOTPRepository, OTPRepository>();
             services.AddScoped<IProviderRepository, ProviderRepository>();
             services.AddScoped<IDriverRepository, DriverRepository>();
+            services.AddScoped<IItemReviewRepository, ItemReviewRepository>();
 
             #endregion
 

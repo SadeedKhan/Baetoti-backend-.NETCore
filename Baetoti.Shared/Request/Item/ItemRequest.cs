@@ -12,15 +12,13 @@ namespace Baetoti.Shared.Request.Item
 
         public string Description { get; set; }
 
-        public int Rating { get; set; }
-
-        public string Reviews { get; set; }
-
         public long CategoryID { get; set; }
 
         public long SubCategoryID { get; set; }
 
         public long UnitID { get; set; }
+
+        public long ProviderID { get; set; }
 
         public decimal Price { get; set; }
 

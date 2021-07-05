@@ -23,11 +23,15 @@ namespace Baetoti.Core.Entites
 
         public long UnitID { get; set; }
 
+        public long ProviderID { get; set; }
+
         public decimal Price { get; set; }
 
         public string Picture { get; set; }
 
         public int Status { get; set; }
+
+        public string AveragePreparationTime { get; set; }
 
         public int? CreatedBy { get; set; }
 
