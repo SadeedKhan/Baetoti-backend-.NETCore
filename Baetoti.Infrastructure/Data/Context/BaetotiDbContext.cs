@@ -1,5 +1,6 @@
 ﻿using Baetoti.Core.Entites;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Baetoti.Infrastructure.Data.Context
 {
@@ -47,6 +48,60 @@ namespace Baetoti.Infrastructure.Data.Context
         {
             base.OnModelCreating(builder);
             ConfigureEntities(builder);
+
+            builder.Entity<Privilege>().HasData(
+                new { ID = Convert.ToInt64(1), Name = "View" },
+                new { ID = Convert.ToInt64(2), Name = "Add" },
+                new { ID = Convert.ToInt64(3), Name = "Edit" },
+                new { ID = Convert.ToInt64(4), Name = "Delete" }
+                );
+
+            builder.Entity<Menu>().HasData(
+                new { ID = Convert.ToInt64(1), Name = "Dashboard" },
+                new { ID = Convert.ToInt64(2), Name = "Staff" },
+                new { ID = Convert.ToInt64(3), Name = "Categories" },
+                new { ID = Convert.ToInt64(4), Name = "Users" },
+                new { ID = Convert.ToInt64(5), Name = "Items" },
+                new { ID = Convert.ToInt64(6), Name = "Orders" },
+                new { ID = Convert.ToInt64(7), Name = "Transactions" },
+                new { ID = Convert.ToInt64(8), Name = "Analytics" },
+                new { ID = Convert.ToInt64(9), Name = "Notifications" },
+                new { ID = Convert.ToInt64(10), Name = "Configs" },
+                new { ID = Convert.ToInt64(11), Name = "Feature Ads" },
+                new { ID = Convert.ToInt64(12), Name = "Invoice" },
+                new { ID = Convert.ToInt64(13), Name = "Project Management" },
+                new { ID = Convert.ToInt64(14), Name = "Complaints" },
+                new { ID = Convert.ToInt64(15), Name = "Profile" },
+                new { ID = Convert.ToInt64(16), Name = "User Profile" }
+                );
+
+            builder.Entity<SubMenu>().HasData(
+                new { ID = Convert.ToInt64(1), MenuID = Convert.ToInt64(1), Name = "Primary" },
+                new { ID = Convert.ToInt64(2), MenuID = Convert.ToInt64(1), Name = "Secondary" },
+                new { ID = Convert.ToInt64(3), MenuID = Convert.ToInt64(2), Name = "Employees" },
+                new { ID = Convert.ToInt64(4), MenuID = Convert.ToInt64(2), Name = "Role & Privileges" },
+                new { ID = Convert.ToInt64(5), MenuID = Convert.ToInt64(2), Name = "Last Login" },
+                new { ID = Convert.ToInt64(6), MenuID = Convert.ToInt64(3), Name = "Category" },
+                new { ID = Convert.ToInt64(7), MenuID = Convert.ToInt64(3), Name = "Units" },
+                new { ID = Convert.ToInt64(8), MenuID = Convert.ToInt64(3), Name = "Tags" },
+                new { ID = Convert.ToInt64(9), MenuID = Convert.ToInt64(4), Name = "User List" },
+                new { ID = Convert.ToInt64(10), MenuID = Convert.ToInt64(4), Name = "Join Req." },
+                new { ID = Convert.ToInt64(11), MenuID = Convert.ToInt64(5), Name = "Items List" },
+                new { ID = Convert.ToInt64(12), MenuID = Convert.ToInt64(5), Name = "Change Item Req." },
+                new { ID = Convert.ToInt64(13), MenuID = Convert.ToInt64(8), Name = "Map" },
+                new { ID = Convert.ToInt64(14), MenuID = Convert.ToInt64(8), Name = "Statics" },
+                new { ID = Convert.ToInt64(15), MenuID = Convert.ToInt64(8), Name = "Cohort Analysis" },
+                new { ID = Convert.ToInt64(16), MenuID = Convert.ToInt64(8), Name = "Revenue" },
+                new { ID = Convert.ToInt64(17), MenuID = Convert.ToInt64(8), Name = "Finance" },
+                new { ID = Convert.ToInt64(18), MenuID = Convert.ToInt64(9), Name = "Notification" },
+                new { ID = Convert.ToInt64(19), MenuID = Convert.ToInt64(9), Name = "Push Notification" },
+                new { ID = Convert.ToInt64(20), MenuID = Convert.ToInt64(10), Name = "Commission" },
+                new { ID = Convert.ToInt64(21), MenuID = Convert.ToInt64(10), Name = "VAT" },
+                new { ID = Convert.ToInt64(22), MenuID = Convert.ToInt64(10), Name = "Driver Config" },
+                new { ID = Convert.ToInt64(23), MenuID = Convert.ToInt64(10), Name = "Conutry Config" },
+                new { ID = Convert.ToInt64(24), MenuID = Convert.ToInt64(10), Name = "Currency Config" }
+                );
+
         }
 
         private void ConfigureEntities(ModelBuilder builder)

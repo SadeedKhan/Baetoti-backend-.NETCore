@@ -4,14 +4,16 @@ using Baetoti.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Baetoti.Infrastructure.Migrations
 {
     [DbContext(typeof(BaetotiDbContext))]
-    partial class BaetotiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210704120311_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -284,8 +286,8 @@ namespace Baetoti.Infrastructure.Migrations
                     b.Property<int?>("LastUpdatedBy")
                         .HasColumnType("int");
 
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LocationID")
+                        .HasColumnType("int");
 
                     b.Property<bool>("MarkAsDeleted")
                         .HasColumnType("bit");
@@ -446,88 +448,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Menu", "baetoti");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1L,
-                            Name = "Dashboard"
-                        },
-                        new
-                        {
-                            ID = 2L,
-                            Name = "Staff"
-                        },
-                        new
-                        {
-                            ID = 3L,
-                            Name = "Categories"
-                        },
-                        new
-                        {
-                            ID = 4L,
-                            Name = "Users"
-                        },
-                        new
-                        {
-                            ID = 5L,
-                            Name = "Items"
-                        },
-                        new
-                        {
-                            ID = 6L,
-                            Name = "Orders"
-                        },
-                        new
-                        {
-                            ID = 7L,
-                            Name = "Transactions"
-                        },
-                        new
-                        {
-                            ID = 8L,
-                            Name = "Analytics"
-                        },
-                        new
-                        {
-                            ID = 9L,
-                            Name = "Notifications"
-                        },
-                        new
-                        {
-                            ID = 10L,
-                            Name = "Configs"
-                        },
-                        new
-                        {
-                            ID = 11L,
-                            Name = "Feature Ads"
-                        },
-                        new
-                        {
-                            ID = 12L,
-                            Name = "Invoice"
-                        },
-                        new
-                        {
-                            ID = 13L,
-                            Name = "Project Management"
-                        },
-                        new
-                        {
-                            ID = 14L,
-                            Name = "Complaints"
-                        },
-                        new
-                        {
-                            ID = 15L,
-                            Name = "Profile"
-                        },
-                        new
-                        {
-                            ID = 16L,
-                            Name = "User Profile"
-                        });
                 });
 
             modelBuilder.Entity("Baetoti.Core.Entites.OTP", b =>
@@ -769,152 +689,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("SubMenu", "baetoti");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1L,
-                            MenuID = 1L,
-                            Name = "Primary"
-                        },
-                        new
-                        {
-                            ID = 2L,
-                            MenuID = 1L,
-                            Name = "Secondary"
-                        },
-                        new
-                        {
-                            ID = 3L,
-                            MenuID = 2L,
-                            Name = "Employees"
-                        },
-                        new
-                        {
-                            ID = 4L,
-                            MenuID = 2L,
-                            Name = "Role & Privileges"
-                        },
-                        new
-                        {
-                            ID = 5L,
-                            MenuID = 2L,
-                            Name = "Last Login"
-                        },
-                        new
-                        {
-                            ID = 6L,
-                            MenuID = 3L,
-                            Name = "Category"
-                        },
-                        new
-                        {
-                            ID = 7L,
-                            MenuID = 3L,
-                            Name = "Units"
-                        },
-                        new
-                        {
-                            ID = 8L,
-                            MenuID = 3L,
-                            Name = "Tags"
-                        },
-                        new
-                        {
-                            ID = 9L,
-                            MenuID = 4L,
-                            Name = "User List"
-                        },
-                        new
-                        {
-                            ID = 10L,
-                            MenuID = 4L,
-                            Name = "Join Req."
-                        },
-                        new
-                        {
-                            ID = 11L,
-                            MenuID = 5L,
-                            Name = "Items List"
-                        },
-                        new
-                        {
-                            ID = 12L,
-                            MenuID = 5L,
-                            Name = "Change Item Req."
-                        },
-                        new
-                        {
-                            ID = 13L,
-                            MenuID = 8L,
-                            Name = "Map"
-                        },
-                        new
-                        {
-                            ID = 14L,
-                            MenuID = 8L,
-                            Name = "Statics"
-                        },
-                        new
-                        {
-                            ID = 15L,
-                            MenuID = 8L,
-                            Name = "Cohort Analysis"
-                        },
-                        new
-                        {
-                            ID = 16L,
-                            MenuID = 8L,
-                            Name = "Revenue"
-                        },
-                        new
-                        {
-                            ID = 17L,
-                            MenuID = 8L,
-                            Name = "Finance"
-                        },
-                        new
-                        {
-                            ID = 18L,
-                            MenuID = 9L,
-                            Name = "Notification"
-                        },
-                        new
-                        {
-                            ID = 19L,
-                            MenuID = 9L,
-                            Name = "Push Notification"
-                        },
-                        new
-                        {
-                            ID = 20L,
-                            MenuID = 10L,
-                            Name = "Commission"
-                        },
-                        new
-                        {
-                            ID = 21L,
-                            MenuID = 10L,
-                            Name = "VAT"
-                        },
-                        new
-                        {
-                            ID = 22L,
-                            MenuID = 10L,
-                            Name = "Driver Config"
-                        },
-                        new
-                        {
-                            ID = 23L,
-                            MenuID = 10L,
-                            Name = "Conutry Config"
-                        },
-                        new
-                        {
-                            ID = 24L,
-                            MenuID = 10L,
-                            Name = "Currency Config"
-                        });
                 });
 
             modelBuilder.Entity("Baetoti.Core.Entites.Tags", b =>

@@ -62,12 +62,12 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpGet("GetById")]
-        public async Task<IActionResult> GetById(int Id)
+        public async Task<IActionResult> GetById(long Id)
         {
             try
             {
-                var roleList = await _rolePrivilegeRepository.GetAllRoleWithPrivileges();
-                return Ok(new SharedResponse(true, 200, "", roleList));
+                var role = await _rolePrivilegeRepository.GetRoleWithPrivileges(Id);
+                return Ok(new SharedResponse(true, 200, "", role));
             }
             catch (Exception ex)
             {

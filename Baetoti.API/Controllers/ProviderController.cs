@@ -53,12 +53,12 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("GetByUserID")]
-        public async Task<IActionResult> GetByUserID([FromBody] ProviderGetByUserIDRequest request)
+        [HttpGet("GetByUserID")]
+        public async Task<IActionResult> GetByUserID(long Id)
         {
             try
             {
-                var provider = await _providerRepository.GetByUserID(request.UserID);
+                var provider = await _providerRepository.GetByUserID(Id);
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<ProviderResponse>(provider)));
             }
             catch (Exception ex)
