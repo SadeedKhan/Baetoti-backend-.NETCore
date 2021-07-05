@@ -53,12 +53,12 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost("GetByUserID")]
-        public async Task<IActionResult> GetByUserID([FromBody] DriverGetByUserIDRequest request)
+        [HttpGet("GetByUserID")]
+        public async Task<IActionResult> GetByUserID(long Id)
         {
             try
             {
-                var driver = await _driverRepository.GetByUserID(request.UserID);
+                var driver = await _driverRepository.GetByUserID(Id);
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<DriverResponse>(driver)));
             }
             catch (Exception ex)

@@ -10,7 +10,7 @@ namespace Baetoti.Core.Interface.Repositories
     {
         Task<List<RolePrivilegeResponse>> GetAllRoleWithPrivileges();
 
-        Task<RolePrivilegeResponse> GetRoleWithPrivileges(long id);
+        Task<RolePrivilegeByIDResponse> GetRoleWithPrivileges(long id);
 
     }
 }

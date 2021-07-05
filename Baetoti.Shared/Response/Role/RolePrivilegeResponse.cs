@@ -9,11 +9,21 @@ namespace Baetoti.Shared.Response.Role
 
         public string RoleName { get; set; }
 
+        public string MenuAuthorization { get; set; }
+
         public DateTime? CreatedDate { get; set; }
+
+    }
+
+    public class RolePrivilegeByIDResponse
+    {
+        public long ID { get; set; }
+
+        public string RoleName { get; set; }
 
         public List<MenuResponse> Menu { get; set; }
 
-        public RolePrivilegeResponse()
+        public RolePrivilegeByIDResponse()
         {
             Menu = new List<MenuResponse>();
         }
