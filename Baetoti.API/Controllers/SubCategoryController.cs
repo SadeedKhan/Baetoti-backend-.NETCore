@@ -60,11 +60,11 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpGet("GetById")]
-        public async Task<IActionResult> GetById([FromBody] CustomRequest request)
+        public async Task<IActionResult> GetById(int Id)
         {
             try
             {
-                var category = await _subcategoryRepository.GetByIdAsync(request.ID);
+                var category = await _subcategoryRepository.GetByIdAsync(Id);
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<SubCategoryResponse>(category)));
             }
             catch (Exception ex)

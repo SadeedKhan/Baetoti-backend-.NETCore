@@ -11,7 +11,7 @@ namespace Baetoti.Core.Entites
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? JoiningDate { get; set; }
-        public int LocationID { get; set; }
+        public string Location { get; set; }
         public int DepartmentID { get; set; }
         public int DesignationID { get; set; }
         public string Username { get; set; }
