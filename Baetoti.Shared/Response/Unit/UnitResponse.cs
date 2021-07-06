@@ -10,8 +10,6 @@ namespace Baetoti.Shared.Response.Unit
 
         public string Family { get; set; }
 
-        public string UnitName { get; set; }
-
         public string UnitArabicName { get; set; }
 
         public string UnitEnglishName { get; set; }

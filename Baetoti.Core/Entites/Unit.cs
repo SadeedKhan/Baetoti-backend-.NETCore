@@ -12,8 +12,6 @@ namespace Baetoti.Core.Entites
 
         public string Family { get; set; }
 
-        public string UnitName { get; set; }
-
         public string UnitArabicName { get; set; }
 
         public string UnitEnglishName { get; set; }

@@ -12,7 +12,7 @@ namespace Baetoti.Shared.Response.Employee
         public int DepartmentID { get; set; }
         public int DesignationID { get; set; }
         public string Username { get; set; }
-        public int GenderID { get; set; }
+        public string Gender { get; set; }
         public int ShiftID { get; set; }
         public string Email { get; set; }
         public DateTime? DOB { get; set; }
