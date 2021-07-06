@@ -15,7 +15,7 @@ namespace Baetoti.Shared.Request.Employee
         public int DesignationID { get; set; }
         public string Username { get; set; }
         public string Gender { get; set; }
-        public int ShiftID { get; set; }
+        public string Shift { get; set; }
         public string Email { get; set; }
         public DateTime? DOB { get; set; }
         public string Phone { get; set; }
