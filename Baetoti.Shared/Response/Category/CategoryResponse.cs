@@ -16,12 +16,5 @@ namespace Baetoti.Shared.Response.Category
 
         public string Picture { get; set; }
 
-        public int? CreatedBy { get; set; }
-
-        public int? UpdatedBy { get; set; }
-
-        public DateTime? CreatedAt { get; set; }
-
-        public DateTime? LastUpdatedAt { get; set; }
     }
 }

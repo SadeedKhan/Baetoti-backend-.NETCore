@@ -37,7 +37,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                       AveragePreparationTime = "0",
                                       CreateDate = i.CreatedAt,
                                       Status = ((ItemStatus)i.Status).ToString(),
-                                      Price = $"{i.Price} SAR/{ _dbContext.Units.Where(x => x.ID == i.UnitID).FirstOrDefault().UnitName}",
+                                      Price = $"{i.Price} SAR/{ _dbContext.Units.Where(x => x.ID == i.UnitID).FirstOrDefault().UnitEnglishName}",
                                       Rating = 0
                                   }).ToListAsync();
             var itemResponse = new ItemResponse();
@@ -60,8 +60,8 @@ namespace Baetoti.Infrastructure.Data.Repositories
                               select new ItemResponseByID
                               {
                                   ID = i.ID,
-                                  //StoreName,
-                                  //Location,
+                                  StoreName = "",
+                                  Location = "",
                                   Title = i.Name,
                                   Description = i.Description,
                                   Category = c.CategoryName,
@@ -69,7 +69,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                   Quantity = 0,
                                   TotalRevenue = 0,
                                   AveragePreparationTime = "0",
-                                  Price = $"{i.Price} SAR/{ _dbContext.Units.Where(x => x.ID == i.UnitID).FirstOrDefault().UnitName}",
+                                  Price = $"{i.Price} SAR/{ _dbContext.Units.Where(x => x.ID == i.UnitID).FirstOrDefault().UnitEnglishName}",
                                   AverageRating = 0,
                                   Unit = "",
                                   Sold = 0,
