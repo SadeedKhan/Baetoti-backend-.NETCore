@@ -14,6 +14,8 @@ namespace Baetoti.Shared.Response.Employee
         public string Username { get; set; }
         public string Gender { get; set; }
         public string Shift { get; set; }
+        public int RoleId { get; set; }
+        public string Role { get; set; }
         public string Email { get; set; }
         public DateTime? DOB { get; set; }
         public string Phone { get; set; }
@@ -22,7 +24,7 @@ namespace Baetoti.Shared.Response.Employee
         public string Goals { get; set; }
         public string Skills { get; set; }
         public string RefreshToken { get; set; }
-        public int UserStatus { get; set; }
+        public int EmployeeStatus { get; set; }
         public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }

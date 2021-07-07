@@ -44,7 +44,7 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var employeeList = (await _employeeRepository.ListAllAsync()).ToList();
+                var employeeList = (await _employeeRepository.GetAll(0)).ToList();
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<EmployeeResponse>>(employeeList)));
             }
             catch (Exception ex)
@@ -58,8 +58,15 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var employee = await _employeeRepository.GetByIdAsync(Id);
-                return Ok(new SharedResponse(true, 200, "", _mapper.Map<EmployeeResponse>(employee)));
+                var employee = (await _employeeRepository.GetAll(Id)).FirstOrDefault();
+                if (employee != null)
+                {
+                    return Ok(new SharedResponse(true, 200, "", _mapper.Map<EmployeeResponse>(employee)));
+                }
+                else
+                {
+                    return Ok(new SharedResponse(false, 400, "Unable To Find Employee"));
+                }
             }
             catch (Exception ex)
             {
@@ -72,7 +79,6 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-
                 var employee = _mapper.Map<Employee>(employeeRequest);
                 employee.Password = _hashingService.GenerateHash(employeeRequest.Password);
                 employee.MarkAsDeleted = false;
