@@ -36,7 +36,7 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var subcategoryList = (await _subcategoryRepository.ListAllAsync()).ToList();
+                var subcategoryList = (await _subcategoryRepository.GetByCategoryAsync(0)).ToList();
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<SubCategoryResponse>>(subcategoryList)));
             }
             catch (Exception ex)
@@ -130,8 +130,8 @@ namespace Baetoti.API.Controllers
                 if (subcat != null)
                 {
                     subcat.MarkAsDeleted = true;
-                    subcat.CreatedAt = DateTime.Now;
-                    subcat.CreatedBy = Convert.ToInt32(UserId);
+                    subcat.LastUpdatedAt = DateTime.Now;
+                    subcat.UpdatedBy = Convert.ToInt32(UserId);
                     await _subcategoryRepository.DeleteAsync(subcat);
                     return Ok(new SharedResponse(true, 200, "SubCategory Deleted Succesfully"));
                 }

@@ -31,6 +31,7 @@ namespace Baetoti.API.Controllers
             try
             {
                 var submenuList = (await _submenuRepository.GetAll()).ToList();
+
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<SubMenuResponse>>(submenuList)));
             }
             catch (Exception ex)

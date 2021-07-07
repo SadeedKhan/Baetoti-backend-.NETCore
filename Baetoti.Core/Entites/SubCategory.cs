@@ -13,7 +13,7 @@ namespace Baetoti.Core.Entites
 
         public string SubCategoryName { get; set; }
 
-        public string SubCategoryArabaciName { get; set; }
+        public string SubCategoryArabicName { get; set; }
 
         public string Picture { get; set; }
         

@@ -25,7 +25,8 @@ namespace Baetoti.Infrastructure.Data.Repositories
             return (from c in _dbContext.Categories
                     join sc in _dbContext.SubCategories
                     on c.ID equals sc.CategoryId
-                    where id == 0 || sc.CategoryId == id
+                    where id == 0 || sc.CategoryId == id 
+                    && sc.MarkAsDeleted == false
                     select new SubCategoryResponse
                     {
                         ID = sc.ID,
@@ -33,8 +34,9 @@ namespace Baetoti.Infrastructure.Data.Repositories
                         CategoryName = c.CategoryName,
                         CategoryArabicName = c.CategoryArabicName,
                         SubCategoryName = sc.SubCategoryName,
-                        SubCategoryArabicName = sc.SubCategoryArabaciName,
-                        CreatedAt = sc.CreatedAt
+                        SubCategoryArabicName = sc.SubCategoryArabicName,
+                        CreatedAt = sc.CreatedAt,
+                        LastUpdatedAt=sc.LastUpdatedAt
                     }).ToListAsync();
         }
     }

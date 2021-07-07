@@ -94,7 +94,5 @@ namespace Baetoti.Infrastructure.Data.Repositories.Base
         {
             throw new NotImplementedException();
         }
-
     }
-
 }

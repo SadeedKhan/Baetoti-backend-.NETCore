@@ -18,10 +18,6 @@ namespace Baetoti.Shared.Response.SubCategory
 
         public string SubCategoryArabicName { get; set; }
 
-        public string Color { get; set; }
-
-        public string Description { get; set; }
-
         public string Picture { get; set; }
 
         public int? CreatedBy { get; set; }
