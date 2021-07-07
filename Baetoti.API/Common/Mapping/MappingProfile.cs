@@ -52,6 +52,8 @@ namespace Baetoti.API.Common.Mapping
             CreateMap<Provider, ProviderResponse>();
             CreateMap<DriverRequest, Driver>();
             CreateMap<Driver, DriverResponse>();
+            CreateMap<Menu, Shared.Response.Menu.MenuResponse>();
+            CreateMap<SubMenu, Shared.Response.SubMenu.SubMenuResponse>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)
