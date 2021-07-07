@@ -37,7 +37,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var categoryList = (await _categoryRepository.ListAllAsync()).ToList();
+                var categoryList = (await _categoryRepository.ListAllAsync()).
+                    Where(x => x.MarkAsDeleted == false).ToList();
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<CategoryResponse>>(categoryList)));
             }
             catch (Exception ex)
@@ -143,7 +144,7 @@ namespace Baetoti.API.Controllers
                 {
                     UploadImage obj = new UploadImage();
                     FileUploadResponse _RESPONSE = await obj.UploadImageFile(file, "Category");
-                    if(string.IsNullOrEmpty(_RESPONSE.Message))
+                    if (string.IsNullOrEmpty(_RESPONSE.Message))
                     {
                         return Ok(new SharedResponse(true, 200, "File uploaded successfully!", _RESPONSE));
                     }

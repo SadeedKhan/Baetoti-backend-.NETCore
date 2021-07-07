@@ -60,8 +60,8 @@ namespace Baetoti.Infrastructure.Data.Repositories
                               select new ItemResponseByID
                               {
                                   ID = i.ID,
-                                  //StoreName,
-                                  //Location,
+                                  StoreName = "",
+                                  Location = "",
                                   Title = i.Name,
                                   Description = i.Description,
                                   Category = c.CategoryName,
