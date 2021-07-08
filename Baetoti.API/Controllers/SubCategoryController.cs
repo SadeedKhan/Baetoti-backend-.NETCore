@@ -3,7 +3,6 @@ using Baetoti.API.Controllers.Base;
 using Baetoti.API.Helpers;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
-using Baetoti.Shared.Request.Delete;
 using Baetoti.Shared.Request.SubCategory;
 using Baetoti.Shared.Response.FileUpload;
 using Baetoti.Shared.Response.Shared;

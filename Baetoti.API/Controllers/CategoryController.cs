@@ -91,11 +91,10 @@ namespace Baetoti.API.Controllers
                 var cat = await _categoryRepository.GetByIdAsync(categoryRequest.ID);
                 if (cat != null)
                 {
-
-                    var category = _mapper.Map<Category>(categoryRequest);
-                    category.LastUpdatedAt = DateTime.Now;
-                    category.UpdatedBy = Convert.ToInt32(UserId);
-                    await _categoryRepository.UpdateAsync(category);
+                    cat = _mapper.Map<Category>(categoryRequest);
+                    cat.LastUpdatedAt = DateTime.Now;
+                    cat.UpdatedBy = Convert.ToInt32(UserId);
+                    await _categoryRepository.UpdateAsync(cat);
                     return Ok(new SharedResponse(true, 200, "Category Updated Succesfully"));
                 }
                 else
