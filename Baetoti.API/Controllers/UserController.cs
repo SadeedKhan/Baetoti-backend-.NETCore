@@ -174,6 +174,20 @@ namespace Baetoti.API.Controllers
             }
         }
 
+        [HttpGet("GetFilteredData")]
+        public async Task<IActionResult> GetFilteredData([FromBody] FilterRequest filterRequest)
+        {
+            try
+            {
+                var usersData = await _userRepository.GetFilteredUsersDataAsync(filterRequest);
+                return Ok(new SharedResponse(true, 200, "", usersData));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
         [HttpGet("GetAllOnBoardingRequest")]
         public async Task<IActionResult> GetAllOnBoardingRequest()
         {

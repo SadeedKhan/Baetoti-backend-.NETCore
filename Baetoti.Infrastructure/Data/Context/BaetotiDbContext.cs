@@ -33,6 +33,8 @@ namespace Baetoti.Infrastructure.Data.Context
         public DbSet<ItemReview> ItemReviews { get; set; }
         public DbSet<ItemTag> ItemTags { get; set; }
         public DbSet<OTP> OTPs { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         #endregion
 
