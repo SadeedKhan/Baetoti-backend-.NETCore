@@ -33,7 +33,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var unitList = (await _unitRepository.ListAllAsync()).ToList();
+                var unitList = (await _unitRepository.ListAllAsync())
+                    .Where(x => x.MarkAsDeleted == false).ToList();
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<UnitResponse>>(unitList)));
             }
             catch (Exception ex)
@@ -116,7 +117,7 @@ namespace Baetoti.API.Controllers
                     un.LastUpdatedAt = DateTime.Now;
                     un.UpdatedBy = Convert.ToInt32(UserId);
                     await _unitRepository.DeleteAsync(un);
-                    return Ok(new SharedResponse(true, 200, "Unit Deleted Succesfully"));
+                    return Ok(new SharedResponse(true, 200, "Unit Deleted Successfully"));
                 }
                 else
                 {

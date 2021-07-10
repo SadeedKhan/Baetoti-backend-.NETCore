@@ -33,7 +33,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var tagList = (await _tagsRepository.ListAllAsync()).ToList();
+                var tagList = (await _tagsRepository.ListAllAsync())
+                    .Where(x => x.MarkAsDeleted == false).ToList();
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<TagResponse>>(tagList)));
             }
             catch (Exception ex)
@@ -70,7 +71,7 @@ namespace Baetoti.API.Controllers
                 {
                     return Ok(new SharedResponse(false, 400, "Unable To Create Tag"));
                 }
-                return Ok(new SharedResponse(true, 200, "Tag Created Succesfully"));
+                return Ok(new SharedResponse(true, 200, "Tag Created Successfully"));
             }
             catch (Exception ex)
             {
@@ -91,7 +92,7 @@ namespace Baetoti.API.Controllers
                     tag.LastUpdatedAt = DateTime.Now;
                     tag.UpdatedBy = Convert.ToInt32(UserId);
                     await _tagsRepository.UpdateAsync(tag);
-                    return Ok(new SharedResponse(true, 200, "Tag Updated Succesfully"));
+                    return Ok(new SharedResponse(true, 200, "Tag Updated Successfully"));
                 }
                 else
                 {
@@ -112,11 +113,11 @@ namespace Baetoti.API.Controllers
                 var tag = await _tagsRepository.GetByIdAsync(deleteRequest.ID);
                 if (tag != null)
                 {
-                    tag.MarkAsDeleted = false;
+                    tag.MarkAsDeleted = true;
                     tag.CreatedAt = DateTime.Now;
                     tag.CreatedBy = Convert.ToInt32(UserId);
                     await _tagsRepository.DeleteAsync(tag);
-                    return Ok(new SharedResponse(true, 200, "Tag Deleted Succesfully"));
+                    return Ok(new SharedResponse(true, 200, "Tag Deleted Successfully"));
                 }
                 else
                 {

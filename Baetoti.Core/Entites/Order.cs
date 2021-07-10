@@ -10,5 +10,6 @@ namespace Baetoti.Core.Entites
         public long ItemID { get; set; }
         public long Quantity { get; set; }
         public string Comments { get; set; }
+        
     }
 }

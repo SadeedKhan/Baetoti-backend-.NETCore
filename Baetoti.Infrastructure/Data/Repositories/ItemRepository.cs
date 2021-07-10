@@ -25,6 +25,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
             var itemList = await (from i in _dbContext.Items
                                   join c in _dbContext.Categories on i.CategoryID equals c.ID
                                   join sc in _dbContext.SubCategories on i.SubCategoryID equals sc.ID
+                                  where i.MarkAsDeleted == false
                                   select new ItemListResponse
                                   {
                                       ID = i.ID,
@@ -74,15 +75,26 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                   Unit = "",
                                   Sold = 0,
                                   AvailableNow = 0,
-                                  Tags = _dbContext.Tags.Join(_dbContext.ItemTags.Where(x => x.ItemID == i.ID),
-                                                  t => t.ID,
-                                                  it => it.ItemID,
-                                                  (t, it) => new TagResponse
-                                                  {
-                                                      ID = t.ID,
-                                                      Name = t.TagEnglish
-                                                  }).ToList()
-                                  //Reviews = new List<ReviewResponse>()
+                                  Tags = (from t in _dbContext.Tags
+                                          join it in _dbContext.ItemTags
+                                          on t.ID equals it.ItemID
+                                          where it.ItemID == ItemID
+                                          select new TagResponse
+                                          {
+                                              ID = t.ID,
+                                              Name = t.TagEnglish
+                                          }).ToList(),
+                                  Reviews = (from ir in _dbContext.ItemReviews
+                                             join u in _dbContext.Users on ir.UserID equals u.ID
+                                             where ir.ItemID == ItemID
+                                             select new ReviewResponse
+                                             {
+                                                 UserName = $"{u.FirstName} {u.LastName}",
+                                                 Picture = u.Picture,
+                                                 Rating = ir.Rating,
+                                                 Reviews = ir.Review,
+                                                 ReviewDate = ir.RecordDateTime
+                                             }).ToList()
                               }).FirstOrDefaultAsync();
 
             return item;

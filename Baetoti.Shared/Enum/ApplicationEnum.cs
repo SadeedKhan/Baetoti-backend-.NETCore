@@ -60,6 +60,23 @@
         Rejected = 4
     }
 
+    public enum OrderStatus
+    {
+        Pending = 0,
+        Approved = 1,
+        Rejected = 2,
+        Inprogress = 3,
+        Ready = 4,
+        PickedUp = 5,
+        Delivered = 6,
+        Complaint = 7,
+        CancelledByCustomer = 8,
+        CancelledByDriver = 9,
+        CancelledByProvider = 10,
+        Completed = 11,
+        Late = 12
+    }
+
     public enum DBSchema
     {
         baetoti,
