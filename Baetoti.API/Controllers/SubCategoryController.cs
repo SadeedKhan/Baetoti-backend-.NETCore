@@ -120,12 +120,12 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] CustomRequest deleteRequest)
+        [HttpDelete("Delete/{ID}")]
+        public async Task<IActionResult> Delete(long ID)
         {
             try
             {
-                var subcat = await _subcategoryRepository.GetByIdAsync(deleteRequest.ID);
+                var subcat = await _subcategoryRepository.GetByIdAsync(ID);
                 if (subcat != null)
                 {
                     subcat.MarkAsDeleted = true;

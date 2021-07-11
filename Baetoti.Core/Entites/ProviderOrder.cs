@@ -4,14 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Baetoti.Core.Entites
 {
-    [Table("Order", Schema = "baetoti")]
-    public partial class Order : BaseEntity
+    [Table("ProviderOrder", Schema = "baetoti")]
+    public partial class ProviderOrder : BaseEntity
     {
-        public long UserID { get; set; }
-        public string NotesForDriver { get; set; }
-        public string DeliveryAddress { get; set; }
-        public DateTime ExpectedDeliveryTime { get; set; }
-        public DateTime ActualDeliveryTime { get; set; }
+        public long OrderID { get; set; }
+        public long ProviderID { get; set; }
         public int Status { get; set; }
         public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }

@@ -4,7 +4,6 @@ using Baetoti.API.Helpers;
 using Baetoti.Core.Entites;
 using Baetoti.Core.Interface.Repositories;
 using Baetoti.Shared.Enum;
-using Baetoti.Shared.Request.Delete;
 using Baetoti.Shared.Request.Item;
 using Baetoti.Shared.Response.FileUpload;
 using Baetoti.Shared.Response.Item;
@@ -161,12 +160,12 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] DeleteRequest deleteRequest)
+        [HttpDelete("Delete/{ID}")]
+        public async Task<IActionResult> Delete(long ID)
         {
             try
             {
-                var item = await _itemRepository.GetByIdAsync(deleteRequest.ID);
+                var item = await _itemRepository.GetByIdAsync(ID);
                 if (item != null)
                 {
                     item.MarkAsDeleted = true;

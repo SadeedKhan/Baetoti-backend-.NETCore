@@ -1,0 +1,14 @@
+﻿using Baetoti.Core.Entites.Base;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Baetoti.Core.Entites
+{
+    [Table("OrderItem", Schema = "baetoti")]
+    public partial class OrderItem : BaseEntity
+    {
+        public long OrderID { get; set; }
+        public long ItemID { get; set; }
+        public long Quantity { get; set; }
+        public string Comments { get; set; }
+    }
+}

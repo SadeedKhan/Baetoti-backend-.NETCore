@@ -66,7 +66,7 @@
         Pending = 0,
         Approved = 1,
         Rejected = 2,
-        Inprogress = 3,
+        InProgress = 3,
         Ready = 4,
         PickedUp = 5,
         Delivered = 6,
@@ -76,6 +76,21 @@
         CancelledByProvider = 10,
         Completed = 11,
         Late = 12
+    }
+
+    public enum ProviderOrderStatus
+    {
+        Pending = 0,
+        Approved = 1,
+        Rejected = 2,
+        Cancelled = 3
+    }
+
+    public enum DriverOrderStatus
+    {
+        Pending = 0,
+        PickedUp = 1,
+        Delivered = 2
     }
 
     public enum DBSchema

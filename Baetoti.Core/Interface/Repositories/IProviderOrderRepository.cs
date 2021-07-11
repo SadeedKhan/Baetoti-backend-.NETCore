@@ -3,7 +3,7 @@ using Baetoti.Core.Interface.Base;
 
 namespace Baetoti.Core.Interface.Repositories
 {
-    public interface ICartRepository : IAsyncRepository<Order>
+    public interface IProviderOrderRepository : IAsyncRepository<ProviderOrder>
     {
     }
 }

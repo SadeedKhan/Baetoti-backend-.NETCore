@@ -29,7 +29,7 @@ namespace Baetoti.Shared.Response.Order
         public decimal OrderRunRate { get; set; }
         public ProviderOrderStates ProviderOrder { get; set; }
         public DriverOrderStates DriverOrder { get; set; }
-        public List<OrderStates> orderList { get; set; }
+        public List<OrderStates> OrderList { get; set; }
     }
 
     public class ProviderOrderStates
@@ -41,9 +41,9 @@ namespace Baetoti.Shared.Response.Order
 
     public class DriverOrderStates
     {
-        public int Approved { get; set; }
-        public int Rejected { get; set; }
-        public int Canceled { get; set; }
+        public int Pending { get; set; }
+        public int Delivered { get; set; }
+        public int PickedUp { get; set; }
     }
 
     public class OrderStates

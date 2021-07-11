@@ -34,9 +34,9 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var cart = new Cart
+                var cart = new Order
                 {
-                    UserIID = orderRequest.UserIID,
+                    UserID = orderRequest.UserIID,
                     NotesForDriver = orderRequest.NotesForDriver,
                     DeliveryAddress = orderRequest.DeliveryAddress,
                     ExpectedDeliveryTime = orderRequest.ExpectedDeliveryTime,
@@ -45,12 +45,12 @@ namespace Baetoti.API.Controllers
                     CreatedBy = Convert.ToInt32(UserId)
                 };
                 var addedCart = await _cartRepository.AddAsync(cart);
-                var orders = new List<Order>();
+                var orders = new List<OrderItem>();
                 foreach (var item in orderRequest.Items)
                 {
-                    var order = new Order
+                    var order = new OrderItem
                     {
-                        CartID = addedCart.ID,
+                        OrderID = addedCart.ID,
                         ItemID = item.ItemID,
                         Quantity = item.Quantity,
                         Comments = item.Comments

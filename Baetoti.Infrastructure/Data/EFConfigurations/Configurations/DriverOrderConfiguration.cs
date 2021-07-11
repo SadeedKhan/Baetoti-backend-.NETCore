@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Baetoti.Infrastructure.Data.EFConfigurations.Configurations
 {
-    public class CartConfiguration : IEntityTypeConfiguration<Order>
+    public class DriverOrderConfiguration : IEntityTypeConfiguration<DriverOrder>
     {
-        public void Configure(EntityTypeBuilder<Order> builder)
+        public void Configure(EntityTypeBuilder<DriverOrder> builder)
         {
-            builder.ToTable(nameof(Order), DBSchema.baetoti.ToString());
+            builder.ToTable(nameof(DriverOrder), DBSchema.baetoti.ToString());
         }
     }
 }

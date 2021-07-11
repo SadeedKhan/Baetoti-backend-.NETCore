@@ -5,11 +5,12 @@ using Baetoti.Infrastructure.Data.Repositories.Base;
 
 namespace Baetoti.Infrastructure.Data.Repositories
 {
-    public class CartRepository : EFRepository<Order>, ICartRepository
+    public class ProviderOrderRepository : EFRepository<ProviderOrder>, IProviderOrderRepository
     {
+
         private readonly BaetotiDbContext _dbContext;
 
-        public CartRepository(BaetotiDbContext dbContext) : base(dbContext)
+        public ProviderOrderRepository(BaetotiDbContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
         }

@@ -58,6 +58,8 @@ namespace Baetoti.IoC
             services.AddScoped<ISubMenuRepository, SubMenuRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IDriverOrderRepository, DriverOrderRepository>();
+            services.AddScoped<IProviderOrderRepository, ProviderOrderRepository>();
 
             #endregion
 
