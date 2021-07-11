@@ -2,6 +2,8 @@
 using Baetoti.Core.Interface.Repositories;
 using Baetoti.Infrastructure.Data.Context;
 using Baetoti.Infrastructure.Data.Repositories.Base;
+using Baetoti.Shared.Response.Order;
+using System.Threading.Tasks;
 
 namespace Baetoti.Infrastructure.Data.Repositories
 {
@@ -12,6 +14,11 @@ namespace Baetoti.Infrastructure.Data.Repositories
         public OrderRepository(BaetotiDbContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public Task<OrderResponse> GetAll()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

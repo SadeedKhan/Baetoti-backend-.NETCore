@@ -32,7 +32,7 @@ namespace Baetoti.Core.Entites
         public DateTime? CreatedAt { get; set; }
         public DateTime? LastPasswordChangedDate { get; set; }
         public bool MarkAsDeleted { get; set; }
-
+        public string Comments { get; set; }
         public int? LastPasswordChangedById { get; set; }
         public bool? IsPasswordUpdateRequired { get; set; }
         public DateTime? LastUpdatedAt { get; set; }

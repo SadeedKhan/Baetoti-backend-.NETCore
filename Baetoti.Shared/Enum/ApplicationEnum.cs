@@ -9,7 +9,8 @@
     public enum EmployementStatus
     {
         Inactive = 0,
-        Active = 1
+        Active = 1,
+        Blocked = 2
     }
 
     public enum UserStatus

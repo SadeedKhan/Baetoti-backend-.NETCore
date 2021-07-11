@@ -70,19 +70,19 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        //[HttpGet("GetAll")]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    try
-        //    {
-        //        var itemList = await _orderRepository.GetAll();
-        //        return Ok(new SharedResponse(true, 200, "", itemList));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Ok(new SharedResponse(false, 400, ex.Message, null));
-        //    }
-        //}
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var orderList = await _orderRepository.GetAll();
+                return Ok(new SharedResponse(true, 200, "", orderList));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
 
     }
 }

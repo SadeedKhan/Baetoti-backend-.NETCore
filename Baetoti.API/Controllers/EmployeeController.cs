@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Baetoti.Shared.Request.EmployeeRole;
+using Baetoti.Shared.Enum;
 
 namespace Baetoti.API.Controllers
 {
@@ -120,7 +121,7 @@ namespace Baetoti.API.Controllers
                     var employee = _mapper.Map<Employee>(employeeRequest);
                     employee.LastUpdatedAt = DateTime.Now;
                     employee.LastUpdatedBy = Convert.ToInt32(UserId);
-                     await _employeeRepository.UpdateAsync(employee);
+                    await _employeeRepository.UpdateAsync(employee);
                     return Ok(new SharedResponse(true, 200, "Employee Updated Successfully"));
                 }
                 else
@@ -152,6 +153,25 @@ namespace Baetoti.API.Controllers
                 {
                     return Ok(new SharedResponse(false, 400, "Unable To Find Employee"));
                 }
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message));
+            }
+        }
+
+        [HttpPost("BlockUnBlock")]
+        public async Task<IActionResult> BlockUnBlock([FromBody] BlockUnBlockRequest blockUnBlockRequest)
+        {
+            try
+            {
+                var employee = await _employeeRepository.GetByIdAsync(blockUnBlockRequest.ID);
+                employee.EmployeeStatus = blockUnBlockRequest.IsBlocked == true ? (int)EmployementStatus.Blocked : (int)EmployementStatus.Active;
+                employee.Comments = blockUnBlockRequest.Comments;
+                employee.LastUpdatedAt = DateTime.Now;
+                employee.UpdatedBy = Convert.ToInt32(UserId);
+                await _employeeRepository.UpdateAsync(employee);
+                return Ok(new SharedResponse(true, 200, "Employee Request Processed Successfully"));
             }
             catch (Exception ex)
             {

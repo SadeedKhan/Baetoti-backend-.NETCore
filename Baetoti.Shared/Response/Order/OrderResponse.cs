@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Baetoti.Shared.Response.Order
 {
@@ -19,6 +18,15 @@ namespace Baetoti.Shared.Response.Order
         public int CancelledByProvider { get; set; }
         public int CancelledByCustomer { get; set; }
         public decimal AverageRating { get; set; }
+        public decimal RevenueGain { get; set; }
+        public decimal RevenueLoss { get; set; }
+        public decimal AverageCheckValue { get; set; }
+        public int FeedBackCollected { get; set; }
+        public int OrderWithFullAdoptionAndCompliance { get; set; }
+        public int OrdersDeliverUnder30Minutes { get; set; }
+        public decimal AdoptionPercentage { get; set; }
+        public decimal CompliancePercentage { get; set; }
+        public decimal OrderRunRate { get; set; }
         public ProviderOrderStates ProviderOrder { get; set; }
         public DriverOrderStates DriverOrder { get; set; }
         public List<OrderStates> orderList { get; set; }
