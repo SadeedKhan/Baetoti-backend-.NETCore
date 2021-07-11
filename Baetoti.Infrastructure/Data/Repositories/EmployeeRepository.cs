@@ -27,7 +27,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
                     join er in _dbContext.EmployeeRoles
                     on e.ID equals er.EmployeeId
                     join r in _dbContext.Roles on er.RoleId equals r.ID
-                    where Id==0 || Id==e.ID && e.MarkAsDeleted == false
+                    where (Id == 0 || Id == e.ID) && e.MarkAsDeleted == false
                     select new EmployeeResponse
                     {
                         ID = e.ID,

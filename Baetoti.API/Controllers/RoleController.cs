@@ -38,7 +38,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var roleList = (await _roleRepository.ListAllAsync()).ToList();
+                var roleList = (await _roleRepository.ListAllAsync())
+                    .Where(x => x.MarkAsDeleted == false).ToList();
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<RoleResponse>>(roleList)));
             }
             catch (Exception ex)
@@ -123,7 +124,7 @@ namespace Baetoti.API.Controllers
                 {
                     return Ok(new SharedResponse(false, 400, "Role Created but Unable To Assign Privileges"));
                 }
-                return Ok(new SharedResponse(true, 200, "Role and Privileges Saved Succesfully"));
+                return Ok(new SharedResponse(true, 200, "Role and Privileges Saved Successfully"));
             }
             catch (Exception ex)
             {
@@ -181,7 +182,7 @@ namespace Baetoti.API.Controllers
                     {
                         return Ok(new SharedResponse(false, 400, "Role Updated but Unable To Assign Privileges"));
                     }
-                    return Ok(new SharedResponse(true, 200, "Role and Privileges Updated Succesfully"));
+                    return Ok(new SharedResponse(true, 200, "Role and Privileges Updated Successfully"));
                 }
                 else
                 {
@@ -205,7 +206,7 @@ namespace Baetoti.API.Controllers
                     await _roleRepository.DeleteAsync(role);
                     var existingRolePrivileges = (await _rolePrivilegeRepository.ListAllAsync()).Where(x => x.RoleID == role.ID);
                     await _rolePrivilegeRepository.DeleteRangeAsync(existingRolePrivileges.ToList());
-                    return Ok(new SharedResponse(true, 200, "Role & Privileges Deleted Succesfully"));
+                    return Ok(new SharedResponse(true, 200, "Role & Privileges Deleted Successfully"));
                 }
                 else
                 {

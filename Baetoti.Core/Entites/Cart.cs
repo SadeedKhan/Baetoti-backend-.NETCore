@@ -9,6 +9,10 @@ namespace Baetoti.Core.Entites
     {
         public long UserIID { get; set; }
         public string NotesForDriver { get; set; }
+        public string DeliveryAddress { get; set; }
+        public DateTime ExpectedDeliveryTime { get; set; }
+        public DateTime ActualDeliveryTime { get; set; }
+        public int Status { get; set; }
         public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }

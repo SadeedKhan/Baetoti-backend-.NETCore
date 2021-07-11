@@ -30,7 +30,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var departmentList = (await _departmentRepository.ListAllAsync()).ToList();
+                var departmentList = (await _departmentRepository.ListAllAsync())
+                    .Where(x => x.MarkAsDeleted == false).ToList();
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<DepartmentResponse>>(departmentList)));
             }
             catch (Exception ex)

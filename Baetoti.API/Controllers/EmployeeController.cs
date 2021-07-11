@@ -101,7 +101,7 @@ namespace Baetoti.API.Controllers
                     role.CreatedBy = Convert.ToInt32(UserId);
                     var res = await _employeeroleRepository.AddAsync(role);
                 }
-                return Ok(new SharedResponse(true, 200, "Employee Created Succesfully"));
+                return Ok(new SharedResponse(true, 200, "Employee Created Successfully"));
             }
             catch (Exception ex)
             {
@@ -121,7 +121,7 @@ namespace Baetoti.API.Controllers
                     employee.LastUpdatedAt = DateTime.Now;
                     employee.LastUpdatedBy = Convert.ToInt32(UserId);
                      await _employeeRepository.UpdateAsync(employee);
-                    return Ok(new SharedResponse(true, 200, "Employee Updated Succesfully"));
+                    return Ok(new SharedResponse(true, 200, "Employee Updated Successfully"));
                 }
                 else
                 {
@@ -146,7 +146,7 @@ namespace Baetoti.API.Controllers
                     un.LastUpdatedAt = DateTime.Now;
                     un.LastUpdatedBy = Convert.ToInt32(UserId);
                     await _employeeRepository.DeleteAsync(un);
-                    return Ok(new SharedResponse(true, 200, "Employee Deleted Succesfully"));
+                    return Ok(new SharedResponse(true, 200, "Employee Deleted Successfully"));
                 }
                 else
                 {

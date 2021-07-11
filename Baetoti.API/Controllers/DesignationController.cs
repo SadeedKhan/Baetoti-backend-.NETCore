@@ -30,7 +30,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var designationList = (await _designationRepository.ListAllAsync()).ToList();
+                var designationList = (await _designationRepository.ListAllAsync())
+                    .Where(x => x.MarkAsDeleted == false).ToList();
                 return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<DesignationResponse>>(designationList)));
             }
             catch (Exception ex)
