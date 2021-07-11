@@ -99,14 +99,15 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var cat = await _subcategoryRepository.GetByIdAsync(subcategoryRequest.ID);
-                if (cat != null)
+                var subcat = await _subcategoryRepository.GetByIdAsync(subcategoryRequest.ID);
+                if (subcat != null)
                 {
-
-                    var subcategory = _mapper.Map<SubCategory>(subcategoryRequest);
-                    subcategory.LastUpdatedAt = DateTime.Now;
-                    subcategory.UpdatedBy = Convert.ToInt32(UserId);
-                    await _subcategoryRepository.UpdateAsync(subcategory);
+                    subcat.SubCategoryName = subcategoryRequest.SubCategoryName;
+                    subcat.SubCategoryArabicName = subcategoryRequest.SubCategoryArabicName;
+                    subcat.CategoryId = Convert.ToInt32(subcategoryRequest.CategoryID);
+                    subcat.LastUpdatedAt = DateTime.Now;
+                    subcat.UpdatedBy = Convert.ToInt32(UserId);
+                    await _subcategoryRepository.UpdateAsync(subcat);
                     return Ok(new SharedResponse(true, 200, "SubCategory Updated Succesfully"));
                 }
                 else
