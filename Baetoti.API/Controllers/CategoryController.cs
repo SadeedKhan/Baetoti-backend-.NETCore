@@ -91,7 +91,10 @@ namespace Baetoti.API.Controllers
                 var cat = await _categoryRepository.GetByIdAsync(categoryRequest.ID);
                 if (cat != null)
                 {
-                    cat = _mapper.Map<Category>(categoryRequest);
+                    cat.CategoryName = categoryRequest.CategoryName;
+                    cat.CategoryArabicName = categoryRequest.CategoryArabicName;
+                    cat.Color = categoryRequest.Color;
+                    cat.Description = categoryRequest.Description;
                     cat.LastUpdatedAt = DateTime.Now;
                     cat.UpdatedBy = Convert.ToInt32(UserId);
                     await _categoryRepository.UpdateAsync(cat);

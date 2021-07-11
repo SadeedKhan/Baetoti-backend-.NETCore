@@ -84,11 +84,11 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var cat = await _tagsRepository.GetByIdAsync(tagRequest.ID);
-                if (cat != null)
+                var tag = await _tagsRepository.GetByIdAsync(tagRequest.ID);
+                if (tag != null)
                 {
-
-                    var tag = _mapper.Map<Tags>(tagRequest);
+                    tag.TagEnglish = tagRequest.TagEnglish;
+                    tag.TagArabic = tagRequest.TagArabic;
                     tag.LastUpdatedAt = DateTime.Now;
                     tag.UpdatedBy = Convert.ToInt32(UserId);
                     await _tagsRepository.UpdateAsync(tag);
