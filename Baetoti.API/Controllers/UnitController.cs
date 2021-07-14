@@ -83,11 +83,12 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var cat = await _unitRepository.GetByIdAsync(unitRequest.ID);
-                if (cat != null)
+                var unit = await _unitRepository.GetByIdAsync(unitRequest.ID);
+                if (unit != null)
                 {
-
-                    var unit = _mapper.Map<Unit>(unitRequest);
+                    unit.Family = unitRequest.Family;
+                    unit.UnitEnglishName = unitRequest.UnitEnglishName;
+                    unit.UnitArabicName = unitRequest.UnitArabicName;
                     unit.LastUpdatedAt = DateTime.Now;
                     unit.UpdatedBy = Convert.ToInt32(UserId);
                     await _unitRepository.UpdateAsync(unit);

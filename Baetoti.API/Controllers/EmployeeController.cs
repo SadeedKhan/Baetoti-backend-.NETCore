@@ -114,13 +114,39 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var cat = await _employeeRepository.GetByIdAsync(employeeRequest.ID);
-                if (cat != null)
+                var employee = await _employeeRepository.GetByIdAsync(employeeRequest.ID);
+                if (employee != null)
                 {
-                    var employee = _mapper.Map<Employee>(employeeRequest);
+                    employee.FirstName = employeeRequest.FirstName;
+                    employee.LastName = employeeRequest.LastName;
+                    employee.JoiningDate = employeeRequest.JoiningDate;
+                    employee.Location = employeeRequest.Location;
+                    employee.DepartmentID = employeeRequest.DepartmentID;
+                    employee.DesignationID = employeeRequest.DesignationID;
+                    employee.Username = employeeRequest.Username;
+                    employee.Gender = employeeRequest.Gender;
+                    employee.Shift = employeeRequest.Shift;
+                    employee.Email = employeeRequest.Email;
+                    employee.DOB = employeeRequest.DOB;
+                    employee.Phone = employeeRequest.Phone;
+                    employee.Password = employeeRequest.Password;
+                    employee.ReportTo = employeeRequest.ReportTo;
+                    employee.Address = employeeRequest.Address;
+                    employee.Goals = employeeRequest.Goals;
+                    employee.Skills = employeeRequest.Skills;
                     employee.LastUpdatedAt = DateTime.Now;
                     employee.LastUpdatedBy = Convert.ToInt32(UserId);
                     await _employeeRepository.UpdateAsync(employee);
+
+                    //Updating Roles
+                    var employeeRole = await _employeeroleRepository.GetByIdAsync(employeeRequest.RoleID);
+                    if (employeeRole != null)
+                    {
+                        employeeRole.RoleId = employeeRequest.RoleID;
+                        employeeRole.LastUpdatedAt = DateTime.Now;
+                        employeeRole.UpdatedBy = Convert.ToInt32(UserId);
+                        await _employeeroleRepository.UpdateAsync(employeeRole);
+                    }
                     return Ok(new SharedResponse(true, 200, "Employee Updated Successfully"));
                 }
                 else
