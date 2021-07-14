@@ -12,6 +12,7 @@ namespace Baetoti.Core.Entites
         public string DeliveryAddress { get; set; }
         public DateTime ExpectedDeliveryTime { get; set; }
         public DateTime ActualDeliveryTime { get; set; }
+        public DateTime OrderReadyTime { get; set; }
         public int Status { get; set; }
         public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }

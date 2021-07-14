@@ -8,7 +8,7 @@ namespace Baetoti.Core.Entites
     {
         public long OrderID { get; set; }
         public long ItemID { get; set; }
-        public long Quantity { get; set; }
+        public int Quantity { get; set; }
         public string Comments { get; set; }
     }
 }

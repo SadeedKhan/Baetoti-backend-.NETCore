@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Baetoti.Infrastructure.Data.EFConfigurations.Configurations
 {
-    public class OrderConfiguration : IEntityTypeConfiguration<OrderItem>
+    public class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
-        public void Configure(EntityTypeBuilder<OrderItem> builder)
+        public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.ToTable(nameof(OrderItem), DBSchema.baetoti.ToString());
+            builder.ToTable(nameof(Order), DBSchema.baetoti.ToString());
         }
     }
 }
