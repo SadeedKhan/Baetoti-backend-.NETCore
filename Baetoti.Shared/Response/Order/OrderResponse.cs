@@ -54,8 +54,8 @@ namespace Baetoti.Shared.Response.Order
         public string Driver { get; set; }
         public int OrderAmount { get; set; }
         public string PaymentType { get; set; }
-        public DateTime Date { get; set; }
-        public string ScheduleFor { get; set; }
+        public DateTime? Date { get; set; }
+        public DateTime? ExpectedDeliveryTime { get; set; }
         public string DeliverOrPickup { get; set; }
         public string OrderStatus { get; set; }
     }

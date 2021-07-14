@@ -16,7 +16,7 @@ namespace Baetoti.Shared.Request.Order
     public class RequestedItemList
     {
         public long ItemID { get; set; }
-        public long Quantity { get; set; }
+        public int Quantity { get; set; }
         public string Comments { get; set; }
     }
 

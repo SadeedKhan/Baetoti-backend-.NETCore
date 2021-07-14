@@ -14,18 +14,18 @@ namespace Baetoti.API.Controllers
 {
     public class OrderController : ApiBaseController
     {
-        public readonly ICartRepository _cartRepository;
         public readonly IOrderRepository _orderRepository;
+        public readonly IOrderItemRepository _orderItemRepository;
         public readonly IMapper _mapper;
 
         public OrderController(
-            ICartRepository cartRepository,
-            IOrderRepository orderRepository,
+            IOrderRepository cartRepository,
+            IOrderItemRepository orderRepository,
             IMapper mapper
             )
         {
-            _cartRepository = cartRepository;
-            _orderRepository = orderRepository;
+            _orderRepository = cartRepository;
+            _orderItemRepository = orderRepository;
             _mapper = mapper;
         }
 
@@ -44,7 +44,7 @@ namespace Baetoti.API.Controllers
                     CreatedAt = DateTime.Now,
                     CreatedBy = Convert.ToInt32(UserId)
                 };
-                var addedCart = await _cartRepository.AddAsync(cart);
+                var addedCart = await _orderRepository.AddAsync(cart);
                 var orders = new List<OrderItem>();
                 foreach (var item in orderRequest.Items)
                 {
@@ -57,7 +57,7 @@ namespace Baetoti.API.Controllers
                     };
                     orders.Add(order);
                 }
-                var addedOrders = await _orderRepository.AddRangeAsync(orders);
+                var addedOrders = await _orderItemRepository.AddRangeAsync(orders);
                 if (addedCart == null || addedOrders == null)
                 {
                     return Ok(new SharedResponse(false, 400, "Unable To Submit Order"));
@@ -75,8 +75,22 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var orderList = await _orderRepository.GetAll();
+                var orderList = await _orderItemRepository.GetAll();
                 return Ok(new SharedResponse(true, 200, "", orderList));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(int Id)
+        {
+            try
+            {
+                var item = await _orderItemRepository.GetByID(Id);
+                return Ok(new SharedResponse(true, 200, "", item));
             }
             catch (Exception ex)
             {

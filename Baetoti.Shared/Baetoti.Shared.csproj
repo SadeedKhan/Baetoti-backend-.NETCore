@@ -12,9 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Request\ItemReview\" />
-    <Folder Include="Request\Cart\" />
     <Folder Include="Response\ItemReview\" />
-    <Folder Include="Response\Cart\" />
   </ItemGroup>
 
 </Project>
