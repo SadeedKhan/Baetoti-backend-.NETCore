@@ -660,34 +660,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.Property<string>("NotesForDriver")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<long>("UserID")
-                    b.Property<DateTime>("ActualDeliveryTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DeliveryAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ExpectedDeliveryTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastUpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("NotesForDriver")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("OrderReadyTime")
                         .HasColumnType("datetime2");
 
@@ -719,10 +691,6 @@ namespace Baetoti.Infrastructure.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<long>("OrderID")
-                    b.Property<long>("OrderID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Quantity")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Quantity")

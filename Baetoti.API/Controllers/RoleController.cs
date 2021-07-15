@@ -60,6 +60,20 @@ namespace Baetoti.API.Controllers
             }
         }
 
+        [HttpGet("GetAllMenuWithSubMenu")]
+        public async Task<IActionResult> GetAllMenuWithSubMenu()
+        {
+            try
+            {
+                var menuList = await _rolePrivilegeRepository.GetAllMenuWithSubMenu();
+                return Ok(new SharedResponse(true, 200, "", menuList));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
         [HttpGet("GetById")]
         public async Task<IActionResult> GetById(long Id)
         {

@@ -11,6 +11,7 @@ namespace Baetoti.Core.Interface.Repositories
         Task<User> GetByMobileNumberAsync(string mobileNumber);
         Task<OnBoardingResponse> GetOnBoardingDataAsync();
         Task<UserResponse> GetAllUsersDataAsync();
+        Task<UserProfile> GetUserProfile(long UserID);
         Task<UserResponse> GetFilteredUsersDataAsync(FilterRequest filterRequest);
     }
 }

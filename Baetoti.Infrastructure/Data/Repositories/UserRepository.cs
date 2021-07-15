@@ -2,6 +2,7 @@
 using Baetoti.Core.Interface.Repositories;
 using Baetoti.Infrastructure.Data.Context;
 using Baetoti.Infrastructure.Data.Repositories.Base;
+using Baetoti.Shared.Enum;
 using Baetoti.Shared.Request.User;
 using Baetoti.Shared.Response.User;
 using Microsoft.EntityFrameworkCore;
@@ -241,6 +242,11 @@ namespace Baetoti.Infrastructure.Data.Repositories
             userResponse.driverSummary = driverSummary;
 
             return userResponse;
+        }
+
+        public async Task<UserProfile> GetUserProfile(long UserID)
+        {
+            throw new NotImplementedException();
         }
     }
 }

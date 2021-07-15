@@ -21,6 +21,31 @@ namespace Baetoti.Infrastructure.Data.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<List<MenuResponse>> GetAllMenuWithSubMenu()
+        {
+            return await (from m in _dbContext.Menus
+                          select new MenuResponse
+                          {
+                              ID = m.ID,
+                              Name = m.Name,
+                              SelectedPrivileges = _dbContext.Privileges.Select(x => new PrivilegeResponse
+                              {
+                                  ID = x.ID,
+                                  Name = x.Name
+                              }).ToList(),
+                              SelectedSubMenu = _dbContext.SubMenus.Where(x => x.MenuID == m.ID).Select(x => new SubMenuResponse
+                              {
+                                  ID = x.ID,
+                                  Name = x.Name,
+                                  SelectedPrivileges = _dbContext.Privileges.Select(x => new PrivilegeResponse
+                                  {
+                                      ID = x.ID,
+                                      Name = x.Name
+                                  }).ToList()
+                              }).ToList()
+                          }).ToListAsync();
+        }
+
         public async Task<RolePrivilegeByIDResponse> GetRoleWithPrivileges(long id)
         {
             var roleAndPrivileges = await (from rp in _dbContext.RolePrivileges

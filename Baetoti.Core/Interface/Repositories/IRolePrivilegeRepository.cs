@@ -12,5 +12,7 @@ namespace Baetoti.Core.Interface.Repositories
 
         Task<RolePrivilegeByIDResponse> GetRoleWithPrivileges(long id);
 
+        Task<List<MenuResponse>> GetAllMenuWithSubMenu();
+
     }
 }
