@@ -9,9 +9,12 @@ namespace Baetoti.Shared.Response.Item
         public string StoreName { get; set; }
         public string Location { get; set; }
         public string Title { get; set; }
+        public long CategoryID { get; set; }
         public string Category { get; set; }
+        public long SubCategoryID { get; set; }
         public string SubCategory { get; set; }
         public string Price { get; set; }
+        public long UnitID { get; set; }
         public string Unit { get; set; }
         public long Sold { get; set; }
         public long AvailableNow { get; set; }
