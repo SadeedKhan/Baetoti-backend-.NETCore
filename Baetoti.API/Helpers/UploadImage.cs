@@ -32,8 +32,8 @@ namespace Baetoti.API.Helpers
                         await file.CopyToAsync(stream);
                     }
                     _result.FileName = fileName;
-                    _result.Path = $"wwwroot/Uploads/{DirectoryName}";
-                    _result.PathwithFileName = $"wwwroot/Uploads/{DirectoryName}/{fileName}";
+                    _result.Path = $"/Uploads/{DirectoryName}";
+                    _result.PathwithFileName = $"/Uploads/{DirectoryName}/{fileName}";
                     return _result;
                 }
                 else
