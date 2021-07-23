@@ -60,6 +60,7 @@ namespace Baetoti.IoC
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             services.AddScoped<IDriverOrderRepository, DriverOrderRepository>();
             services.AddScoped<IProviderOrderRepository, ProviderOrderRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
 
             #endregion
 

@@ -8,6 +8,10 @@ using Baetoti.Shared.Response.User;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -246,7 +250,49 @@ namespace Baetoti.Infrastructure.Data.Repositories
 
         public async Task<UserProfile> GetUserProfile(long UserID)
         {
-            throw new NotImplementedException();
+            var res = await (from u in _dbContext.Users
+                             select new UserProfile
+                             {
+                                 buyer = new BuyerResponse
+                                 {
+                                     Name = $"{u.FirstName} {u.LastName}",
+                                     Description = u.Description,
+                                     Picture = u.Picture,
+                                     City = u.City,
+                                     State = u.State,
+                                     Address = u.Address,
+                                     PostalCode = u.Zip,
+                                     Country = u.Country,
+                                     LongitudeLatitude = "",
+                                     Rating = 0,
+                                     Status = Convert.ToString((UserStatus)u.UserStatus),
+                                     Phone = u.Phone,
+                                     Email = u.Email,
+                                     WalletData = ""
+                                 }
+                             }).FirstOrDefaultAsync();
+            var buyerHistory = _dbContext.Orders
+                .Join(_dbContext.OrderItems, o => o.ID, oi => oi.OrderID, (o, oi) => new { o, oi }).Where(x => x.o.UserID == UserID)
+                .Join(_dbContext.Items, ooi => ooi.oi.ItemID, i => i.ID, (ooi, i) => new { ooi, i })
+                .Join(_dbContext.ProviderOrders, ooip => ooip.ooi.o.ID, po => po.ProviderID, (ooip, po) => new { ooip, po })
+                .Join(_dbContext.Users, ooipu => ooipu.po.ProviderID, pu => pu.ID, (ooipu, pu) => new { ooipu, pu })
+                .Join(_dbContext.DriverOrders, ooipud => ooipud.ooipu.ooip.ooi.o.ID, dor => dor.OrderID, (ooipud, dor) => new { ooipud, dor })
+                .Join(_dbContext.Users, ooipudu => ooipudu.dor.DriverID, du => du.ID, (ooipudu, du) => new { ooipudu, du })
+                .Select((all, i) => new BuyerHistory
+                {
+                    SrNo = i,
+                    OrderID = all.ooipudu.dor.OrderID,
+                    //OrderAmount = 
+                    Provider = $"{all.ooipudu.ooipud.pu.FirstName} {all.ooipudu.ooipud.pu.LastName}",
+                    Driver = $"{all.du.FirstName} {all.du.LastName}",
+                    PaymentType = "",
+                    PaymentStatus = "",
+                    OrderStatus = "",
+                    DeliveryPickUp = "",
+                    Date = all.ooipudu.ooipud.ooipu.ooip.ooi.o.ActualDeliveryTime
+                }).ToList();
+            res.buyer.buyerHistory = buyerHistory;
+            return res;
         }
     }
 }

@@ -57,6 +57,20 @@ namespace Baetoti.API.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpPost("logout")]
+        public async Task<IActionResult> logout([FromBody] long UserID)
+        {
+            try
+            {
+                return Ok(new SharedResponse(false, 400, "Logout Successfully."));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
         {

@@ -93,6 +93,19 @@
         Delivered = 2
     }
 
+    public enum TransactionStatus
+    {
+        UnPaid = 0,
+        Paid = 1,
+        Declined = 2
+    }
+
+    public enum TransactionType
+    {
+        Cash = 1,
+        Online = 2
+    }
+
     public enum DBSchema
     {
         baetoti,

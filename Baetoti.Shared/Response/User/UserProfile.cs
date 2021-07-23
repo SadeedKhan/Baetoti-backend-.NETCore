@@ -25,7 +25,7 @@ namespace Baetoti.Shared.Response.User
         public string PostalCode { get; set; }
         public string Country { get; set; }
         public string LongitudeLatitude { get; set; }
-        public string Rating { get; set; }
+        public decimal Rating { get; set; }
         public string Status { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
@@ -144,6 +144,7 @@ namespace Baetoti.Shared.Response.User
     {
         public long TransactionID { get; set; }
         public long OrderID { get; set; }
+        public long UserID { get; set; }
         public decimal TransactionAmount { get; set; }
         public string TransactionFrom { get; set; }
         public string TransactionTo { get; set; }

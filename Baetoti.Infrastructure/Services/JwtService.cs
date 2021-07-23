@@ -67,7 +67,19 @@ namespace Baetoti.Infrastructure.Services
                 AccessToken = accessToken,
                 RefreshToken = user.RefreshToken,
                 ExpiresAt = expiresAt.ToString(),
-                //Name = user.Name
+                UserInformation = new EmployeeInformation
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Address = user.Address,
+                    Comments = user.Comments,
+                    DOB = user.DOB,
+                    Gender = user.Gender,
+                    Email = user.Email,
+                    Location = user.Location,
+                    Phone = user.Phone,
+                    Username = user.Username
+                }
             };
         }
 

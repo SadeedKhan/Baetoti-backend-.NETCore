@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Request\ItemReview\" />
+    <Folder Include="Request\Transaction\" />
     <Folder Include="Response\ItemReview\" />
   </ItemGroup>
 
