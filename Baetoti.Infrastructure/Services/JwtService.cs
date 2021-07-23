@@ -69,6 +69,7 @@ namespace Baetoti.Infrastructure.Services
                 ExpiresAt = expiresAt.ToString(),
                 UserInformation = new EmployeeInformation
                 {
+                    UserID = user.ID,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Address = user.Address,
