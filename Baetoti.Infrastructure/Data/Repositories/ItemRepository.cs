@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Baetoti.Shared.Enum;
+using Baetoti.Shared.Request.Item;
 
 namespace Baetoti.Infrastructure.Data.Repositories
 {
@@ -50,6 +51,39 @@ namespace Baetoti.Infrastructure.Data.Repositories
             return itemResponse;
         }
 
+        public async Task<ItemResponse> GetFilteredItemsDataAsync(FilterRequest filterRequest)
+        {
+            var itemList = await (from i in _dbContext.Items
+                                  join c in _dbContext.Categories on i.CategoryID equals c.ID
+                                  join sc in _dbContext.SubCategories on i.SubCategoryID equals sc.ID
+                                  where i.MarkAsDeleted == false && i.Name==filterRequest.Name && 
+                                  i.ArabicName==filterRequest.ArabicName && i.Price==filterRequest.Price
+                                  && i.CategoryID==filterRequest.CategoryID && i.SubCategoryID==filterRequest.SubCategoryID
+                                  && i.UnitID==filterRequest.UnitID
+                                  select new ItemListResponse
+                                  {
+                                      ID = i.ID,
+                                      ProviderID = i.ProviderID,
+                                      Title = i.Name,
+                                      Category = c.CategoryName,
+                                      SubCategory = sc.SubCategoryName,
+                                      OrderedQuantity = 0,
+                                      Revenue = 0,
+                                      AveragePreparationTime = "0",
+                                      CreateDate = i.CreatedAt,
+                                      Status = ((ItemStatus)i.Status).ToString(),
+                                      Price = $"{i.Price} SAR/{ _dbContext.Units.Where(x => x.ID == i.UnitID).FirstOrDefault().UnitEnglishName}",
+                                      Rating = 0,
+                                  }).ToListAsync();
+            var itemResponse = new ItemResponse();
+            itemResponse.items = itemList;
+            //itemResponse.Total = itemList.Count();
+            //itemResponse.Active = itemList.Count(x => x.Status == "Active");
+            //itemResponse.Inactive = itemList.Count(x => x.Status == "Inactive");
+            //itemResponse.Flaged = 0; //itemList.Count();
+            return itemResponse;
+        }
+
         public async Task<ItemResponseByID> GetByID(long ItemID)
         {
             var item = await (from i in _dbContext.Items
@@ -65,16 +99,13 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                   Location = "",
                                   Title = i.Name,
                                   Description = i.Description,
-                                  CategoryID=i.CategoryID,
                                   Category = c.CategoryName,
-                                  SubCategoryID=i.SubCategoryID,
                                   SubCategory = sc.SubCategoryName,
                                   Quantity = 0,
                                   TotalRevenue = 0,
                                   AveragePreparationTime = "0",
                                   Price = $"{i.Price} SAR/{ _dbContext.Units.Where(x => x.ID == i.UnitID).FirstOrDefault().UnitEnglishName}",
                                   AverageRating = 0,
-                                  UnitID=i.UnitID,
                                   Unit = "",
                                   Sold = 0,
                                   AvailableNow = 0,
