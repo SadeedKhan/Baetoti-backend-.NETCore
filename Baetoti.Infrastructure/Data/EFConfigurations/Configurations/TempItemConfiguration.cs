@@ -5,12 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Baetoti.Infrastructure.Data.EFConfigurations.Configurations
 {
-    public class TagConfiguration : IEntityTypeConfiguration<Tags>
+    public class TempItemConfiguration : IEntityTypeConfiguration<TempItem>
     {
-        public void Configure(EntityTypeBuilder<Tags> builder)
+        public void Configure(EntityTypeBuilder<TempItem> builder)
         {
-            builder.ToTable(nameof(Tags), DBSchema.baetoti.ToString());
+            builder.ToTable(nameof(TempItem), DBSchema.baetoti.ToString());
         }
-
     }
 }

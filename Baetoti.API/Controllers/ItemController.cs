@@ -6,7 +6,6 @@ using Baetoti.Core.Interface.Repositories;
 using Baetoti.Shared.Enum;
 using Baetoti.Shared.Request.Item;
 using Baetoti.Shared.Response.FileUpload;
-using Baetoti.Shared.Response.Item;
 using Baetoti.Shared.Response.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,16 +21,22 @@ namespace Baetoti.API.Controllers
 
         public readonly IItemRepository _itemRepository;
         public readonly IItemTagRepository _itemTagRepository;
+        public readonly ITempItemRepository _TempitemRepository;
+        public readonly ITempItemTagRepository _TempitemTagRepository;
         public readonly IMapper _mapper;
 
         public ItemController(
             IItemRepository itemRepository,
             IItemTagRepository itemTagRepository,
+             ITempItemRepository tempitemRepository,
+            ITempItemTagRepository tempitemTagRepository,
             IMapper mapper
             )
         {
             _itemRepository = itemRepository;
             _itemTagRepository = itemTagRepository;
+            _TempitemRepository = tempitemRepository;
+            _TempitemTagRepository = tempitemTagRepository;
             _mapper = mapper;
         }
 
@@ -48,6 +53,20 @@ namespace Baetoti.API.Controllers
                 return Ok(new SharedResponse(false, 400, ex.Message, null));
             }
         }
+
+        //[HttpPost("GetFilteredData")]
+        //public async Task<IActionResult> GetFilteredData([FromBody] FilterRequest filterRequest)
+        //{
+        //    try
+        //    {
+        //        var itemsData = await _itemRepository.GetFilteredItemsDataAsync(filterRequest);
+        //        return Ok(new SharedResponse(true, 200, "", itemsData));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Ok(new SharedResponse(false, 400, ex.Message, null));
+        //    }
+        //}
 
         [HttpGet("GetById")]
         public async Task<IActionResult> GetById(int Id)
@@ -113,45 +132,121 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var item = await _itemRepository.GetByIdAsync(itemRequest.ID);
-                if (item != null)
+                var tempitem = new TempItem
                 {
+                    ItemId = itemRequest.ID,
+                    Name = itemRequest.Name,
+                    ArabicName = itemRequest.ArabicName,
+                    Description = itemRequest.Description,
+                    CategoryID = itemRequest.CategoryID,
+                    SubCategoryID = itemRequest.SubCategoryID,
+                    ProviderID = itemRequest.ProviderID,
+                    UnitID = itemRequest.UnitID,
+                    Price = itemRequest.Price,
+                    Picture = itemRequest.Picture,
+                };
+                var addedTempItem = await _TempitemRepository.AddAsync(tempitem);
+                var tempitemTags = new List<TempItemTag>();
+                foreach (var tag in itemRequest.Tags)
+                {
+                    var tempitemTag = new TempItemTag
+                    {
+                        ItemID = itemRequest.ID,
+                        TagID = tag.ID
+                    };
+                    tempitemTags.Add(tempitemTag);
+                }
+                var addedTempItemTags = await _TempitemTagRepository.AddRangeAsync(tempitemTags);
+                if (addedTempItem == null || addedTempItemTags == null)
+                {
+                    return Ok(new SharedResponse(false, 400, "Unable To Update Item"));
+                }
+                return Ok(new SharedResponse(true, 200, "Item Update Request Sent Successfully"));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message));
+            }
+        }
 
-                    item.Name = itemRequest.Name;
-                    item.ArabicName = itemRequest.ArabicName;
-                    item.CategoryID = itemRequest.CategoryID;
-                    item.Description = itemRequest.Description;
-                    item.SubCategoryID = itemRequest.SubCategoryID;
-                    item.ProviderID = itemRequest.ProviderID;
-                    item.UnitID = itemRequest.UnitID;
-                    item.Price = itemRequest.Price;
-                    item.Picture = itemRequest.Picture;
-                    item.Status = (int)ItemStatus.Pending;
-                    item.LastUpdatedAt = DateTime.Now;
-                    item.UpdatedBy = Convert.ToInt32(UserId);
-                    await _itemRepository.UpdateAsync(item);
-                    var existingItemTags = (await _itemTagRepository.ListAllAsync()).Where(x => x.ItemID == item.ID);
-                    await _itemTagRepository.DeleteRangeAsync(existingItemTags.ToList());
-                    var itemTags = new List<ItemTag>();
-                    foreach (var tag in itemRequest.Tags)
+        [HttpPost("RequestApprovel")]
+        public async Task<IActionResult> RequestApprovel([FromBody] ItemRequestApprovel itemRequest)
+        {
+            try
+            {
+                if (itemRequest.Approvel == true)
+                {
+                    var tempitem = ((await _TempitemRepository.ListAllAsync())
+                        .Where(x=>x.ItemId== itemRequest.ItemID)).FirstOrDefault();
+                    if (tempitem != null)
                     {
-                        var itemTag = new ItemTag
+                        var item = await _itemRepository.GetByIdAsync(tempitem.ID);
+
+                        item.ID = tempitem.ItemId;
+                        item.Name = tempitem.Name;
+                        item.ArabicName = tempitem.ArabicName;
+                        item.Description = tempitem.Description;
+                        item.CategoryID = tempitem.CategoryID;
+                        item.SubCategoryID = tempitem.SubCategoryID;
+                        item.ProviderID = tempitem.ProviderID;
+                        item.UnitID = tempitem.UnitID;
+                        item.Price = tempitem.Price;
+                        if(!string.IsNullOrEmpty(tempitem.Picture))
                         {
-                            ItemID = item.ID,
-                            TagID = tag.ID
-                        };
-                        itemTags.Add(itemTag);
+                            item.Picture = tempitem.Picture;
+                        }
+                        item.LastUpdatedAt = DateTime.Now;
+                        item.UpdatedBy = Convert.ToInt32(UserId);
+                        await _itemRepository.UpdateAsync(item);
+                        var existingtempItemTags = (await _TempitemTagRepository.ListAllAsync()).Where(x => x.ItemID == itemRequest.ItemID);
+
+                        var itemTags = new List<ItemTag>();
+                        foreach (var tag in existingtempItemTags)
+                        {
+                            var itemTag = new ItemTag
+                            {
+                                ItemID = tag.ItemID,
+                                TagID = tag.ID
+                            };
+                            itemTags.Add(itemTag);
+                        }
+                        var addedItemTags = await _itemTagRepository.UpdateRangeAsync(itemTags);
+                        if (tempitem == null || existingtempItemTags == null)
+                        {
+                            return Ok(new SharedResponse(false, 400, "Unable To Update Item"));
+                        }
+                        return Ok(new SharedResponse(true, 200, "Item Approved Successfully"));
                     }
-                    var addedItemTags = await _itemTagRepository.AddRangeAsync(itemTags);
-                    if (item == null || addedItemTags == null)
+                    else
                     {
-                        return Ok(new SharedResponse(false, 400, "Unable to Update Item"));
+                        return Ok(new SharedResponse(false, 400, "Unable to Find Item"));
                     }
-                    return Ok(new SharedResponse(true, 200, "Item Updated Successfully"));
                 }
                 else
                 {
-                    return Ok(new SharedResponse(false, 400, "Unable to Find Item"));
+                    var tempitem = await _TempitemRepository.GetByIdAsync(itemRequest.ItemID);
+                    if (tempitem != null)
+                    {
+                        await _TempitemRepository.DeleteAsync(tempitem);
+                        var existingtempItemTags = (await _TempitemTagRepository.ListAllAsync()).Where(x => x.ItemID == itemRequest.ItemID);
+
+                        var itemTags = new List<ItemTag>();
+                        foreach (var tag in existingtempItemTags)
+                        {
+                            var itemTag = new ItemTag
+                            {
+                                ItemID = tag.ItemID,
+                                TagID = tag.TagID
+                            };
+                            itemTags.Add(itemTag);
+                        }
+                        await _itemTagRepository.DeleteRangeAsync(itemTags);
+                        return Ok(new SharedResponse(true, 200, "Item Rejected Successfully!"));
+                    }
+                    else
+                    {
+                        return Ok(new SharedResponse(false, 400, "Unable to Find Item"));
+                    }
                 }
             }
             catch (Exception ex)
