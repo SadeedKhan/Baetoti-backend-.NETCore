@@ -18,6 +18,8 @@ namespace Baetoti.Core.Interface.Base
 
         Task<List<T>> AddRangeAsync(List<T> entity);
 
+        Task<List<T>> UpdateRangeAsync(List<T> entity);
+
         Task UpdateAsync(T entity);
 
         Task DeleteAsync(T entity);
