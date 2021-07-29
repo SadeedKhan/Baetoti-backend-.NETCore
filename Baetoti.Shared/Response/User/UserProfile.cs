@@ -52,6 +52,7 @@ namespace Baetoti.Shared.Response.User
         public string Name { get; set; }
         public string MaroofID { get; set; }
         public string GovernmentID { get; set; }
+        public string ExpirationDate { get; set; }
         public string GovernmentIDPicture { get; set; }
         public string Picture { get; set; }
         public string Status { get; set; }
@@ -130,6 +131,7 @@ namespace Baetoti.Shared.Response.User
         public long OrderID { get; set; }
         public string Price { get; set; }
         public string DeliveryFee { get; set; }
+        public DateTime Date { get; set; }
         public string PickUpTime { get; set; }
         public string DropTime { get; set; }
         public string Rating { get; set; }

@@ -61,6 +61,12 @@
         Rejected = 4
     }
 
+    public enum OrderType
+    {
+        Delivery = 0,
+        PickUP = 1
+    }
+
     public enum OrderStatus
     {
         Pending = 0,
@@ -104,6 +110,12 @@
     {
         Cash = 1,
         Online = 2
+    }
+
+    public enum StoreStatus
+    {
+        Private = 0,
+        Public = 1
     }
 
     public enum DBSchema

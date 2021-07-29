@@ -22,6 +22,7 @@ namespace Baetoti.Core.Entites
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
+        public string LongitudeLatitude { get; set; }
         public int UserStatus { get; set; }
         public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }

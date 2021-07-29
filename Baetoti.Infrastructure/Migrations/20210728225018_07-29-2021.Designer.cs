@@ -4,14 +4,16 @@ using Baetoti.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Baetoti.Infrastructure.Migrations
 {
     [DbContext(typeof(BaetotiDbContext))]
-    partial class BaetotiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210728225018_07-29-2021")]
+    partial class _07292021
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -659,9 +661,6 @@ namespace Baetoti.Infrastructure.Migrations
 
                     b.Property<string>("NotesForDriver")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("OrderPickUpTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("OrderReadyTime")
                         .HasColumnType("datetime2");

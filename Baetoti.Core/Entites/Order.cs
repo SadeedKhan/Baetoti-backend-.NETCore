@@ -13,7 +13,9 @@ namespace Baetoti.Core.Entites
         public DateTime ExpectedDeliveryTime { get; set; }
         public DateTime ActualDeliveryTime { get; set; }
         public DateTime OrderReadyTime { get; set; }
+        public DateTime OrderPickUpTime{ get; set; }
         public int Status { get; set; }
+        public int Type { get; set; }
         public decimal Rating { get; set; }
         public string Review { get; set; }
         public int? CreatedBy { get; set; }

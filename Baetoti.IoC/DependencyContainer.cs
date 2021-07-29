@@ -3,6 +3,7 @@ using Baetoti.Core.Interface.Repositories;
 using Baetoti.Core.Interface.Services;
 using Baetoti.Infrastructure.Data.Context;
 using Baetoti.Infrastructure.Data.Repositories;
+using Baetoti.Infrastructure.Data.Repositories.Base;
 using Baetoti.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -37,6 +38,7 @@ namespace Baetoti.IoC
             #endregion
 
             #region Scoped
+            services.AddScoped<IDapper, DapperRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRolePrivilegeRepository, RolePrivilegeRepository>();

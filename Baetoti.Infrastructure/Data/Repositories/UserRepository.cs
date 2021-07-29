@@ -2,10 +2,13 @@
 using Baetoti.Core.Interface.Repositories;
 using Baetoti.Infrastructure.Data.Context;
 using Baetoti.Infrastructure.Data.Repositories.Base;
-using Baetoti.Shared.Enum;
 using Baetoti.Shared.Request.User;
+using Baetoti.Shared.Response.Item;
 using Baetoti.Shared.Response.User;
+using Dapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,10 +21,12 @@ namespace Baetoti.Infrastructure.Data.Repositories
     {
 
         private readonly BaetotiDbContext _dbContext;
+        private readonly IConfiguration _config;
 
-        public UserRepository(BaetotiDbContext dbContext) : base(dbContext)
+        public UserRepository(BaetotiDbContext dbContext, IConfiguration config) : base(dbContext)
         {
             _dbContext = dbContext;
+            _config = config;
         }
 
         public async Task<User> GetByMobileNumberAsync(string mobileNumber)
@@ -247,49 +252,36 @@ namespace Baetoti.Infrastructure.Data.Repositories
 
         public async Task<UserProfile> GetUserProfile(long UserID)
         {
-            var res = await (from u in _dbContext.Users
-                             select new UserProfile
-                             {
-                                 buyer = new BuyerResponse
-                                 {
-                                     Name = $"{u.FirstName} {u.LastName}",
-                                     Description = u.Description,
-                                     Picture = u.Picture,
-                                     City = u.City,
-                                     State = u.State,
-                                     Address = u.Address,
-                                     PostalCode = u.Zip,
-                                     Country = u.Country,
-                                     LongitudeLatitude = "",
-                                     Rating = 0,
-                                     Status = Convert.ToString((UserStatus)u.UserStatus),
-                                     Phone = u.Phone,
-                                     Email = u.Email,
-                                     WalletData = ""
-                                 }
-                             }).FirstOrDefaultAsync();
-            var buyerHistory = _dbContext.Orders
-                .Join(_dbContext.OrderItems, o => o.ID, oi => oi.OrderID, (o, oi) => new { o, oi }).Where(x => x.o.UserID == UserID)
-                .Join(_dbContext.Items, ooi => ooi.oi.ItemID, i => i.ID, (ooi, i) => new { ooi, i })
-                .Join(_dbContext.ProviderOrders, ooip => ooip.ooi.o.ID, po => po.ProviderID, (ooip, po) => new { ooip, po })
-                .Join(_dbContext.Users, ooipu => ooipu.po.ProviderID, pu => pu.ID, (ooipu, pu) => new { ooipu, pu })
-                .Join(_dbContext.DriverOrders, ooipud => ooipud.ooipu.ooip.ooi.o.ID, dor => dor.OrderID, (ooipud, dor) => new { ooipud, dor })
-                .Join(_dbContext.Users, ooipudu => ooipudu.dor.DriverID, du => du.ID, (ooipudu, du) => new { ooipudu, du })
-                .Select((all, i) => new BuyerHistory
+            var userProfile = new UserProfile();
+            using (IDbConnection db = new SqlConnection(_config.GetConnectionString("Default")))
+            {
+                var param = new DynamicParameters();
+                param.Add("@UserID", UserID);
+                using (var m = db.QueryMultiple("GetUserProfile", param, commandType: CommandType.StoredProcedure))
                 {
-                    SrNo = i,
-                    OrderID = all.ooipudu.dor.OrderID,
-                    //OrderAmount = 
-                    Provider = $"{all.ooipudu.ooipud.pu.FirstName} {all.ooipudu.ooipud.pu.LastName}",
-                    Driver = $"{all.du.FirstName} {all.du.LastName}",
-                    PaymentType = "",
-                    PaymentStatus = "",
-                    OrderStatus = "",
-                    DeliveryPickUp = "",
-                    Date = all.ooipudu.ooipud.ooipu.ooip.ooi.o.ActualDeliveryTime
-                }).ToList();
-            res.buyer.buyerHistory = buyerHistory;
-            return res;
+
+                    var buyer = m.ReadFirstOrDefault<BuyerResponse>();
+                    var buyerHistory = m.Read<BuyerHistory>().ToList();
+                    var provider = m.ReadFirstOrDefault<ProviderResponse>();
+                    var storeSchedule = m.Read<WeekDays>().ToList();
+                    var items = m.Read<ItemListResponse>().ToList();
+                    var order = m.Read<ProviderOrders>().ToList();
+                    var order2 = m.Read<ProviderOrders2>().ToList();
+                    var driver = m.ReadFirstOrDefault<DriverResponse>();
+                    var deliveryDetail = m.Read<DeliveryDetail>().ToList();
+
+                    userProfile.buyer = buyer;
+                    userProfile.buyer.buyerHistory = buyerHistory;
+                    userProfile.provider = provider;
+                    userProfile.provider.weekDays = storeSchedule;
+                    userProfile.provider.Items = items;
+                    userProfile.provider.Orders = order;
+                    userProfile.provider.Orders2 = order2;
+                    userProfile.driver = driver;
+                    userProfile.driver.deliveryDetails = deliveryDetail;
+                }
+            }
+            return userProfile;
         }
     }
 }
