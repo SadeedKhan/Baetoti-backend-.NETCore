@@ -25,7 +25,7 @@ namespace Baetoti.Shared.Response.User
         public string PostalCode { get; set; }
         public string Country { get; set; }
         public string LongitudeLatitude { get; set; }
-        public string Rating { get; set; }
+        public decimal Rating { get; set; }
         public string Status { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
@@ -52,6 +52,7 @@ namespace Baetoti.Shared.Response.User
         public string Name { get; set; }
         public string MaroofID { get; set; }
         public string GovernmentID { get; set; }
+        public string ExpirationDate { get; set; }
         public string GovernmentIDPicture { get; set; }
         public string Picture { get; set; }
         public string Status { get; set; }
@@ -130,6 +131,7 @@ namespace Baetoti.Shared.Response.User
         public long OrderID { get; set; }
         public string Price { get; set; }
         public string DeliveryFee { get; set; }
+        public DateTime Date { get; set; }
         public string PickUpTime { get; set; }
         public string DropTime { get; set; }
         public string Rating { get; set; }
@@ -144,6 +146,7 @@ namespace Baetoti.Shared.Response.User
     {
         public long TransactionID { get; set; }
         public long OrderID { get; set; }
+        public long UserID { get; set; }
         public decimal TransactionAmount { get; set; }
         public string TransactionFrom { get; set; }
         public string TransactionTo { get; set; }

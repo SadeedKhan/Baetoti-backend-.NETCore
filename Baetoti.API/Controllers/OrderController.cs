@@ -41,6 +41,7 @@ namespace Baetoti.API.Controllers
                     DeliveryAddress = orderRequest.DeliveryAddress,
                     ExpectedDeliveryTime = orderRequest.ExpectedDeliveryTime,
                     Status = (int)OrderStatus.Pending,
+                    Type = (int)OrderType.Delivery,
                     CreatedAt = DateTime.Now,
                     CreatedBy = Convert.ToInt32(UserId)
                 };

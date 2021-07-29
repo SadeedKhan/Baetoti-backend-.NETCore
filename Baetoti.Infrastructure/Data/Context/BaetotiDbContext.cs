@@ -37,6 +37,10 @@ namespace Baetoti.Infrastructure.Data.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<ProviderOrder> ProviderOrders { get; set; }
         public DbSet<DriverOrder> DriverOrders { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<StoreTag> StoreTags { get; set; }
+        public DbSet<StoreSchedule> StoreSchedules { get; set; }
 
         #endregion
 

@@ -2,12 +2,16 @@
 using Baetoti.Core.Interface.Repositories;
 using Baetoti.Infrastructure.Data.Context;
 using Baetoti.Infrastructure.Data.Repositories.Base;
-using Baetoti.Shared.Enum;
 using Baetoti.Shared.Request.User;
+using Baetoti.Shared.Response.Item;
 using Baetoti.Shared.Response.User;
+using Dapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,10 +21,12 @@ namespace Baetoti.Infrastructure.Data.Repositories
     {
 
         private readonly BaetotiDbContext _dbContext;
+        private readonly IConfiguration _config;
 
-        public UserRepository(BaetotiDbContext dbContext) : base(dbContext)
+        public UserRepository(BaetotiDbContext dbContext, IConfiguration config) : base(dbContext)
         {
             _dbContext = dbContext;
+            _config = config;
         }
 
         public async Task<User> GetByMobileNumberAsync(string mobileNumber)
@@ -246,7 +252,36 @@ namespace Baetoti.Infrastructure.Data.Repositories
 
         public async Task<UserProfile> GetUserProfile(long UserID)
         {
-            throw new NotImplementedException();
+            var userProfile = new UserProfile();
+            using (IDbConnection db = new SqlConnection(_config.GetConnectionString("Default")))
+            {
+                var param = new DynamicParameters();
+                param.Add("@UserID", UserID);
+                using (var m = db.QueryMultiple("GetUserProfile", param, commandType: CommandType.StoredProcedure))
+                {
+
+                    var buyer = m.ReadFirstOrDefault<BuyerResponse>();
+                    var buyerHistory = m.Read<BuyerHistory>().ToList();
+                    var provider = m.ReadFirstOrDefault<ProviderResponse>();
+                    var storeSchedule = m.Read<WeekDays>().ToList();
+                    var items = m.Read<ItemListResponse>().ToList();
+                    var order = m.Read<ProviderOrders>().ToList();
+                    var order2 = m.Read<ProviderOrders2>().ToList();
+                    var driver = m.ReadFirstOrDefault<DriverResponse>();
+                    var deliveryDetail = m.Read<DeliveryDetail>().ToList();
+
+                    userProfile.buyer = buyer;
+                    userProfile.buyer.buyerHistory = buyerHistory;
+                    userProfile.provider = provider;
+                    userProfile.provider.weekDays = storeSchedule;
+                    userProfile.provider.Items = items;
+                    userProfile.provider.Orders = order;
+                    userProfile.provider.Orders2 = order2;
+                    userProfile.driver = driver;
+                    userProfile.driver.deliveryDetails = deliveryDetail;
+                }
+            }
+            return userProfile;
         }
     }
 }

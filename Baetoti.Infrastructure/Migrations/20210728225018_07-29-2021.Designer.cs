@@ -4,14 +4,16 @@ using Baetoti.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Baetoti.Infrastructure.Migrations
 {
     [DbContext(typeof(BaetotiDbContext))]
-    partial class BaetotiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210728225018_07-29-2021")]
+    partial class _07292021
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -660,9 +662,6 @@ namespace Baetoti.Infrastructure.Migrations
                     b.Property<string>("NotesForDriver")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("OrderPickUpTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("OrderReadyTime")
                         .HasColumnType("datetime2");
 
@@ -1235,73 +1234,34 @@ namespace Baetoti.Infrastructure.Migrations
                     b.ToTable("Tags", "baetoti");
                 });
 
-            modelBuilder.Entity("Baetoti.Core.Entites.TempItem", b =>
+            modelBuilder.Entity("Baetoti.Core.Entites.Transaction", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ArabicName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AveragePreparationTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("CategoryID")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<long>("ProviderID")
+                    b.Property<long>("OrderID")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("Rating")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("Reviews")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("TransactionTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<long>("SubCategoryID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
 
-                    b.Property<long>("UnitID")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("TempItem", "baetoti");
-                });
-
-            modelBuilder.Entity("Baetoti.Core.Entites.TempItemTag", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("ItemID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TagID")
+                    b.Property<long>("UserID")
                         .HasColumnType("bigint");
 
                     b.HasKey("ID");
 
-                    b.ToTable("TempItemTag", "baetoti");
+                    b.ToTable("Transaction", "baetoti");
                 });
 
             modelBuilder.Entity("Baetoti.Core.Entites.Unit", b =>
