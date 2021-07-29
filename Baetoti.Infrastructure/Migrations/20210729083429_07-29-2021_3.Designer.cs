@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Baetoti.Infrastructure.Migrations
 {
     [DbContext(typeof(BaetotiDbContext))]
-    [Migration("20210718113759_7-18-2021")]
-    partial class _7182021
+    [Migration("20210729083429_07-29-2021_3")]
+    partial class _07292021_3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -662,6 +662,9 @@ namespace Baetoti.Infrastructure.Migrations
                     b.Property<string>("NotesForDriver")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("OrderPickUpTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("OrderReadyTime")
                         .HasColumnType("datetime2");
 
@@ -672,6 +675,9 @@ namespace Baetoti.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.Property<int?>("UpdatedBy")
@@ -894,6 +900,105 @@ namespace Baetoti.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Roles", "baetoti");
+                });
+
+            modelBuilder.Entity("Baetoti.Core.Entites.Store", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BusinessLogo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CoverImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InstagramGallery")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAddressHidden")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("MarkAsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("ProviderID")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VideoURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Store", "baetoti");
+                });
+
+            modelBuilder.Entity("Baetoti.Core.Entites.StoreSchedule", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Day")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("StoreID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("StoreSchedule", "baetoti");
+                });
+
+            modelBuilder.Entity("Baetoti.Core.Entites.StoreTag", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("StoreID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TagID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("StoreTag", "baetoti");
                 });
 
             modelBuilder.Entity("Baetoti.Core.Entites.SubCategory", b =>
@@ -1223,6 +1328,9 @@ namespace Baetoti.Infrastructure.Migrations
                     b.Property<DateTime?>("DOB")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -1243,6 +1351,9 @@ namespace Baetoti.Infrastructure.Migrations
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("LongitudeLatitude")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
