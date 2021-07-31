@@ -174,10 +174,10 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                if (itemRequest.Approvel == true)
+                if (itemRequest.IsApproved)
                 {
-                    var tempitem = ((await _TempitemRepository.ListAllAsync())
-                        .Where(x=>x.ItemId== itemRequest.ItemID)).FirstOrDefault();
+                    var tempitem = (await _TempitemRepository.ListAllAsync())
+                        .Where(x => x.ItemId == itemRequest.ItemID).FirstOrDefault();
                     if (tempitem != null)
                     {
                         var item = await _itemRepository.GetByIdAsync(tempitem.ID);
@@ -191,7 +191,7 @@ namespace Baetoti.API.Controllers
                         item.ProviderID = tempitem.ProviderID;
                         item.UnitID = tempitem.UnitID;
                         item.Price = tempitem.Price;
-                        if(!string.IsNullOrEmpty(tempitem.Picture))
+                        if (!string.IsNullOrEmpty(tempitem.Picture))
                         {
                             item.Picture = tempitem.Picture;
                         }

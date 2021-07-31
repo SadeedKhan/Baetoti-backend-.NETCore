@@ -143,6 +143,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
             userSammary.ActiveUser = userList.Where(x => x.UserStatus == "Active").Count();
             userSammary.NewUser = userList.Where(x => x.SignUpDate >= DateTime.Now.AddMonths(-1)).Count();
             userSammary.LiveUser = 0;
+            userSammary.ReportedUser = 0;
 
             // Providers
             var providerSummary = new ProviderSummary();
@@ -172,6 +173,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
             driverSummary.NewDriver = drivers.Count(x => x.CreatedAt >= DateTime.Now.AddMonths(-1));
             driverSummary.ActiveDriver = drivers.Count(x => x.UserStatus == 1);
             driverSummary.LiveDriver = 0;
+            driverSummary.ReportedDriver = 0;
 
             // Over All
             var userResponse = new UserResponse();
