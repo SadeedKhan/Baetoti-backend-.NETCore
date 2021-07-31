@@ -31,8 +31,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var storeList = await _storeScheduleRepository.ListAllAsync();
-                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<StoreScheduleResponse>>(storeList)));
+                var storeScheduleList = await _storeScheduleRepository.ListAllAsync();
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<StoreScheduleResponse>>(storeScheduleList)));
             }
             catch (Exception ex)
             {
@@ -45,8 +45,8 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var store = await _storeScheduleRepository.GetByIdAsync(Id);
-                return Ok(new SharedResponse(true, 200, "", _mapper.Map<StoreScheduleResponse>(store)));
+                var storeSchedule = await _storeScheduleRepository.GetByIdAsync(Id);
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<StoreScheduleResponse>(storeSchedule)));
             }
             catch (Exception ex)
             {
@@ -59,13 +59,13 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var store = _mapper.Map<StoreSchedule>(storeSchRequest);
-                var result = await _storeScheduleRepository.AddAsync(store);
+                var storeSchedule = _mapper.Map<StoreSchedule>(storeSchRequest);
+                var result = await _storeScheduleRepository.AddAsync(storeSchedule);
                 if (result == null)
                 {
-                    return Ok(new SharedResponse(false, 400, "Unable To Create Store"));
+                    return Ok(new SharedResponse(false, 400, "Unable To Create StoreSchedule"));
                 }
-                return Ok(new SharedResponse(true, 200, "Store Created Successfully"));
+                return Ok(new SharedResponse(true, 200, "StoreSchedule Created Successfully"));
             }
             catch (Exception ex)
             {
@@ -80,13 +80,13 @@ namespace Baetoti.API.Controllers
             {
                 if (storeScheduleRequest != null)
                 {
-                    var sc = _mapper.Map<StoreSchedule>(storeScheduleRequest);
-                    await _storeScheduleRepository.UpdateAsync(sc);
-                    return Ok(new SharedResponse(true, 200, "Store Updated Successfully"));
+                    var storeSchedule = _mapper.Map<StoreSchedule>(storeScheduleRequest);
+                    await _storeScheduleRepository.UpdateAsync(storeSchedule);
+                    return Ok(new SharedResponse(true, 200, "StoreSchedule Updated Successfully"));
                 }
                 else
                 {
-                    return Ok(new SharedResponse(false, 400, "unable to find Store"));
+                    return Ok(new SharedResponse(false, 400, "unable to find StoreSchedule"));
                 }
             }
             catch (Exception ex)
@@ -100,10 +100,10 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var cat = await _storeScheduleRepository.GetByIdAsync(ID);
-                if (cat != null)
+                var storeSchedule = await _storeScheduleRepository.GetByIdAsync(ID);
+                if (storeSchedule != null)
                 {
-                    await _storeScheduleRepository.DeleteAsync(cat);
+                    await _storeScheduleRepository.DeleteAsync(storeSchedule);
                     return Ok(new SharedResponse(true, 200, "StoreSchedule Deleted Succesfully"));
                 }
                 else
