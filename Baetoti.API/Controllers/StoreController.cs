@@ -48,6 +48,20 @@ namespace Baetoti.API.Controllers
             }
         }
 
+        [HttpGet("GetAllByUserID")]
+        public async Task<IActionResult> GetAllByUserID(long Id)
+        {
+            try
+            {
+                var storeList = await _storeRepository.GetAllByUserId(Id);
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<List<StoreResponse>>(storeList)));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
         [HttpGet("GetById")]
         public async Task<IActionResult> GetById(int Id)
         {
@@ -100,31 +114,32 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var cat = await _storeRepository.GetByIdAsync(storeRequest.ID);
-                if (cat != null)
+                var store = await _storeRepository.GetByIdAsync(storeRequest.ID);
+                if (store != null)
                 {
-                    cat.Name = storeRequest.Name;
-                    cat.Description = storeRequest.Description;
-                    cat.Location = storeRequest.Location;
-                    cat.IsAddressHidden = storeRequest.IsAddressHidden;
+                    store.Name = storeRequest.Name;
+                    store.Description = storeRequest.Description;
+                    store.Location = storeRequest.Location;
+                    store.IsAddressHidden = storeRequest.IsAddressHidden;
                     if(!string.IsNullOrEmpty(storeRequest.BusinessLogo))
                     {
-                        cat.BusinessLogo = storeRequest.BusinessLogo;
+                        store.BusinessLogo = storeRequest.BusinessLogo;
                     }
                     if (!string.IsNullOrEmpty(storeRequest.CoverImage))
                     {
-                        cat.CoverImage = storeRequest.CoverImage;
+                        store.CoverImage = storeRequest.CoverImage;
                     }
                     if (!string.IsNullOrEmpty(storeRequest.InstagramGallery))
                     {
-                        cat.InstagramGallery = storeRequest.InstagramGallery;
+                        store.InstagramGallery = storeRequest.InstagramGallery;
                     }
-                    cat.LastUpdatedAt = DateTime.Now;
-                    cat.UpdatedBy = Convert.ToInt32(UserId);
-                    await _storeRepository.UpdateAsync(cat);
-                    var existingstoreTags = (await _storeTagRepository.ListAllAsync()).Where(x => x.StoreID == storeRequest.ID);
+                    store.LastUpdatedAt = DateTime.Now;
+                    store.UpdatedBy = Convert.ToInt32(UserId);
+                    await _storeRepository.UpdateAsync(store);
+                    var existingstoreTags = (await _storeTagRepository.ListAllAsync()).Where(x => x.StoreID == storeRequest.ID).ToList();
+                    await _storeTagRepository.DeleteRangeAsync(existingstoreTags);
                     var storeTags = new List<StoreTag>();
-                    foreach (var tag in existingstoreTags)
+                    foreach (var tag in storeRequest.Tags)
                     {
                         var storeTag = new StoreTag
                         {
@@ -133,8 +148,8 @@ namespace Baetoti.API.Controllers
                         };
                         storeTags.Add(storeTag);
                     }
-                    var addedItemTags = await _storeTagRepository.UpdateRangeAsync(storeTags);
-                    if (cat == null || existingstoreTags == null)
+                    var addedItemTags = await _storeTagRepository.AddRangeAsync(storeTags);
+                    if (store == null || addedItemTags == null)
                     {
                         return Ok(new SharedResponse(false, 400, "Unable To Update Store"));
                     }
@@ -156,13 +171,13 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var cat = await _storeRepository.GetByIdAsync(ID);
-                if (cat != null)
+                var store = await _storeRepository.GetByIdAsync(ID);
+                if (store != null)
                 {
-                    cat.MarkAsDeleted = true;
-                    cat.LastUpdatedAt = DateTime.Now;
-                    cat.UpdatedBy = Convert.ToInt32(UserId);
-                    await _storeRepository.DeleteAsync(cat);
+                    store.MarkAsDeleted = true;
+                    store.LastUpdatedAt = DateTime.Now;
+                    store.UpdatedBy = Convert.ToInt32(UserId);
+                    await _storeRepository.DeleteAsync(store);
                     return Ok(new SharedResponse(true, 200, "Store Deleted Succesfully"));
                 }
                 else
@@ -177,15 +192,15 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpPost]
-        [Route("UploadCoverImageFile")]
-        public async Task<IActionResult> UploadCoverImageFile(IFormFile file)
+        [Route("UploadFile")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
         {
             try
             {
                 if (file.Length > 0)
                 {
                     UploadImage obj = new UploadImage();
-                    FileUploadResponse _RESPONSE = await obj.UploadImageFile(file, "CoverImage");
+                    FileUploadResponse _RESPONSE = await obj.UploadImageFile(file, "StoreImage");
                     if (string.IsNullOrEmpty(_RESPONSE.Message))
                     {
                         return Ok(new SharedResponse(true, 200, "File uploaded successfully!", _RESPONSE));
@@ -206,64 +221,5 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("UploadInstagramGalleryFile")]
-        public async Task<IActionResult> UploadInstagramGalleryFile(IFormFile file)
-        {
-            try
-            {
-                if (file.Length > 0)
-                {
-                    UploadImage obj = new UploadImage();
-                    FileUploadResponse _RESPONSE = await obj.UploadImageFile(file, "InstagramGallery");
-                    if (string.IsNullOrEmpty(_RESPONSE.Message))
-                    {
-                        return Ok(new SharedResponse(true, 200, "File uploaded successfully!", _RESPONSE));
-                    }
-                    else
-                    {
-                        return Ok(new SharedResponse(true, 400, _RESPONSE.Message));
-                    }
-                }
-                else
-                {
-                    return Ok(new SharedResponse(false, 400, "File is required!"));
-                }
-            }
-            catch (Exception ex)
-            {
-                return Ok(new SharedResponse(false, 400, ex.Message));
-            }
-        }
-
-        [HttpPost]
-        [Route("UploadBusinessLogoFile")]
-        public async Task<IActionResult> UploadBusinessLogoFile(IFormFile file)
-        {
-            try
-            {
-                if (file.Length > 0)
-                {
-                    UploadImage obj = new UploadImage();
-                    FileUploadResponse _RESPONSE = await obj.UploadImageFile(file, "BusinessLogo");
-                    if (string.IsNullOrEmpty(_RESPONSE.Message))
-                    {
-                        return Ok(new SharedResponse(true, 200, "File uploaded successfully!", _RESPONSE));
-                    }
-                    else
-                    {
-                        return Ok(new SharedResponse(true, 400, _RESPONSE.Message));
-                    }
-                }
-                else
-                {
-                    return Ok(new SharedResponse(false, 400, "File is required!"));
-                }
-            }
-            catch (Exception ex)
-            {
-                return Ok(new SharedResponse(false, 400, ex.Message));
-            }
-        }
     }
 }

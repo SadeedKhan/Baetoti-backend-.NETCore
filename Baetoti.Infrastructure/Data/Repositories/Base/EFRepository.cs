@@ -57,7 +57,7 @@ namespace Baetoti.Infrastructure.Data.Repositories.Base
 
         public async Task<List<T>> UpdateRangeAsync(List<T> entity)
         {
-             _dbContext.Set<T>().UpdateRange(entity);
+            _dbContext.Set<T>().UpdateRange(entity);
             await _dbContext.SaveChangesAsync();
 
             return entity;
@@ -98,9 +98,10 @@ namespace Baetoti.Infrastructure.Data.Repositories.Base
             return entity;
         }
 
-        public Task DeleteByIdAsync(long id)
+        public async Task DeleteByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            _dbContext.Remove(id);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

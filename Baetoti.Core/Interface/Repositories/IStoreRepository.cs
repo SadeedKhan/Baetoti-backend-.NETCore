@@ -10,6 +10,6 @@ namespace Baetoti.Core.Interface.Repositories
 {
     public interface IStoreRepository : IAsyncRepository<Store>
     {
-        //Task<List<StoreResponse>> GetAll();
+        Task<List<StoreResponse>> GetAllByUserId(long id);
     }
 }

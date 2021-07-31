@@ -198,7 +198,12 @@ namespace Baetoti.API.Controllers
                         item.LastUpdatedAt = DateTime.Now;
                         item.UpdatedBy = Convert.ToInt32(UserId);
                         await _itemRepository.UpdateAsync(item);
-                        var existingtempItemTags = (await _TempitemTagRepository.ListAllAsync()).Where(x => x.ItemID == itemRequest.ItemID);
+                        //Need To Be Update DeleteByIDAsync Method
+                        //await _TempitemRepository.DeleteByIdAsync(tempitem.ID);
+                        var existingtempItemTags = (await _TempitemTagRepository.ListAllAsync()).Where(x => x.ItemID == itemRequest.ItemID).ToList();
+                        //Delete Existing ItemTags
+                        var existingItemTags = (await _itemTagRepository.ListAllAsync()).Where(x => x.ItemID == itemRequest.ItemID).ToList();
+                        await _itemTagRepository.DeleteRangeAsync(existingItemTags);
 
                         var itemTags = new List<ItemTag>();
                         foreach (var tag in existingtempItemTags)
@@ -211,6 +216,7 @@ namespace Baetoti.API.Controllers
                             itemTags.Add(itemTag);
                         }
                         var addedItemTags = await _itemTagRepository.UpdateRangeAsync(itemTags);
+                        await _TempitemTagRepository.DeleteRangeAsync(existingtempItemTags);
                         if (tempitem == null || existingtempItemTags == null)
                         {
                             return Ok(new SharedResponse(false, 400, "Unable To Update Item"));
@@ -227,8 +233,14 @@ namespace Baetoti.API.Controllers
                     var tempitem = await _TempitemRepository.GetByIdAsync(itemRequest.ItemID);
                     if (tempitem != null)
                     {
-                        await _TempitemRepository.DeleteAsync(tempitem);
-                        var existingtempItemTags = (await _TempitemTagRepository.ListAllAsync()).Where(x => x.ItemID == itemRequest.ItemID);
+                        //Need To Be Update DeleteByIDAsync Method
+                        //await _TempitemRepository.DeleteByIDAsync(tempitem.ID);
+
+                        //await _TempitemRepository.DeleteByIdAsync(tempitem.ID);
+                        var existingtempItemTags = (await _TempitemTagRepository.ListAllAsync()).Where(x => x.ItemID == itemRequest.ItemID).ToList();
+                        //Delete Existing ItemTags
+                        var existingItemTags = (await _itemTagRepository.ListAllAsync()).Where(x => x.ItemID == itemRequest.ItemID).ToList();
+                        await _itemTagRepository.DeleteRangeAsync(existingItemTags);
 
                         var itemTags = new List<ItemTag>();
                         foreach (var tag in existingtempItemTags)
@@ -236,11 +248,12 @@ namespace Baetoti.API.Controllers
                             var itemTag = new ItemTag
                             {
                                 ItemID = tag.ItemID,
-                                TagID = tag.TagID
+                                TagID = tag.ID
                             };
                             itemTags.Add(itemTag);
                         }
-                        await _itemTagRepository.DeleteRangeAsync(itemTags);
+                        var addedItemTags = await _itemTagRepository.UpdateRangeAsync(itemTags);
+                        await _TempitemTagRepository.DeleteRangeAsync(existingtempItemTags);
                         return Ok(new SharedResponse(true, 200, "Item Rejected Successfully!"));
                     }
                     else

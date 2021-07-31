@@ -19,5 +19,18 @@ namespace Baetoti.Infrastructure.Data.Repositories
         {
             _dbContext = dbContext;
         }
+
+        public async Task<List<StoreResponse>> GetAllByUserId(long id)
+        {
+            //var p = from s in _dbContext.Stores
+            //        join u in _dbContext.Users on p.UserID equals s.ID
+            //        select new StoreResponse
+            //        {
+            //           ID=s.ID,
+            //           Name=s.Name,
+                       
+            //        };
+            return null;
+        }
     }
 }
