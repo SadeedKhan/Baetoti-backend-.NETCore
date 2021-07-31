@@ -22,6 +22,10 @@ using Baetoti.Shared.Request.Provider;
 using Baetoti.Shared.Request.Driver;
 using Baetoti.Shared.Response.Provider;
 using Baetoti.Shared.Response.Driver;
+using Baetoti.Shared.Response.Store;
+using Baetoti.Shared.Request.Store;
+using Baetoti.Shared.Request.StoreSchedule;
+using Baetoti.Shared.Response.StoreSchedule;
 
 namespace Baetoti.API.Common.Mapping
 {
@@ -54,6 +58,10 @@ namespace Baetoti.API.Common.Mapping
             CreateMap<Driver, DriverResponse>();
             CreateMap<Menu, Shared.Response.Menu.MenuResponse>();
             CreateMap<SubMenu, Shared.Response.SubMenu.SubMenuResponse>();
+            CreateMap<Store, StoreResponse>();
+            CreateMap<StoreRequest, Store>();
+            CreateMap<StoreScheduleRequest, StoreSchedule>();
+            CreateMap<StoreSchedule, StoreScheduleResponse>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)
