@@ -210,7 +210,7 @@ namespace Baetoti.API.Controllers
                    .Where(x => x.ItemId == itemRequest.ItemID)).FirstOrDefault();
                 if (changeitem != null)
                 {
-                    if (itemRequest.Approvel == true)
+                    if (itemRequest.IsApproved == true)
                     {
                         var item = await _itemRepository.GetByIdAsync(changeitem.ID);
                         item.ID = changeitem.ItemId;
@@ -250,6 +250,7 @@ namespace Baetoti.API.Controllers
                             return Ok(new SharedResponse(false, 400, "Unable To Update Item"));
                         }
                         changeitem.IsApproved = true;
+                        await _ChangeitemRepository.UpdateAsync(changeitem);
                         return Ok(new SharedResponse(true, 200, "Item Approved Successfully"));
                     }
                     else
@@ -267,6 +268,7 @@ namespace Baetoti.API.Controllers
                             }
                             var addedItemTags = await _itemTagRepository.UpdateRangeAsync(itemTags);
                         changeitem.IsApproved = false;
+                        await _ChangeitemRepository.UpdateAsync(changeitem);
                         return Ok(new SharedResponse(true, 200, "Item Rejected Successfully!"));
                     }
                 }
