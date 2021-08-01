@@ -8,6 +8,6 @@ namespace Baetoti.Shared.Request.Item
     {
         public long ItemID { get; set; }
 
-        public bool Approvel { get; set; }
+        public bool IsApproved { get; set; }
     }
 }

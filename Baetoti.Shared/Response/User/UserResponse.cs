@@ -34,6 +34,7 @@ namespace Baetoti.Shared.Response.User
         public int NewUser { get; set; }
         public int ActiveUser { get; set; }
         public int LiveUser { get; set; }
+        public int ReportedUser { get; set; }
     }
 
     public class ProviderSummary
@@ -51,6 +52,7 @@ namespace Baetoti.Shared.Response.User
         public int NewDriver { get; set; }
         public int ActiveDriver { get; set; }
         public int LiveDriver { get; set; }
+        public int ReportedDriver { get; set; }
     }
 
 }

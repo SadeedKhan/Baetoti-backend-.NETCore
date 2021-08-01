@@ -36,15 +36,15 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-                var user = await _employeeRepository.AuthenticateUser(_mapper.Map<Employee>(request));
-                if (user != null)
+                var employee = await _employeeRepository.AuthenticateUser(_mapper.Map<Employee>(request));
+                if (employee != null)
                 {
-                    var IsAuthenticated = _hashingService.VerifyHash(request.Password, user.Password);
+                    var IsAuthenticated = _hashingService.VerifyHash(request.Password, employee.Password);
                     if (IsAuthenticated)
                     {
-                        user.LastLogin = DateTime.UtcNow;
-                        await _employeeRepository.UpdateAsync(user);
-                        var response = await _jwtService.GenerateTokenAsync(user);
+                        employee.LastLogin = DateTime.UtcNow;
+                        await _employeeRepository.UpdateAsync(employee);
+                        var response = await _jwtService.GenerateTokenAsync(employee);
                         return Ok(new SharedResponse(true, 200, "Success", response));
                     }
                     return Ok(new SharedResponse(false, 400, "Invalid Password."));
@@ -63,6 +63,9 @@ namespace Baetoti.API.Controllers
         {
             try
             {
+                var employee = await _employeeRepository.GetByIdAsync(UserID);
+                employee.RefreshToken = string.Empty;
+                await _employeeRepository.UpdateAsync(employee);
                 return Ok(new SharedResponse(false, 400, "Logout Successfully."));
             }
             catch (Exception ex)

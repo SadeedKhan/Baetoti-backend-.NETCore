@@ -205,6 +205,7 @@ namespace Baetoti.API.Controllers
         {
             try
             {
+
                 var changeitem = ((await _ChangeitemRepository.ListAllAsync())
                    .Where(x => x.ItemId == itemRequest.ItemID)).FirstOrDefault();
                 if (changeitem != null)
