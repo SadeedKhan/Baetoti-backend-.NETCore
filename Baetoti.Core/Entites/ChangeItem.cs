@@ -7,7 +7,7 @@ using System.Text;
 namespace Baetoti.Core.Entites
 {
     [Table("TempItem", Schema = "baetoti")]
-    public class TempItem :BaseEntity
+    public class ChangeItem :BaseEntity
     {
         public long ItemId { get; set; }
 
@@ -34,6 +34,8 @@ namespace Baetoti.Core.Entites
         public string Picture { get; set; }
 
         public string AveragePreparationTime { get; set; }
+
+        public bool? IsApproved { get; set; }
 
     }
 }

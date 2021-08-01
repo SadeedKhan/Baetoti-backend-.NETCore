@@ -177,7 +177,7 @@ namespace Baetoti.API.Controllers
                     store.MarkAsDeleted = true;
                     store.LastUpdatedAt = DateTime.Now;
                     store.UpdatedBy = Convert.ToInt32(UserId);
-                    await _storeRepository.DeleteAsync(store);
+                    await _storeRepository.UpdateAsync(store);
                     return Ok(new SharedResponse(true, 200, "Store Deleted Succesfully"));
                 }
                 else

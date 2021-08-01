@@ -11,5 +11,6 @@ namespace Baetoti.Shared.Response.StoreSchedule
         public string Day { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+
     }
 }

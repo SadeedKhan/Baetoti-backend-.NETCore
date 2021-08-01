@@ -62,8 +62,8 @@ namespace Baetoti.IoC
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             services.AddScoped<IDriverOrderRepository, DriverOrderRepository>();
             services.AddScoped<IProviderOrderRepository, ProviderOrderRepository>();
-            services.AddScoped<ITempItemRepository, TempItemRepository>();
-            services.AddScoped<ITempItemTagRepository, TempItemTagRepository>();
+            services.AddScoped<IChangeItemRepository, ChangeItemRepository>();
+            services.AddScoped<IChangeItemTagRepository, ChangeItemTagRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<IStoreTagRepository, StoreTagRepository>();
