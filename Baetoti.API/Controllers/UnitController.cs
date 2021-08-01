@@ -116,7 +116,7 @@ namespace Baetoti.API.Controllers
                     un.MarkAsDeleted = true;
                     un.LastUpdatedAt = DateTime.Now;
                     un.UpdatedBy = Convert.ToInt32(UserId);
-                    await _unitRepository.DeleteAsync(un);
+                    await _unitRepository.UpdateAsync(un);
                     return Ok(new SharedResponse(true, 200, "Unit Deleted Successfully"));
                 }
                 else

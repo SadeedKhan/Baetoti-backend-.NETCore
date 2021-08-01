@@ -98,10 +98,5 @@ namespace Baetoti.Infrastructure.Data.Repositories.Base
             return entity;
         }
 
-        public async Task DeleteByIdAsync(long id)
-        {
-            _dbContext.Remove(id);
-            await _dbContext.SaveChangesAsync();
-        }
     }
 }

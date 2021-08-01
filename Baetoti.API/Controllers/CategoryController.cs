@@ -121,7 +121,7 @@ namespace Baetoti.API.Controllers
                     cat.MarkAsDeleted = true;
                     cat.LastUpdatedAt = DateTime.Now;
                     cat.UpdatedBy = Convert.ToInt32(UserId);
-                    await _categoryRepository.DeleteAsync(cat);
+                    await _categoryRepository.UpdateAsync(cat);
                     return Ok(new SharedResponse(true, 200, "Category Deleted Succesfully"));
                 }
                 else

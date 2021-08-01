@@ -60,6 +60,9 @@ namespace Baetoti.API.Controllers
             try
             {
                 var storeSchedule = _mapper.Map<StoreSchedule>(storeSchRequest);
+                storeSchedule.MarkAsDeleted = false;
+                storeSchedule.CreatedBy = Convert.ToInt32(UserId);
+                storeSchedule.CreatedAt = DateTime.Now;
                 var result = await _storeScheduleRepository.AddAsync(storeSchedule);
                 if (result == null)
                 {
@@ -78,9 +81,15 @@ namespace Baetoti.API.Controllers
         {
             try
             {
+                var storeSchedule = await _storeScheduleRepository.GetByIdAsync(storeScheduleRequest.ID);
                 if (storeScheduleRequest != null)
                 {
-                    var storeSchedule = _mapper.Map<StoreSchedule>(storeScheduleRequest);
+                    storeSchedule.StoreID = storeScheduleRequest.StoreID;
+                    storeSchedule.StartTime = storeScheduleRequest.StartTime;
+                    storeSchedule.Day = storeScheduleRequest.Day;
+                    storeSchedule.EndTime = storeScheduleRequest.EndTime;
+                    storeSchedule.UpdatedBy = Convert.ToInt32(UserId);
+                    storeSchedule.LastUpdatedAt = DateTime.Now;
                     await _storeScheduleRepository.UpdateAsync(storeSchedule);
                     return Ok(new SharedResponse(true, 200, "StoreSchedule Updated Successfully"));
                 }
@@ -103,7 +112,10 @@ namespace Baetoti.API.Controllers
                 var storeSchedule = await _storeScheduleRepository.GetByIdAsync(ID);
                 if (storeSchedule != null)
                 {
-                    await _storeScheduleRepository.DeleteAsync(storeSchedule);
+                    storeSchedule.MarkAsDeleted = true;
+                    storeSchedule.UpdatedBy = Convert.ToInt32(UserId); 
+                    storeSchedule.LastUpdatedAt = DateTime.Now;
+                    await _storeScheduleRepository.UpdateAsync(storeSchedule);
                     return Ok(new SharedResponse(true, 200, "StoreSchedule Deleted Succesfully"));
                 }
                 else

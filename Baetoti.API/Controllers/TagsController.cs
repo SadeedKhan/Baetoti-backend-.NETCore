@@ -115,7 +115,7 @@ namespace Baetoti.API.Controllers
                     tag.MarkAsDeleted = true;
                     tag.CreatedAt = DateTime.Now;
                     tag.CreatedBy = Convert.ToInt32(UserId);
-                    await _tagsRepository.DeleteAsync(tag);
+                    await _tagsRepository.UpdateAsync(tag);
                     return Ok(new SharedResponse(true, 200, "Tag Deleted Successfully"));
                 }
                 else

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Baetoti.Core.Interface.Repositories
 {
-    public interface ITempItemRepository : IAsyncRepository<TempItem>
+    public interface IChangeItemRepository : IAsyncRepository<ChangeItem>
     {
         
     }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Baetoti.Core.Interface.Repositories
 {
-    public interface ITempItemTagRepository : IAsyncRepository<TempItemTag>
+    public interface IChangeItemTagRepository : IAsyncRepository<ChangeItemTag>
     {
     }
 }

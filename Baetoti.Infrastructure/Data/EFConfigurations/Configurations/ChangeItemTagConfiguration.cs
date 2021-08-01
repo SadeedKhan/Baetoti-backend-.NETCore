@@ -8,11 +8,11 @@ using System.Text;
 
 namespace Baetoti.Infrastructure.Data.EFConfigurations.Configurations
 {
-    class TempItemTagConfiguration : IEntityTypeConfiguration<TempItemTag>
+    class ChangeItemTagConfiguration : IEntityTypeConfiguration<ChangeItemTag>
     {
-        public void Configure(EntityTypeBuilder<TempItemTag> builder)
+        public void Configure(EntityTypeBuilder<ChangeItemTag> builder)
         {
-            builder.ToTable(nameof(TempItemTag), DBSchema.baetoti.ToString());
+            builder.ToTable(nameof(ChangeItemTag), DBSchema.baetoti.ToString());
         }
     }
 }

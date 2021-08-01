@@ -7,11 +7,9 @@ using Baetoti.Shared.Enum;
 using Baetoti.Shared.Request.User;
 using Baetoti.Shared.Response.FileUpload;
 using Baetoti.Shared.Response.Shared;
-using Baetoti.Shared.Response.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Baetoti.API.Controllers
