@@ -271,6 +271,9 @@ namespace Baetoti.Infrastructure.Data.Repositories
                     var order2 = m.Read<ProviderOrders2>().ToList();
                     var driver = m.ReadFirstOrDefault<DriverResponse>();
                     var deliveryDetail = m.Read<DeliveryDetail>().ToList();
+                    var analyticalData = m.ReadFirstOrDefault<AnalyticalData>();
+                    var cancelledOrder = m.Read<string>().ToList();
+
 
                     userProfile.buyer = buyer;
                     userProfile.buyer.buyerHistory = buyerHistory;
@@ -281,6 +284,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
                     userProfile.provider.Orders2 = order2;
                     userProfile.driver = driver;
                     userProfile.driver.deliveryDetails = deliveryDetail;
+                    userProfile.analytics.analyticalData = analyticalData;
                 }
             }
             return userProfile;

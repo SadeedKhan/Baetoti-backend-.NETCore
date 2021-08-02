@@ -210,7 +210,7 @@ namespace Baetoti.API.Controllers
                    .Where(x => x.ItemId == itemRequest.ItemID)).FirstOrDefault();
                 if (changeitem != null)
                 {
-                    if (itemRequest.Approvel == true)
+                    if (itemRequest.IsApproved == true)
                     {
                         var item = await _itemRepository.GetByIdAsync(changeitem.ID);
                         item.ID = changeitem.ItemId;

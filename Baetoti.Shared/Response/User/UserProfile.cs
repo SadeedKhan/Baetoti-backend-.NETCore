@@ -158,6 +158,93 @@ namespace Baetoti.Shared.Response.User
 
     public class AnalyticsResponse
     {
+        public AnalyticalData analyticalData { get; set; }
+        public UserCancelledOrder userCancelledOrder { get; set; }
+        public ProviderAnalytic provider { get; set; }
+        public DriverAnalytic driver { get; set; }
+        public OrderAnalytic order { get; set; }
+    }
 
+    public class AnalyticalData
+    {
+        public decimal Satisfaction { get; set; }
+        public int Complaints { get; set; }
+        public decimal TotalKMs { get; set; }
+        public decimal HourOnRoad { get; set; }
+        public string AverageCartSize { get; set; }
+        public int AverageAbandantCart { get; set; }
+    }
+
+    public class UserCancelledOrder
+    {
+        public List<string> TotalOrder { get; set; }
+        public List<string> CancelledOrder { get; set; }
+        public List<string> OrderDate { get; set; }
+    }
+
+    public class ProviderAnalytic
+    {
+        public OrderPrice orderPrice { get; set; }
+        public CancelledOrder cancelledOrder { get; set; }
+    }
+
+    public class OrderPrice
+    {
+        public List<string> TotalPrice { get; set; }
+        public List<string> TotalOrder { get; set; }
+        public List<string> OrderDate { get; set; }
+    }
+
+    public class CancelledOrder
+    {
+        public List<string> TotalOrder { get; set; }
+        public List<string> Cancelled { get; set; }
+        public List<string> OrderDate { get; set; }
+    }
+
+    public class DriverAnalytic
+    {
+        public DeliveryTimeAccuracy deliveryTimeAccuracy { get; set; }
+        public DriverCancelledOrder driverCancelledOrder { get; set; }
+    }
+
+    public class DeliveryTimeAccuracy
+    {
+        public List<string> Schedule { get; set; }
+        public List<string> Actual { get; set; }
+        public List<string> Date { get; set; }
+    }
+
+    public class DriverCancelledOrder
+    {
+        public List<string> TotalOrder { get; set; }
+        public List<string> Cancelled { get; set; }
+        public List<string> OrderDate { get; set; }
+    }
+
+    public class OrderAnalytic
+    {
+        public TotalAcceptedOrder totalAcceptedOrder { get; set; }
+        public AverageOrderPrice averageOrderPrice { get; set; }
+        public OrderTimeAccuracy orderTimeAccuracy { get; set; }
+    }
+    public class TotalAcceptedOrder
+    {
+        public List<string> TotalOrder { get; set; }
+        public List<string> acceptedOrder { get; set; }
+        public List<string> OrderDate { get; set; }
+    }
+
+    public class AverageOrderPrice
+    {
+        public List<string> TotalOrder { get; set; }
+        public List<string> OrderDate { get; set; }
+    }
+
+    public class OrderTimeAccuracy
+    {
+        public List<string> Schedule { get; set; }
+        public List<string> Actual { get; set; }
+        public List<string> Date { get; set; }
     }
 }
