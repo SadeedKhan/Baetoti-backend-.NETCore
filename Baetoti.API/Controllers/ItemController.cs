@@ -205,7 +205,6 @@ namespace Baetoti.API.Controllers
         {
             try
             {
-
                 var changeitem = ((await _ChangeitemRepository.ListAllAsync())
                    .Where(x => x.ItemId == itemRequest.ItemID)).FirstOrDefault();
                 if (changeitem != null)
@@ -240,7 +239,7 @@ namespace Baetoti.API.Controllers
                             var itemTag = new ItemTag
                             {
                                 ItemID = tag.ItemID,
-                                TagID = tag.ID
+                                TagID = tag.TagID
                             };
                             itemTags.Add(itemTag);
                         }
@@ -250,23 +249,13 @@ namespace Baetoti.API.Controllers
                             return Ok(new SharedResponse(false, 400, "Unable To Update Item"));
                         }
                         changeitem.IsApproved = true;
+                        await _ChangeitemRepository.UpdateAsync(changeitem);
                         return Ok(new SharedResponse(true, 200, "Item Approved Successfully"));
                     }
                     else
                     {
-                            var existingchangeItemTags = (await _ChangeitemTagRepository.ListAllAsync()).Where(x => x.ItemID == itemRequest.ItemID).ToList();
-                            var itemTags = new List<ItemTag>();
-                            foreach (var tag in existingchangeItemTags)
-                            {
-                                var itemTag = new ItemTag
-                                {
-                                    ItemID = tag.ItemID,
-                                    TagID = tag.ID
-                                };
-                                itemTags.Add(itemTag);
-                            }
-                            var addedItemTags = await _itemTagRepository.UpdateRangeAsync(itemTags);
                         changeitem.IsApproved = false;
+                        await _ChangeitemRepository.UpdateAsync(changeitem);
                         return Ok(new SharedResponse(true, 200, "Item Rejected Successfully!"));
                     }
                 }
