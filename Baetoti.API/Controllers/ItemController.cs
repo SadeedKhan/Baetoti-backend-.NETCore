@@ -60,7 +60,7 @@ namespace Baetoti.API.Controllers
             try
             {
                 var tempitemList = (await _ChangeitemRepository.ListAllAsync()
-                    ).Where(x=>x.IsApproved==null).ToList();
+                    ).Where(x => x.IsApproved == null).ToList();
                 return Ok(new SharedResponse(true, 200, "", tempitemList));
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace Baetoti.API.Controllers
             try
             {
                 var tempitemList = (await _ChangeitemRepository.ListAllAsync()
-                    ).Where(x => x.IsApproved !=null).ToList();
+                    ).Where(x => x.IsApproved != null).ToList();
                 return Ok(new SharedResponse(true, 200, "", tempitemList));
             }
             catch (Exception ex)
@@ -84,19 +84,20 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        //[HttpPost("GetFilteredData")]
-        //public async Task<IActionResult> GetFilteredData([FromBody] FilterRequest filterRequest)
-        //{
-        //    try
-        //    {
-        //        var itemsData = await _itemRepository.GetFilteredItemsDataAsync(filterRequest);
-        //        return Ok(new SharedResponse(true, 200, "", itemsData));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Ok(new SharedResponse(false, 400, ex.Message, null));
-        //    }
-        //}
+        [HttpPost("GetFilteredData")]
+        public async Task<IActionResult> GetFilteredData([FromBody] FilterRequest filterRequest)
+        {
+            try
+            {
+                //var itemsData = await _itemRepository.GetFilteredItemsDataAsync(filterRequest);
+                var itemList = await _itemRepository.GetAll();
+                return Ok(new SharedResponse(true, 200, "", itemList));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
 
         [HttpGet("GetById")]
         public async Task<IActionResult> GetById(int Id)
@@ -174,7 +175,7 @@ namespace Baetoti.API.Controllers
                     UnitID = itemRequest.UnitID,
                     Price = itemRequest.Price,
                     Picture = itemRequest.Picture,
-                    IsApproved=null
+                    IsApproved = null
                 };
                 var addedChangeItem = await _ChangeitemRepository.AddAsync(changeitem);
                 var changeitemTags = new List<ChangeItemTag>();
