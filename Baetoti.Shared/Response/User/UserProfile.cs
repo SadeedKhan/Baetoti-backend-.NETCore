@@ -12,6 +12,12 @@ namespace Baetoti.Shared.Response.User
         public DriverResponse driver { get; set; }
         public WalletResponse wallet { get; set; }
         public AnalyticsResponse analytics { get; set; }
+
+        public UserProfile()
+        {
+            analytics = new AnalyticsResponse();
+            wallet = new WalletResponse();
+        }
     }
 
     public class BuyerResponse
@@ -140,6 +146,10 @@ namespace Baetoti.Shared.Response.User
     public class WalletResponse
     {
         public List<TransactionsHistory> transactionsHistory { get; set; }
+        public WalletResponse()
+        {
+            transactionsHistory = new List<TransactionsHistory>();
+        }
     }
 
     public class TransactionsHistory
@@ -159,10 +169,16 @@ namespace Baetoti.Shared.Response.User
     public class AnalyticsResponse
     {
         public AnalyticalData analyticalData { get; set; }
-        public UserCancelledOrder userCancelledOrder { get; set; }
+        public UserCancelledOrder2 userCancelledOrder { get; set; }
         public ProviderAnalytic provider { get; set; }
         public DriverAnalytic driver { get; set; }
         public OrderAnalytic order { get; set; }
+        public AnalyticsResponse()
+        {
+            provider = new ProviderAnalytic();
+            driver = new DriverAnalytic();
+            order = new OrderAnalytic();
+        }
     }
 
     public class AnalyticalData
@@ -177,15 +193,34 @@ namespace Baetoti.Shared.Response.User
 
     public class UserCancelledOrder
     {
+        public string TotalOrder { get; set; }
+        public string CancelledOrder { get; set; }
+        public string OrderDate { get; set; }
+    }
+
+    public class UserCancelledOrder2
+    {
         public List<string> TotalOrder { get; set; }
         public List<string> CancelledOrder { get; set; }
         public List<string> OrderDate { get; set; }
+
+        public UserCancelledOrder2()
+        {
+            TotalOrder = new List<string>();
+            CancelledOrder = new List<string>();
+            OrderDate = new List<string>();
+        }
     }
 
     public class ProviderAnalytic
     {
         public OrderPrice orderPrice { get; set; }
-        public CancelledOrder cancelledOrder { get; set; }
+        public CancelledOrder2 cancelledOrder { get; set; }
+        public ProviderAnalytic()
+        {
+            orderPrice = new OrderPrice();
+            cancelledOrder = new CancelledOrder2();
+        }
     }
 
     public class OrderPrice
@@ -193,19 +228,51 @@ namespace Baetoti.Shared.Response.User
         public List<string> TotalPrice { get; set; }
         public List<string> TotalOrder { get; set; }
         public List<string> OrderDate { get; set; }
+
+        public OrderPrice()
+        {
+            TotalPrice = new List<string>();
+            TotalOrder = new List<string>();
+            OrderDate = new List<string>();
+        }
+    }
+
+    public class OrderPrice2
+    {
+        public string TotalPrice { get; set; }
+        public string TotalOrder { get; set; }
+        public string OrderDate { get; set; }
     }
 
     public class CancelledOrder
     {
+        public string TotalOrder { get; set; }
+        public string Cancelled { get; set; }
+        public string OrderDate { get; set; }
+    }
+
+    public class CancelledOrder2
+    {
         public List<string> TotalOrder { get; set; }
         public List<string> Cancelled { get; set; }
         public List<string> OrderDate { get; set; }
+        public CancelledOrder2()
+        {
+            TotalOrder = new List<string>();
+            Cancelled = new List<string>();
+            OrderDate = new List<string>();
+        }
     }
 
     public class DriverAnalytic
     {
         public DeliveryTimeAccuracy deliveryTimeAccuracy { get; set; }
         public DriverCancelledOrder driverCancelledOrder { get; set; }
+        public DriverAnalytic()
+        {
+            deliveryTimeAccuracy = new DeliveryTimeAccuracy();
+            driverCancelledOrder = new DriverCancelledOrder();
+        }
     }
 
     public class DeliveryTimeAccuracy
@@ -213,6 +280,19 @@ namespace Baetoti.Shared.Response.User
         public List<string> Schedule { get; set; }
         public List<string> Actual { get; set; }
         public List<string> Date { get; set; }
+        public DeliveryTimeAccuracy()
+        {
+            Schedule = new List<string>();
+            Actual = new List<string>();
+            Date = new List<string>();
+        }
+    }
+
+    public class DeliveryTimeAccuracy2
+    {
+        public string Schedule { get; set; }
+        public string Actual { get; set; }
+        public string Date { get; set; }
     }
 
     public class DriverCancelledOrder
@@ -220,6 +300,19 @@ namespace Baetoti.Shared.Response.User
         public List<string> TotalOrder { get; set; }
         public List<string> Cancelled { get; set; }
         public List<string> OrderDate { get; set; }
+        public DriverCancelledOrder()
+        {
+            TotalOrder = new List<string>();
+            Cancelled = new List<string>();
+            OrderDate = new List<string>();
+        }
+    }
+
+    public class DriverCancelledOrder2
+    {
+        public string TotalOrder { get; set; }
+        public string Cancelled { get; set; }
+        public string OrderDate { get; set; }
     }
 
     public class OrderAnalytic
@@ -227,18 +320,48 @@ namespace Baetoti.Shared.Response.User
         public TotalAcceptedOrder totalAcceptedOrder { get; set; }
         public AverageOrderPrice averageOrderPrice { get; set; }
         public OrderTimeAccuracy orderTimeAccuracy { get; set; }
+        public OrderAnalytic()
+        {
+            totalAcceptedOrder = new TotalAcceptedOrder();
+            averageOrderPrice = new AverageOrderPrice();
+            orderTimeAccuracy = new OrderTimeAccuracy();
+        }
     }
     public class TotalAcceptedOrder
     {
         public List<string> TotalOrder { get; set; }
-        public List<string> acceptedOrder { get; set; }
+        public List<string> AcceptedOrder { get; set; }
         public List<string> OrderDate { get; set; }
+        public TotalAcceptedOrder()
+        {
+            TotalOrder = new List<string>();
+            AcceptedOrder = new List<string>();
+            OrderDate = new List<string>();
+        }
+    }
+
+    public class TotalAcceptedOrder2
+    {
+        public string TotalOrder { get; set; }
+        public string AcceptedOrder { get; set; }
+        public string OrderDate { get; set; }
     }
 
     public class AverageOrderPrice
     {
         public List<string> TotalOrder { get; set; }
         public List<string> OrderDate { get; set; }
+        public AverageOrderPrice()
+        {
+            TotalOrder = new List<string>();
+            OrderDate = new List<string>();
+        }
+    }
+
+    public class AverageOrderPrice2
+    {
+        public string TotalOrder { get; set; }
+        public string OrderDate { get; set; }
     }
 
     public class OrderTimeAccuracy
@@ -246,5 +369,18 @@ namespace Baetoti.Shared.Response.User
         public List<string> Schedule { get; set; }
         public List<string> Actual { get; set; }
         public List<string> Date { get; set; }
+        public OrderTimeAccuracy()
+        {
+            Schedule = new List<string>();
+            Actual = new List<string>();
+            Date = new List<string>();
+        }
+    }
+
+    public class OrderTimeAccuracy2
+    {
+        public string Schedule { get; set; }
+        public string Actual { get; set; }
+        public string Date { get; set; }
     }
 }
