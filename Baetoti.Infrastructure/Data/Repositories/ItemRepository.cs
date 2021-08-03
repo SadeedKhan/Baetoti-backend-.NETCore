@@ -51,7 +51,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
             return itemResponse;
         }
 
-        public async Task<ItemResponse> GetFilteredItemsDataAsync(FilterRequest filterRequest)
+        public async Task<ItemResponse> GetFilteredItemsDataAsync(ItemFilterRequest filterRequest)
         {
             var itemList = await (from i in _dbContext.Items
                                   join c in _dbContext.Categories on i.CategoryID equals c.ID

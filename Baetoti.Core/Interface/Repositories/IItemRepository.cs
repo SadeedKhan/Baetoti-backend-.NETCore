@@ -8,7 +8,7 @@ namespace Baetoti.Core.Interface.Repositories
 {
     public interface IItemRepository : IAsyncRepository<Item>
     {
-        Task<ItemResponse> GetFilteredItemsDataAsync(FilterRequest filterRequest);
+        Task<ItemResponse> GetFilteredItemsDataAsync(ItemFilterRequest filterRequest);
 
         Task<ItemResponse> GetAll();
 

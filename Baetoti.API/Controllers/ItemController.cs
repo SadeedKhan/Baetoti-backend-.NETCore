@@ -85,7 +85,7 @@ namespace Baetoti.API.Controllers
         }
 
         [HttpPost("GetFilteredData")]
-        public async Task<IActionResult> GetFilteredData([FromBody] FilterRequest filterRequest)
+        public async Task<IActionResult> GetFilteredData([FromBody] ItemFilterRequest filterRequest)
         {
             try
             {

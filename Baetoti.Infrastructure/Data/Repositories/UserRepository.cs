@@ -185,7 +185,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
             return userResponse;
         }
 
-        public async Task<UserResponse> GetFilteredUsersDataAsync(FilterRequest filterRequest)
+        public async Task<UserResponse> GetFilteredUsersDataAsync(UserFilterRequest filterRequest)
         {
             // Users
             var userList = from u in _dbContext.Users

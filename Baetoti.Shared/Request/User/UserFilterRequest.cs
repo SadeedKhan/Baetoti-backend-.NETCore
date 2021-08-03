@@ -1,6 +1,6 @@
 ﻿namespace Baetoti.Shared.Request.User
 {
-    public class FilterRequest
+    public class UserFilterRequest
     {
         public string UserType { get; set; }
         public string UserStatus { get; set; }

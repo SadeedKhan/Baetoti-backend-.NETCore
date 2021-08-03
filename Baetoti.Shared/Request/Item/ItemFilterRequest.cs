@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Baetoti.Shared.Request.Item
 {
-    public class FilterRequest
+    public class ItemFilterRequest
     {
         public string Name { get; set; }
 

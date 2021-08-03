@@ -12,6 +12,6 @@ namespace Baetoti.Core.Interface.Repositories
         Task<OnBoardingResponse> GetOnBoardingDataAsync();
         Task<UserResponse> GetAllUsersDataAsync();
         Task<UserProfile> GetUserProfile(long UserID);
-        Task<UserResponse> GetFilteredUsersDataAsync(FilterRequest filterRequest);
+        Task<UserResponse> GetFilteredUsersDataAsync(UserFilterRequest filterRequest);
     }
 }
