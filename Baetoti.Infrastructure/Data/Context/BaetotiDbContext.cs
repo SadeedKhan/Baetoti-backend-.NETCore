@@ -32,6 +32,8 @@ namespace Baetoti.Infrastructure.Data.Context
         public DbSet<Item> Items { get; set; }
         public DbSet<ItemReview> ItemReviews { get; set; }
         public DbSet<ItemTag> ItemTags { get; set; }
+        public DbSet<ChangeItem> ChangeItem { get; set; }
+        public DbSet<ChangeItemTag> ChangeItemTag { get; set; }
         public DbSet<OTP> OTPs { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Order> Orders { get; set; }
