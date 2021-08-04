@@ -8,6 +8,7 @@ using System.Linq;
 using Baetoti.Shared.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace Baetoti.Infrastructure.Data.Repositories
 {
@@ -99,6 +100,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
         public async Task<OrderByIDResponse> GetByID(long ID)
         {
             return await (from o in _dbContext.Orders
+                          join oi in _dbContext.OrderItems on o.ID equals oi.OrderID
                           join u in _dbContext.Users on o.UserID equals u.ID
                           join pr in _dbContext.ProviderOrders on o.ID equals pr.OrderID
                           into providerOrderTemp
@@ -112,6 +114,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
                           join du in _dbContext.Users on dot.DriverID equals du.ID
                           into driverUserTemp
                           from dut in driverUserTemp.DefaultIfEmpty()
+                          join t in _dbContext.Transactions on o.ID equals t.OrderID
                           where o.ID == ID
                           select new OrderByIDResponse
                           {
@@ -156,13 +159,17 @@ namespace Baetoti.Infrastructure.Data.Repositories
                               },
                               paymentInfo = new PaymentInfo
                               {
-                                  PaymnetMethod = "Online",
+                                  PaymnetMethod = Convert.ToString((TransactionStatus)t.Status),
                                   PaymnetWindow = "01"
                               },
                               orderStatus = new OrderStatusResponse
                               {
-                                  DeliverPickUp = "",
+                                  DeliverPickUp = Convert.ToString((TransactionType)t.Status),
                                   OrderStatus = Convert.ToString((OrderStatus)o.Status)
+                              },
+                              itemsList = new List<ItemList>
+                              {
+
                               }
                           }).FirstOrDefaultAsync();
         }

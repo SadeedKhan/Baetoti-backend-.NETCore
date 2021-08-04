@@ -85,8 +85,8 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpGet("GetById")]
-        public async Task<IActionResult> GetById(int Id)
+        [HttpGet("View")]
+        public async Task<IActionResult> View(int Id)
         {
             try
             {

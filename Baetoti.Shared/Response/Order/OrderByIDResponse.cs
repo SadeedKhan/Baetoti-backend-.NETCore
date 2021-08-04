@@ -1,4 +1,7 @@
-﻿namespace Baetoti.Shared.Response.Order
+﻿using System;
+using System.Collections.Generic;
+
+namespace Baetoti.Shared.Response.Order
 {
     public class OrderByIDResponse
     {
@@ -8,6 +11,9 @@
         public ProviderDetail providerDetail { get; set; }
         public PaymentInfo paymentInfo { get; set; }
         public OrderStatusResponse orderStatus { get; set; }
+        public List<ItemList> itemsList { get; set; }
+        public List<Reviews> reviews { get; set; }
+        public CostSummary costSummary { get; set; }
     }
 
     public class OrderDetail
@@ -67,6 +73,32 @@
 
     public class ItemList
     {
+        public int SrNo { get; set; }
+        public string ShopName { get; set; }
+        public string ProductName { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+        public decimal TotalPrice { get; set; }
+        public decimal Rating { get; set; }
+        public string Reviews { get; set; }
+        public string Image { get; set; }
+    }
 
+    public class Reviews
+    {
+        public string Name { get; set; }
+        public string Picture { get; set; }
+        public decimal Rating { get; set; }
+        public string Comments { get; set; }
+        public DateTime Date { get; set; }
+    }
+
+    public class CostSummary
+    {
+        public string SubTotal { get; set; }
+        public string VAT { get; set; }
+        public string DeliveryCharges { get; set; }
+        public string ServiceCharges { get; set; }
+        public string TotalAmount { get; set; }
     }
 }
