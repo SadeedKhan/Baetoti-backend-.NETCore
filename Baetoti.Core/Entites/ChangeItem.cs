@@ -37,5 +37,9 @@ namespace Baetoti.Core.Entites
 
         public bool? IsApproved { get; set; }
 
+        public object Union(Item itemList)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
