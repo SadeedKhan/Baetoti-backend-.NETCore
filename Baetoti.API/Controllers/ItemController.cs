@@ -270,7 +270,6 @@ namespace Baetoti.API.Controllers
                 var changeitem = await _ChangeitemRepository.GetByItemID(Id);
                 List<Dictionary<String, String>> DictList = new List<Dictionary<String, String>>();
                 Dictionary<String,String> Dict;
-                ViewItemChange viewItem = new ViewItemChange();
                 if (changeitem != null && item !=null)
                 {
                     if (item.AveragePreparationTime != changeitem.AveragePreparationTime)
