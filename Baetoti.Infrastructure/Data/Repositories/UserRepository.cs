@@ -263,28 +263,116 @@ namespace Baetoti.Infrastructure.Data.Repositories
                 {
 
                     var buyer = m.ReadFirstOrDefault<BuyerResponse>();
-                    var buyerHistory = m.Read<BuyerHistory>().ToList();
-                    var provider = m.ReadFirstOrDefault<ProviderResponse>();
-                    var storeSchedule = m.Read<WeekDays>().ToList();
-                    var items = m.Read<ItemListResponse>().ToList();
-                    var order = m.Read<ProviderOrders>().ToList();
-                    var order2 = m.Read<ProviderOrders2>().ToList();
-                    var driver = m.ReadFirstOrDefault<DriverResponse>();
-                    var deliveryDetail = m.Read<DeliveryDetail>().ToList();
-                    var analyticalData = m.ReadFirstOrDefault<AnalyticalData>();
-                    //var cancelledOrder = m.Read<string>().ToList();
-
-
                     userProfile.buyer = buyer;
+
+                    var buyerHistory = m.Read<BuyerHistory>().ToList();
                     userProfile.buyer.buyerHistory = buyerHistory;
+
+                    var provider = m.ReadFirstOrDefault<ProviderResponse>();
                     userProfile.provider = provider;
+
+                    var storeSchedule = m.Read<WeekDays>().ToList();
                     userProfile.provider.weekDays = storeSchedule;
+
+                    var items = m.Read<ItemListResponse>().ToList();
                     userProfile.provider.Items = items;
+
+                    var order = m.Read<ProviderOrders>().ToList();
                     userProfile.provider.Orders = order;
+
+                    var order2 = m.Read<ProviderOrders2>().ToList();
                     userProfile.provider.Orders2 = order2;
+
+                    var driver = m.ReadFirstOrDefault<DriverResponse>();
                     userProfile.driver = driver;
+
+                    var deliveryDetail = m.Read<DeliveryDetail>().ToList();
                     userProfile.driver.deliveryDetails = deliveryDetail;
-                    //userProfile.analytics.analyticalData = analyticalData;
+
+                    var analyticalData = m.ReadFirstOrDefault<AnalyticalData>();
+                    userProfile.analytics.analyticalData = analyticalData;
+
+                    var cancelledOrder = m.Read<UserCancelledOrder>().ToList();
+                    var userCancelledOrder = new UserCancelledOrder2();
+                    cancelledOrder.ForEach(x =>
+                    {
+                        userCancelledOrder.CancelledOrder.Add(x.CancelledOrder);
+                        userCancelledOrder.TotalOrder.Add(x.TotalOrder);
+                        userCancelledOrder.OrderDate.Add(x.OrderDate);
+                    });
+                    userProfile.analytics.userCancelledOrder = userCancelledOrder;
+
+                    var providerOrderPrice = m.Read<OrderPrice2>().ToList();
+                    var orderPrice = new OrderPrice();
+                    providerOrderPrice.ForEach(x =>
+                    {
+                        orderPrice.TotalOrder.Add(x.TotalOrder);
+                        orderPrice.TotalPrice.Add(x.TotalPrice);
+                        orderPrice.OrderDate.Add(x.OrderDate);
+                    });
+                    userProfile.analytics.provider.orderPrice = orderPrice;
+
+                    var providerCancelledOrder = m.Read<CancelledOrder>().ToList();
+                    var providerCancelledOrder2 = new CancelledOrder2();
+                    providerCancelledOrder.ForEach(x =>
+                    {
+                        providerCancelledOrder2.Cancelled.Add(x.Cancelled);
+                        providerCancelledOrder2.TotalOrder.Add(x.TotalOrder);
+                        providerCancelledOrder2.OrderDate.Add(x.OrderDate);
+                    });
+                    userProfile.analytics.provider.cancelledOrder = providerCancelledOrder2;
+
+                    var driverDeliveryTimeAccuracy = m.Read<DeliveryTimeAccuracy2>().ToList();
+                    var deliveryTimeAccuracy = new DeliveryTimeAccuracy();
+                    driverDeliveryTimeAccuracy.ForEach(x =>
+                    {
+                        deliveryTimeAccuracy.Schedule.Add(x.Schedule);
+                        deliveryTimeAccuracy.Actual.Add(x.Actual);
+                        deliveryTimeAccuracy.Date.Add(x.Date);
+                    });
+                    userProfile.analytics.driver.deliveryTimeAccuracy = deliveryTimeAccuracy;
+
+                    var driverCancelledOrder2 = m.Read<DriverCancelledOrder2>().ToList();
+                    var driverCancelledOrder = new DriverCancelledOrder();
+                    driverCancelledOrder2.ForEach(x =>
+                    {
+                        driverCancelledOrder.TotalOrder.Add(x.TotalOrder);
+                        driverCancelledOrder.Cancelled.Add(x.Cancelled);
+                        driverCancelledOrder.OrderDate.Add(x.OrderDate);
+                    });
+                    userProfile.analytics.driver.driverCancelledOrder = driverCancelledOrder;
+
+                    var totalAcceptedOrder2 = m.Read<TotalAcceptedOrder2>().ToList();
+                    var totalAcceptedOrder = new TotalAcceptedOrder();
+                    totalAcceptedOrder2.ForEach(x =>
+                    {
+                        totalAcceptedOrder.TotalOrder.Add(x.TotalOrder);
+                        totalAcceptedOrder.AcceptedOrder.Add(x.AcceptedOrder);
+                        totalAcceptedOrder.OrderDate.Add(x.OrderDate);
+                    });
+                    userProfile.analytics.order.totalAcceptedOrder = totalAcceptedOrder;
+
+                    var averageOrderPrice2 = m.Read<AverageOrderPrice2>().ToList();
+                    var averageOrderPrice = new AverageOrderPrice();
+                    averageOrderPrice2.ForEach(x =>
+                    {
+                        averageOrderPrice.TotalOrder.Add(x.TotalOrder);
+                        averageOrderPrice.OrderDate.Add(x.OrderDate);
+                    });
+                    userProfile.analytics.order.averageOrderPrice = averageOrderPrice;
+
+                    var orderTimeAccuracy2 = m.Read<OrderTimeAccuracy2>().ToList();
+                    var orderTimeAccuracy = new OrderTimeAccuracy();
+                    orderTimeAccuracy2.ForEach(x =>
+                    {
+                        orderTimeAccuracy.Schedule.Add(x.Schedule);
+                        orderTimeAccuracy.Actual.Add(x.Actual);
+                        orderTimeAccuracy.Date.Add(x.Date);
+                    });
+                    userProfile.analytics.order.orderTimeAccuracy = orderTimeAccuracy;
+
+                    var transactionsHistory = m.Read<TransactionsHistory>().ToList();
+                    userProfile.wallet.transactionsHistory = transactionsHistory;
                 }
             }
             return userProfile;
