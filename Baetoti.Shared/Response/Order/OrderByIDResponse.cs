@@ -14,6 +14,18 @@ namespace Baetoti.Shared.Response.Order
         public List<ItemList> itemsList { get; set; }
         public List<Reviews> reviews { get; set; }
         public CostSummary costSummary { get; set; }
+        public OrderByIDResponse()
+        {
+            orderDetail = new OrderDetail();
+            customerDetail = new CustomerDetail();
+            driverDetail = new DriverDetail();
+            providerDetail = new ProviderDetail();
+            paymentInfo = new PaymentInfo();
+            orderStatus = new OrderStatusResponse();
+            itemsList = new List<ItemList>();
+            reviews = new List<Reviews>();
+            costSummary = new CostSummary();
+        }
     }
 
     public class OrderDetail

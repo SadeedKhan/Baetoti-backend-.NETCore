@@ -9,16 +9,22 @@ using Baetoti.Shared.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using Dapper;
 
 namespace Baetoti.Infrastructure.Data.Repositories
 {
     public class OrderItemRepository : EFRepository<OrderItem>, IOrderItemRepository
     {
         private readonly BaetotiDbContext _dbContext;
+        private readonly IConfiguration _config;
 
-        public OrderItemRepository(BaetotiDbContext dbContext) : base(dbContext)
+        public OrderItemRepository(BaetotiDbContext dbContext, IConfiguration config) : base(dbContext)
         {
             _dbContext = dbContext;
+            _config = config;
         }
 
         public async Task<OrderResponse> GetAll()
@@ -79,6 +85,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                    join du in _dbContext.Users on dot.DriverID equals du.ID
                                    into driverUserTemp
                                    from dut in driverUserTemp.DefaultIfEmpty()
+                                   join t in _dbContext.Transactions on o.ID equals t.OrderID
                                    select new OrderStates
                                    {
                                        OrderID = o.ID,
@@ -86,10 +93,10 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                        Provider = put == null ? "" : $"{put.FirstName} {put.LastName}",
                                        Driver = dut == null ? "" : $"{dut.FirstName} {dut.LastName}",
                                        OrderAmount = _dbContext.OrderItems.Where(x => x.ItemID == o.ID).Sum(x => x.Quantity),
-                                       PaymentType = "",
+                                       PaymentType = ((TransactionType)t.TransactionType).ToString(),
                                        Date = o.CreatedAt,
                                        ExpectedDeliveryTime = o.ActualDeliveryTime,
-                                       DeliverOrPickup = "",
+                                       DeliverOrPickup = ((OrderType)o.Type).ToString(),
                                        OrderStatus = ((OrderStatus)o.Status).ToString()
                                    }).ToListAsync();
             orderResponse.OrderList = orderList;
@@ -99,79 +106,42 @@ namespace Baetoti.Infrastructure.Data.Repositories
 
         public async Task<OrderByIDResponse> GetByID(long ID)
         {
-            return await (from o in _dbContext.Orders
-                          join oi in _dbContext.OrderItems on o.ID equals oi.OrderID
-                          join u in _dbContext.Users on o.UserID equals u.ID
-                          join pr in _dbContext.ProviderOrders on o.ID equals pr.OrderID
-                          into providerOrderTemp
-                          from pot in providerOrderTemp.DefaultIfEmpty()
-                          join pu in _dbContext.Users on pot.ProviderID equals pu.ID
-                          into providerUserTemp
-                          from put in providerUserTemp.DefaultIfEmpty()
-                          join dor in _dbContext.DriverOrders on o.ID equals dor.OrderID
-                          into driverOrderTemp
-                          from dot in driverOrderTemp.DefaultIfEmpty()
-                          join du in _dbContext.Users on dot.DriverID equals du.ID
-                          into driverUserTemp
-                          from dut in driverUserTemp.DefaultIfEmpty()
-                          join t in _dbContext.Transactions on o.ID equals t.OrderID
-                          where o.ID == ID
-                          select new OrderByIDResponse
-                          {
-                              orderDetail = new OrderDetail
-                              {
-                                  ActualDate = o.ActualDeliveryTime.ToShortDateString(),
-                                  ActualTime = o.ActualDeliveryTime.ToShortTimeString(),
-                                  ScheduleDate = o.ExpectedDeliveryTime.ToShortDateString(),
-                                  ScheduleTime = o.ExpectedDeliveryTime.ToShortTimeString(),
-                                  OrderReadyDate = o.OrderReadyTime.ToShortDateString(),
-                                  OrderReadyTime = o.OrderReadyTime.ToShortTimeString()
-                              },
-                              customerDetail = new CustomerDetail
-                              {
-                                  Address = u.Address,
-                                  City = u.City,
-                                  Country = u.Country,
-                                  Email = u.Email,
-                                  Name = $"{u.FirstName} {u.LastName}",
-                                  Phone = u.Phone,
-                                  PostalCode = u.Zip
-                              },
-                              providerDetail = put == null ? new ProviderDetail() : new ProviderDetail
-                              {
-                                  Address = put.Address,
-                                  City = put.City,
-                                  Country = put.Country,
-                                  Email = put.Email,
-                                  Name = $"{put.FirstName} {put.LastName}",
-                                  Phone = put.Phone,
-                                  PostalCode = put.Zip
-                              },
-                              driverDetail = dut == null ? new DriverDetail() : new DriverDetail
-                              {
-                                  Address = dut.Address,
-                                  City = dut.City,
-                                  Country = dut.Country,
-                                  Email = dut.Email,
-                                  Name = $"{dut.FirstName} {dut.LastName}",
-                                  Phone = dut.Phone,
-                                  PostalCode = dut.Zip
-                              },
-                              paymentInfo = new PaymentInfo
-                              {
-                                  PaymnetMethod = Convert.ToString((TransactionStatus)t.Status),
-                                  PaymnetWindow = "01"
-                              },
-                              orderStatus = new OrderStatusResponse
-                              {
-                                  DeliverPickUp = Convert.ToString((TransactionType)t.Status),
-                                  OrderStatus = Convert.ToString((OrderStatus)o.Status)
-                              },
-                              itemsList = new List<ItemList>()
-                              {
-                                  
-                              }
-                          }).FirstOrDefaultAsync();
+            var response = new OrderByIDResponse();
+            using (IDbConnection db = new SqlConnection(_config.GetConnectionString("Default")))
+            {
+                var param = new DynamicParameters();
+                param.Add("@OrderID", ID);
+                using (var m = db.QueryMultiple("[baetoti].[GetOrderByID]", param, commandType: CommandType.StoredProcedure))
+                {
+                    var orderDetail = m.ReadFirstOrDefault<OrderDetail>();
+                    response.orderDetail = orderDetail;
+
+                    var customerDetail = m.ReadFirstOrDefault<CustomerDetail>();
+                    response.customerDetail = customerDetail;
+
+                    var providerDetail = m.ReadFirstOrDefault<ProviderDetail>();
+                    response.providerDetail = providerDetail;
+
+                    var driverDetail = m.ReadFirstOrDefault<DriverDetail>();
+                    response.driverDetail = driverDetail;
+
+                    var paymentInfo = m.ReadFirstOrDefault<PaymentInfo>();
+                    response.paymentInfo = paymentInfo;
+
+                    var orderStatus = m.ReadFirstOrDefault<OrderStatusResponse>();
+                    response.orderStatus = orderStatus;
+
+                    var itemsList = m.Read<ItemList>().ToList();
+                    response.itemsList = itemsList;
+
+                    var reviews = m.Read<Reviews>().ToList();
+                    response.reviews = reviews;
+
+                    var costSummary = m.ReadFirstOrDefault<CostSummary>();
+                    response.costSummary = costSummary;
+                }
+            }
+            return response;
         }
     }
 }

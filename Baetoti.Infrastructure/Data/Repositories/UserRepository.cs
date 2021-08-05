@@ -259,7 +259,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
             {
                 var param = new DynamicParameters();
                 param.Add("@UserID", UserID);
-                using (var m = db.QueryMultiple("GetUserProfile", param, commandType: CommandType.StoredProcedure))
+                using (var m = db.QueryMultiple("[baetoti].[GetUserProfile]", param, commandType: CommandType.StoredProcedure))
                 {
 
                     var buyer = m.ReadFirstOrDefault<BuyerResponse>();
