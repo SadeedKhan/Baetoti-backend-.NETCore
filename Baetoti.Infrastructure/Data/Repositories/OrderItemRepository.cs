@@ -167,9 +167,9 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                   DeliverPickUp = Convert.ToString((TransactionType)t.Status),
                                   OrderStatus = Convert.ToString((OrderStatus)o.Status)
                               },
-                              itemsList = new List<ItemList>
+                              itemsList = new List<ItemList>()
                               {
-
+                                  
                               }
                           }).FirstOrDefaultAsync();
         }
