@@ -28,15 +28,16 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                     join c in _dbContext.Categories on ci.CategoryID equals c.ID
                                     join sc in _dbContext.SubCategories on ci.SubCategoryID equals sc.ID
                                     join p in _dbContext.Providers on ci.ProviderID equals p.ID
-                                    join u in _dbContext.Units on ci.UnitID equals u.ID
-                                    //join u in _dbContext.Users on p.UserID equals u.ID
+                                    join un in _dbContext.Units on ci.UnitID equals un.ID
+                                    join u in _dbContext.Users on p.UserID equals u.ID
+                                    join s in _dbContext.Stores on p.ID equals s.ProviderID
                                     where ci.ItemId == ItemID
                                     select new ChangeItemResponseByID
                                     {
                                         ID = ci.ID,
                                         ItemId = ci.ItemId,
-                                        StoreName = "",
-                                        Location = "",
+                                        StoreName = s.Name,
+                                        Location = s.Location,
                                         Title = ci.Name,
                                         Description = ci.Description,
                                         CategoryID=ci.CategoryID,
@@ -44,12 +45,13 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                         SubCategoryID = ci.SubCategoryID,
                                         SubCategory = sc.SubCategoryName,
                                         Quantity = 0,
+                                        Picture=ci.Picture,
                                         TotalRevenue = 0,
                                         AveragePreparationTime = "0",
                                         Price = $"{ci.Price} SAR/{ _dbContext.Units.Where(x => x.ID == ci.UnitID).FirstOrDefault().UnitEnglishName}",
                                         AverageRating = 0,
                                         UnitID = ci.UnitID,
-                                        Unit =u.UnitEnglishName,
+                                        Unit =un.UnitEnglishName,
                                         Sold = 0,
                                         AvailableNow = 0,
                                         Tags = (from t in _dbContext.Tags
@@ -71,7 +73,21 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                                        Rating = ir.Rating,
                                                        Reviews = ir.Review,
                                                        ReviewDate = ir.RecordDateTime
-                                                   }).ToList()
+                                                   }).ToList(),
+                                        RecentOrder = (from O in _dbContext.Orders
+                                                       join oi in _dbContext.OrderItems on O.ID equals oi.OrderID
+                                                       join i in _dbContext.Items on oi.ItemID equals i.ID
+                                                       join u in _dbContext.Users on O.UserID equals u.ID
+                                                       where i.ID == ItemID
+                                                       select new ChangeRecentOrder
+                                                       {
+                                                           OrderID = Convert.ToInt32(O.ID),
+                                                           Driver = $"{u.FirstName} {u.LastName}",
+                                                           Buyer = O.Rating.ToString(),
+                                                           PickUp = O.OrderPickUpTime,
+                                                           Delivery = O.ActualDeliveryTime,
+                                                           Rating = O.Rating
+                                                       }).ToList(),
                                     }).FirstOrDefaultAsync();
 
             return changeitem;
