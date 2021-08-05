@@ -20,10 +20,12 @@ namespace Baetoti.Shared.Response.Item
         public long AvailableNow { get; set; }
         public long Quantity { get; set; }
         public long TotalRevenue { get; set; }
+        public string Picture { get; set; }
         public string AveragePreparationTime { get; set; }
         public string Description { get; set; }
         public List<TagResponse> Tags { get; set; }
         public List<ReviewResponse> Reviews { get; set; }
+        public List<RecentOrder> RecentOrder { get; set; }
         public decimal AverageRating { get; set; }
     }
 
