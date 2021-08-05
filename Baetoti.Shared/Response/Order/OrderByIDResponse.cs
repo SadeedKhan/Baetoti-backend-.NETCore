@@ -40,6 +40,7 @@ namespace Baetoti.Shared.Response.Order
 
     public class CustomerDetail
     {
+        public long ID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
@@ -51,6 +52,7 @@ namespace Baetoti.Shared.Response.Order
 
     public class DriverDetail
     {
+        public long ID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
@@ -58,10 +60,12 @@ namespace Baetoti.Shared.Response.Order
         public string City { get; set; }
         public string PostalCode { get; set; }
         public string Address { get; set; }
+        public string Location { get; set; }
     }
 
     public class ProviderDetail
     {
+        public long ID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
@@ -69,6 +73,7 @@ namespace Baetoti.Shared.Response.Order
         public string City { get; set; }
         public string PostalCode { get; set; }
         public string Address { get; set; }
+        public string Location { get; set; }
     }
 
     public class PaymentInfo

@@ -85,8 +85,22 @@ namespace Baetoti.API.Controllers
             }
         }
 
-        [HttpGet("View")]
-        public async Task<IActionResult> View(int Id)
+        [HttpGet("GetFilteredData")]
+        public async Task<IActionResult> GetFilteredData([FromBody] OrderFilterRequest orderFilterRequest)
+        {
+            try
+            {
+                var orderList = await _orderItemRepository.GetFilteredData(orderFilterRequest);
+                return Ok(new SharedResponse(true, 200, "", orderList));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
+        [HttpGet("GetByID")]
+        public async Task<IActionResult> GetByID(int Id)
         {
             try
             {

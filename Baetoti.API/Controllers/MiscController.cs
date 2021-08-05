@@ -153,5 +153,23 @@ namespace Baetoti.API.Controllers
             }
         }
 
+        [HttpGet("GetAllOrderStatus")]
+        public async Task<IActionResult> GetAllOrderStatus()
+        {
+            try
+            {
+                var list = new List<KeyValuePair<string, int>>();
+                foreach (var e in Enum.GetValues(typeof(OrderStatus)))
+                {
+                    list.Add(new KeyValuePair<string, int>(e.ToString(), (int)e));
+                }
+                return Ok(new SharedResponse(true, 200, "", list));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
     }
 }
