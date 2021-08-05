@@ -152,7 +152,6 @@ namespace Baetoti.API
                 opt.UseSqlServer(Configuration.GetConnectionString("Default"), sqlServerOptions =>
                 {
                     sqlServerOptions.MigrationsAssembly("Baetoti.Infrastructure");
-                    sqlServerOptions.AddRowNumberSupport();
                 });
             });
 
