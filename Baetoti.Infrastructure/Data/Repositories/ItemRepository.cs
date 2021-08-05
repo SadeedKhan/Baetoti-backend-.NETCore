@@ -57,10 +57,10 @@ namespace Baetoti.Infrastructure.Data.Repositories
             var itemList = await (from i in _dbContext.Items
                                   join c in _dbContext.Categories on i.CategoryID equals c.ID
                                   join sc in _dbContext.SubCategories on i.SubCategoryID equals sc.ID
-                                  where i.MarkAsDeleted == false && i.Name==filterRequest.Name && 
-                                  i.ArabicName==filterRequest.ArabicName && i.Price==filterRequest.Price
-                                  && i.CategoryID==filterRequest.CategoryID && i.SubCategoryID==filterRequest.SubCategoryID
-                                  && i.UnitID==filterRequest.UnitID
+                                  where i.MarkAsDeleted == false && i.Name == filterRequest.Name &&
+                                  i.ArabicName == filterRequest.ArabicName && i.Price == filterRequest.Price
+                                  && i.CategoryID == filterRequest.CategoryID && i.SubCategoryID == filterRequest.SubCategoryID
+                                  && i.UnitID == filterRequest.UnitID
                                   select new ItemListResponse
                                   {
                                       ID = i.ID,
@@ -139,17 +139,17 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                   RecentOrder = (from O in _dbContext.Orders
                                                  join oi in _dbContext.OrderItems on O.ID equals oi.OrderID
                                                  join i in _dbContext.Items on oi.ItemID equals i.ID
-                                                join u in _dbContext.Users on O.UserID equals u.ID
+                                                 join u in _dbContext.Users on O.UserID equals u.ID
                                                  where i.ID == ItemID
-                                             select new RecentOrder
-                                             {
-                                                 OrderID = Convert.ToInt32(O.ID),
-                                                 Driver = $"{u.FirstName} {u.LastName}",
-                                                 Buyer = O.Rating.ToString(),
-                                                 PickUp = O.OrderPickUpTime,
-                                                 Delivery = O.ActualDeliveryTime,
-                                                 Rating = O.Rating
-                                             }).ToList(),
+                                                 select new RecentOrder
+                                                 {
+                                                     OrderID = Convert.ToInt32(O.ID),
+                                                     Driver = $"{u.FirstName} {u.LastName}",
+                                                     Buyer = O.Rating.ToString(),
+                                                     PickUp = O.OrderPickUpTime,
+                                                     Delivery = O.ActualDeliveryTime,
+                                                     Rating = O.Rating
+                                                 }).OrderByDescending(x => x.OrderID).Take(10).ToList(),
                               }).FirstOrDefaultAsync();
 
             return item;

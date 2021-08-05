@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Baetoti.Core.Entites
 {
-    [Table("TempItemTag", Schema = "baetoti")]
+    [Table("ChangeItemTag", Schema = "baetoti")]
     public class ChangeItemTag : BaseEntity
     {
         public long ItemID { get; set; }

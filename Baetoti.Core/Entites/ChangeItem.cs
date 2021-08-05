@@ -6,8 +6,8 @@ using System.Text;
 
 namespace Baetoti.Core.Entites
 {
-    [Table("TempItem", Schema = "baetoti")]
-    public class ChangeItem :BaseEntity
+    [Table("ChangeItem", Schema = "baetoti")]
+    public class ChangeItem : BaseEntity
     {
         public long ItemId { get; set; }
 
@@ -37,9 +37,5 @@ namespace Baetoti.Core.Entites
 
         public bool? IsApproved { get; set; }
 
-        public object Union(Item itemList)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
