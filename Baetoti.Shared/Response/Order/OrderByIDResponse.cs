@@ -79,7 +79,8 @@ namespace Baetoti.Shared.Response.Order
     public class PaymentInfo
     {
         public string PaymnetMethod { get; set; }
-        public string PaymnetWindow { get; set; }
+        public string PaymentStatus { get; set; }
+        public DateTime PaymentDate { get; set; }
     }
 
     public class OrderStatusResponse
