@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Baetoti.Shared.Enum;
 using Baetoti.Shared.Request.Item;
+using System;
 
 namespace Baetoti.Infrastructure.Data.Repositories
 {
@@ -90,23 +91,29 @@ namespace Baetoti.Infrastructure.Data.Repositories
                               join c in _dbContext.Categories on i.CategoryID equals c.ID
                               join sc in _dbContext.SubCategories on i.SubCategoryID equals sc.ID
                               join p in _dbContext.Providers on i.ProviderID equals p.ID
-                              //join u in _dbContext.Users on p.UserID equals u.ID
+                              join u in _dbContext.Users on p.UserID equals u.ID
+                              join un in _dbContext.Units on i.UnitID equals un.ID
+                              join s in _dbContext.Stores on p.ID equals s.ProviderID
                               where i.ID == ItemID
                               select new ItemResponseByID
                               {
                                   ID = i.ID,
-                                  StoreName = "",
-                                  Location = "",
+                                  StoreName = s.Name,
+                                  Location = s.Location,
                                   Title = i.Name,
                                   Description = i.Description,
+                                  CategoryID = i.CategoryID,
                                   Category = c.CategoryName,
+                                  SubCategoryID = i.SubCategoryID,
                                   SubCategory = sc.SubCategoryName,
                                   Quantity = 0,
+                                  Picture = i.Picture,
                                   TotalRevenue = 0,
                                   AveragePreparationTime = "0",
                                   Price = $"{i.Price} SAR/{ _dbContext.Units.Where(x => x.ID == i.UnitID).FirstOrDefault().UnitEnglishName}",
                                   AverageRating = 0,
-                                  Unit = "",
+                                  UnitID = i.UnitID,
+                                  Unit = un.UnitEnglishName,
                                   Sold = 0,
                                   AvailableNow = 0,
                                   Tags = (from t in _dbContext.Tags
@@ -128,7 +135,21 @@ namespace Baetoti.Infrastructure.Data.Repositories
                                                  Rating = ir.Rating,
                                                  Reviews = ir.Review,
                                                  ReviewDate = ir.RecordDateTime
-                                             }).ToList()
+                                             }).ToList(),
+                                  RecentOrder = (from O in _dbContext.Orders
+                                                 join oi in _dbContext.OrderItems on O.ID equals oi.OrderID
+                                                 join i in _dbContext.Items on oi.ItemID equals i.ID
+                                                join u in _dbContext.Users on O.UserID equals u.ID
+                                                 where i.ID == ItemID
+                                             select new RecentOrder
+                                             {
+                                                 OrderID = Convert.ToInt32(O.ID),
+                                                 Driver = $"{u.FirstName} {u.LastName}",
+                                                 Buyer = O.Rating.ToString(),
+                                                 PickUp = O.OrderPickUpTime,
+                                                 Delivery = O.ActualDeliveryTime,
+                                                 Rating = O.Rating
+                                             }).ToList(),
                               }).FirstOrDefaultAsync();
 
             return item;

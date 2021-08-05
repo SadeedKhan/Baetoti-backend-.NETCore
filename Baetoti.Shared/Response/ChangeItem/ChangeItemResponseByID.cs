@@ -18,6 +18,7 @@ namespace Baetoti.Shared.Response.ChangeItem
         public string Price { get; set; }
         public long UnitID { get; set; }
         public string Unit { get; set; }
+        public string Picture { get; set; }
         public long Sold { get; set; }
         public long AvailableNow { get; set; }
         public long Quantity { get; set; }
@@ -26,7 +27,18 @@ namespace Baetoti.Shared.Response.ChangeItem
         public string Description { get; set; }
         public List<ChanngeItemTagResponse> Tags { get; set; }
         public List<ChangeItemReviewResponse> Reviews { get; set; }
+        public List<ChangeRecentOrder> RecentOrder { get; set; }
         public decimal AverageRating { get; set; }
+    }
+
+    public class ChangeRecentOrder
+    {
+        public int OrderID { get; set; }
+        public string Driver { get; set; }
+        public string Buyer { get; set; }
+        public DateTime PickUp { get; set; }
+        public DateTime Delivery { get; set; }
+        public decimal Rating { get; set; }
     }
 
     public class ChangeItemReviewResponse

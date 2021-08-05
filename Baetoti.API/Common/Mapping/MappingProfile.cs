@@ -26,6 +26,7 @@ using Baetoti.Shared.Response.Store;
 using Baetoti.Shared.Request.Store;
 using Baetoti.Shared.Request.StoreSchedule;
 using Baetoti.Shared.Response.StoreSchedule;
+using Baetoti.Shared.Request.ChangeItem;
 
 namespace Baetoti.API.Common.Mapping
 {
@@ -62,6 +63,7 @@ namespace Baetoti.API.Common.Mapping
             CreateMap<StoreRequest, Store>();
             CreateMap<StoreScheduleRequest, StoreSchedule>();
             CreateMap<StoreSchedule, StoreScheduleResponse>();
+            CreateMap<ChangeItemRequest, ChangeItem>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)
