@@ -9,5 +9,6 @@ namespace Baetoti.Core.Interface.Repositories
     public interface ITransactionRepository : IAsyncRepository<Transaction>
     {
         Task<List<AllTransactions>> GetAll();
+        Task<TransactionResponseByID> GetByID(long Id);
     }
 }

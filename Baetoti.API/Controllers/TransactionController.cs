@@ -37,5 +37,19 @@ namespace Baetoti.API.Controllers
             }
         }
 
+        [HttpGet("GetByID")]
+        public async Task<IActionResult> GetByID(long Id)
+        {
+            try
+            {
+                var transactionData = await _transactionRepository.GetByID(Id);
+                return Ok(new SharedResponse(true, 200, "", transactionData));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
     }
 }
