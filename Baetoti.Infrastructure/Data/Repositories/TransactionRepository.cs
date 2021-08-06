@@ -43,5 +43,28 @@ namespace Baetoti.Infrastructure.Data.Repositories
                           }).ToListAsync();
         }
 
+        public async Task<TransactionResponseByID> GetByID(long Id)
+        {
+            return await (from t in _dbContext.Transactions
+                          join u in _dbContext.Users on t.UserID equals u.ID
+                          join po in _dbContext.ProviderOrders on t.OrderID equals po.OrderID
+                          join p in _dbContext.Users on po.ProviderID equals p.ID
+                          join d in _dbContext.DriverOrders on t.OrderID equals d.ID
+                          join ud in _dbContext.Users on d.DriverID equals ud.ID
+                          where t.ID==Id
+                          select new TransactionResponseByID
+                          {
+                              TransactionID = t.ID,
+                              UserID = u.ID,
+                              OrderID = t.OrderID,
+                              TransactionAmount = t.Amount,
+                              TransactionFrom = $"{u.FirstName} {u.LastName}",
+                              TransactionTo = $"{p.FirstName} {p.LastName}",
+                              TransactionFor = "",
+                              TransactionStatus = Convert.ToString((TransactionStatus)t.Status),
+                              PaymentType = Convert.ToString((TransactionType)t.TransactionType),
+                              TransactionTime = t.TransactionTime
+                          }).FirstOrDefaultAsync();
+        }
     }
 }
