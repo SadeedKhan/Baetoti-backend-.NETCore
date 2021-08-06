@@ -13,7 +13,6 @@ namespace Baetoti.Shared.Response.Transaction
         public string TransactionFrom { get; set; }
         public string TransactionTo { get; set; }
         public string TransactionFor { get; set; }
-        public string TransactionStatus { get; set; }
         public string PaymentType { get; set; }
         public DateTime TransactionTime { get; set; }
         public string ProviderInvoice { get; set; }
