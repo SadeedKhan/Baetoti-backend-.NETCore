@@ -21,19 +21,19 @@ namespace Baetoti.API.Helpers
                     string fileName = null;
                     var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
                     fileName = DateTime.Now.Ticks + extension; //Create a new Name for the file due to security reasons.
-                    var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), $"Uploads\\{DirectoryName}");
+                    var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\Uploads\\{DirectoryName}");
                     if (!Directory.Exists(pathBuilt))
                     {
                         Directory.CreateDirectory(pathBuilt);
                     }
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), $"Uploads\\{DirectoryName}", fileName);
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\Uploads\\{DirectoryName}", fileName);
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
                     }
                     _result.FileName = fileName;
-                    _result.Path = $"wwwroot/Uploads/{DirectoryName}";
-                    _result.PathwithFileName = $"wwwroot/Uploads/{DirectoryName}/{fileName}";
+                    _result.Path = $"/Uploads/{DirectoryName}";
+                    _result.PathwithFileName = $"/Uploads/{DirectoryName}/{fileName}";
                     return _result;
                 }
                 else
