@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Baetoti.API.Controllers.Base;
 using Baetoti.Core.Interface.Repositories;
+using Baetoti.Shared.Request.Transaction;
 using Baetoti.Shared.Response.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,6 +26,20 @@ namespace Baetoti.API.Controllers
 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var usersData = await _transactionRepository.GetAll();
+                return Ok(new SharedResponse(true, 200, "", usersData));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
+            }
+        }
+
+        [HttpGet("GetFilteredData")]
+        public async Task<IActionResult> GetFilteredData([FromBody] TransactionFilterRequest transactionFilterRequest)
         {
             try
             {
