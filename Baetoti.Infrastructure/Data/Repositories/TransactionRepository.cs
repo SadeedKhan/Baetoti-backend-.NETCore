@@ -49,8 +49,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
                           join u in _dbContext.Users on t.UserID equals u.ID
                           join po in _dbContext.ProviderOrders on t.OrderID equals po.OrderID
                           join p in _dbContext.Users on po.ProviderID equals p.ID
-                          join d in _dbContext.DriverOrders on t.OrderID equals d.ID
-                          join ud in _dbContext.Users on d.DriverID equals ud.ID
+                       
                           where t.ID==Id
                           select new TransactionResponseByID
                           {
@@ -60,10 +59,12 @@ namespace Baetoti.Infrastructure.Data.Repositories
                               TransactionAmount = t.Amount,
                               TransactionFrom = $"{u.FirstName} {u.LastName}",
                               TransactionTo = $"{p.FirstName} {p.LastName}",
-                              TransactionFor = "",
-                              TransactionStatus = Convert.ToString((TransactionStatus)t.Status),
+                              TransactionFor = "Order",
                               PaymentType = Convert.ToString((TransactionType)t.TransactionType),
-                              TransactionTime = t.TransactionTime
+                              TransactionTime = t.TransactionTime,
+                              ProviderInvoice= "#2Av34dDR43sdicxDkx32ST",
+                              DriverInvoice= "#Dkx32STdDR43s2Av34dicZ",
+                              UserInvoice= "#R4Av34d3skSTdix32c2DxD"
                           }).FirstOrDefaultAsync();
         }
     }
