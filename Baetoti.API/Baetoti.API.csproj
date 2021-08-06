@@ -28,5 +28,10 @@
     <ProjectReference Include="..\Baetoti.Shared\Baetoti.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Uploads\" />
+    <Folder Include="wwwroot\Uploads\" />
+  </ItemGroup>
+
 
 </Project>

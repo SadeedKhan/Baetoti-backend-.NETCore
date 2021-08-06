@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -245,11 +246,19 @@ namespace Baetoti.API
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            const string cacheMaxAge = "604800";
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-                Path.Combine(env.ContentRootPath, "Uploads")),
-                RequestPath = "/Uploads"
+                Path.Combine(env.ContentRootPath, @"wwwroot\Uploads")),
+                RequestPath = "/Uploads",
+                OnPrepareResponse = ctx =>
+                {
+                    // using Microsoft.AspNetCore.Http;
+                    ctx.Context.Response.Headers.Append(
+                         "Cache-Control", $"public, max-age={cacheMaxAge}");
+                }
             });
 
             app.UseSwaggerUI(c =>
