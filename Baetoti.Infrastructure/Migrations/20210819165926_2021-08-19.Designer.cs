@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Baetoti.Infrastructure.Migrations
 {
     [DbContext(typeof(BaetotiDbContext))]
-    [Migration("20210802234504_08-03-2021")]
-    partial class _08032021
+    [Migration("20210819165926_2021-08-19")]
+    partial class _20210819
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

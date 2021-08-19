@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Baetoti.Infrastructure.Migrations
 {
-    public partial class _08032021 : Migration
+    public partial class _20210819 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
