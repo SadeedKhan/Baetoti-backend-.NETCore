@@ -21,6 +21,7 @@ namespace Baetoti.Core.Entites
         public DateTime? DOB { get; set; }
         public string Phone { get; set; }
         public string Password { get; set; }
+        public string Salt { get; set; }
         public int ReportTo { get; set; }
         public string Address { get; set; }
         public string Goals { get; set; }

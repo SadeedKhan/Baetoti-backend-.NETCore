@@ -23,13 +23,13 @@ namespace Baetoti.API.Controllers
     {
         public readonly IEmployeeRepository _employeeRepository;
         public readonly IEmployeeRoleRepository _employeeroleRepository;
-        private readonly IArgon2Service _hashingService;
+        private readonly IRijndaelEncryptionService _hashingService;
         public readonly IMapper _mapper;
 
         public EmployeeController(
          IEmployeeRepository employeeRepository,
          IEmployeeRoleRepository employeeroleRepository,
-         IArgon2Service hashingService,
+         IRijndaelEncryptionService hashingService,
          IMapper mapper
          )
         {
@@ -80,7 +80,9 @@ namespace Baetoti.API.Controllers
             try
             {
                 var employee = _mapper.Map<Employee>(employeeRequest);
-                employee.Password = _hashingService.GenerateHash(employeeRequest.Password);
+                var salt = _hashingService.GenerateSalt(8, 10);
+                employee.Salt = salt;
+                employee.Password = _hashingService.EncryptPassword(employeeRequest.Password, salt);
                 employee.MarkAsDeleted = false;
                 employee.CreatedAt = DateTime.Now;
                 employee.CreatedBy = Convert.ToInt32(UserId);

@@ -24,6 +24,7 @@ namespace Baetoti.IoC
             #region Scoped
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IArgon2Service, HashingService>();
+            services.AddScoped<IRijndaelEncryptionService, RijndaelEncryptionService>();
             #endregion
 
         }

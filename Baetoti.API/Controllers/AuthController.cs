@@ -17,12 +17,12 @@ namespace Baetoti.API.Controllers
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IJwtService _jwtService;
         private readonly IMapper _mapper;
-        private readonly IArgon2Service _hashingService;
+        private readonly IRijndaelEncryptionService _hashingService;
 
         public AuthController(IEmployeeRepository employeeRepository,
                 IJwtService jwtService,
                 IMapper mapper,
-                IArgon2Service hashingService)
+                IRijndaelEncryptionService hashingService)
         {
             _employeeRepository = employeeRepository;
             _jwtService = jwtService;
@@ -39,8 +39,8 @@ namespace Baetoti.API.Controllers
                 var employee = await _employeeRepository.AuthenticateUser(_mapper.Map<Employee>(request));
                 if (employee != null)
                 {
-                    var IsAuthenticated = _hashingService.VerifyHash(request.Password, employee.Password);
-                    if (IsAuthenticated)
+                    var decryptedPassword = _hashingService.DecryptPassword(employee.Password, employee.Salt);
+                    if (decryptedPassword == request.Password)
                     {
                         employee.LastLogin = DateTime.UtcNow;
                         await _employeeRepository.UpdateAsync(employee);
@@ -100,11 +100,13 @@ namespace Baetoti.API.Controllers
             var user = await _employeeRepository.GetByIdAsync(Convert.ToInt32(UserId));
             if (user != null)
             {
-                var IsAuthenticated = _hashingService.VerifyHash(request.CurrentPassword, user.Password);
-                if (IsAuthenticated)
+                var decruptedPassword = _hashingService.DecryptPassword(user.Password, user.Salt);
+                if (decruptedPassword == request.CurrentPassword)
                 {
-                    var newHash = _hashingService.GenerateHash(request.NewPassword);
+                    var salt = _hashingService.GenerateSalt(8, 10);
+                    var newHash = _hashingService.EncryptPassword(request.NewPassword, salt);
                     user.Password = newHash;
+                    user.Salt = salt;
                     user.LastPasswordChangedById = Convert.ToInt32(UserId);
                     user.LastPasswordChangedDate = DateTime.Now;
                     await _employeeRepository.UpdateAsync(user);
