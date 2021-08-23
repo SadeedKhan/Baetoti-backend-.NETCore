@@ -43,6 +43,8 @@ namespace Baetoti.Infrastructure.Data.Context
         public DbSet<Store> Stores { get; set; }
         public DbSet<StoreTag> StoreTags { get; set; }
         public DbSet<StoreSchedule> StoreSchedules { get; set; }
+        public DbSet<Commissions> Commissions { get; set; }
+        public DbSet<VAT> VATTax { get; set; }
 
         #endregion
 
