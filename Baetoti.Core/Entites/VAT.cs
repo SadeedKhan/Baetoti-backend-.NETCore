@@ -8,7 +8,9 @@ namespace Baetoti.Core.Entites
         public class VAT : BaseEntity
         {
             public decimal VATTax { get; set; }
-            public int UserType { get; set; }
+
+            public int UserTypeID { get; set; }
+
             public int? CreatedBy { get; set; }
 
             public int? UpdatedBy { get; set; }
