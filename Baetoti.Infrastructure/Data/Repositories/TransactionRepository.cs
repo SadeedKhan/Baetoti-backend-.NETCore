@@ -28,7 +28,8 @@ namespace Baetoti.Infrastructure.Data.Repositories
             return await (from t in _dbContext.Transactions
                           join u in _dbContext.Users on t.UserID equals u.ID
                           join po in _dbContext.ProviderOrders on t.OrderID equals po.OrderID
-                          join p in _dbContext.Users on po.ProviderID equals p.ID
+                          join p in _dbContext.Providers on po.ProviderID equals p.ID
+                          join pu in _dbContext.Users on p.UserID equals pu.ID
                           select new AllTransactions
                           {
                               TransactionID = t.ID,
@@ -36,7 +37,7 @@ namespace Baetoti.Infrastructure.Data.Repositories
                               OrderID = t.OrderID,
                               TransactionAmount = t.Amount,
                               TransactionFrom = $"{u.FirstName} {u.LastName}",
-                              TransactionTo = $"{p.FirstName} {p.LastName}",
+                              TransactionTo = $"{pu.FirstName} {pu.LastName}",
                               TransactionFor = "",
                               TransactionStatus = Convert.ToString((TransactionStatus)t.Status),
                               PaymentType = Convert.ToString((TransactionType)t.TransactionType),
