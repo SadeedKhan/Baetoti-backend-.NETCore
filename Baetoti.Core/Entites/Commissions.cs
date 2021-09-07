@@ -8,7 +8,9 @@ namespace Baetoti.Core.Entites
     public class Commissions : BaseEntity
     {
         public decimal Commission { get; set; }
-        public int UserType { get; set; }
+
+        public int UserTypeID { get; set; }
+
         public int? CreatedBy { get; set; }
 
         public int? UpdatedBy { get; set; }

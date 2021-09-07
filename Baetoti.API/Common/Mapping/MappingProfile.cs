@@ -27,6 +27,10 @@ using Baetoti.Shared.Request.Store;
 using Baetoti.Shared.Request.StoreSchedule;
 using Baetoti.Shared.Response.StoreSchedule;
 using Baetoti.Shared.Request.ChangeItem;
+using Baetoti.Shared.Request.Commission;
+using Baetoti.Shared.Response.Commission;
+using Baetoti.Shared.Response.VAT;
+using Baetoti.Shared.Request.VAT;
 
 namespace Baetoti.API.Common.Mapping
 {
@@ -64,6 +68,10 @@ namespace Baetoti.API.Common.Mapping
             CreateMap<StoreScheduleRequest, StoreSchedule>();
             CreateMap<StoreSchedule, StoreScheduleResponse>();
             CreateMap<ChangeItemRequest, ChangeItem>();
+            CreateMap<Commissions, CommissionResponse>();
+            CreateMap<CommissionRequest, Commissions>();
+            CreateMap<VAT, VATResponse>();
+            CreateMap<VATRequest, VAT>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)

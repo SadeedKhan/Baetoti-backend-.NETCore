@@ -69,7 +69,8 @@ namespace Baetoti.IoC
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<IStoreTagRepository, StoreTagRepository>();
             services.AddScoped<IStoreScheduleRepository, StoreScheduleRepository>();
-
+            services.AddScoped<ICommissionRepository, CommissionRepository>();
+            services.AddScoped<IVATRepository, VATRepository>();
 
             #endregion
 
