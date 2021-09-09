@@ -10,6 +10,7 @@ using Baetoti.Shared.Request.VAT;
 using Baetoti.Shared.Response.Commission;
 using Baetoti.Shared.Response.Driver;
 using Baetoti.Shared.Response.FileUpload;
+using Baetoti.Shared.Response.Invoice;
 using Baetoti.Shared.Response.Shared;
 using Baetoti.Shared.Response.VAT;
 using Microsoft.AspNetCore.Http;
@@ -232,6 +233,21 @@ namespace Baetoti.API.Controllers
             catch (Exception ex)
             {
                 return Ok(new SharedResponse(false, 400, ex.Message));
+            }
+        }
+
+        [HttpGet("GetDriverInvoice")]
+        public async Task<IActionResult> GetDriverInvoice(long OrderID)
+        {
+            try
+            {
+                int UserTypeID = (int)UserType.Buyer;
+                var DriverInvoice = await _driverRepository.GetDriverInvoice(OrderID, UserTypeID);
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<InvoiceResponse>(DriverInvoice)));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
             }
         }
 

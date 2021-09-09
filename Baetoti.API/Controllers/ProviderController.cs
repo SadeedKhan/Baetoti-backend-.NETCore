@@ -9,6 +9,7 @@ using Baetoti.Shared.Request.Provider;
 using Baetoti.Shared.Request.VAT;
 using Baetoti.Shared.Response.Commission;
 using Baetoti.Shared.Response.FileUpload;
+using Baetoti.Shared.Response.Invoice;
 using Baetoti.Shared.Response.Provider;
 using Baetoti.Shared.Response.Shared;
 using Baetoti.Shared.Response.VAT;
@@ -232,6 +233,21 @@ namespace Baetoti.API.Controllers
             catch (Exception ex)
             {
                 return Ok(new SharedResponse(false, 400, ex.Message));
+            }
+        }
+
+        [HttpGet("GetProviderInvoice")]
+        public async Task<IActionResult> GetProviderInvoice(long OrderID)
+        {
+            try
+            {
+                int UserTypeID = (int)UserType.Provider;
+                var ProviderInvoice = await _providerRepository.GetProviderInvoice(OrderID, UserTypeID);
+                return Ok(new SharedResponse(true, 200, "", _mapper.Map<InvoiceResponse>(ProviderInvoice)));
+            }
+            catch (Exception ex)
+            {
+                return Ok(new SharedResponse(false, 400, ex.Message, null));
             }
         }
 
